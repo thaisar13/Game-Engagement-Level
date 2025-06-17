@@ -1,5 +1,11 @@
 # 🎮 Game Engagement Prediction App
 
+## 📦 Dependencias Necessarias
+
+```python
+pip install -r requirements.txt
+```
+
 ## 🎯 Objetivo do Projeto
 Prever com alta precisão o nível de engajamento (Alto/Baixo) que um jogo terá com os jogadores, analisando:
 
