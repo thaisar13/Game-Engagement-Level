@@ -4,97 +4,62 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pycaret.classification import load_model
-import os
 
 # Configuração da página
 st.set_page_config(
     page_title="Game Engagement Analysis",
-    layout="wide",
+    layout="centered",
     page_icon="🎮"
 )
 
 # Título do aplicativo
-st.title("🎮 Game Engagement Analysis")
+st.title("🎮 Análise de Engajamento em Jogos")
 st.markdown("""
-Análise preditiva de engajamento em jogos usando machine learning.
+Análise preditiva baseada no modelo de machine learning treinado.
 """)
 
-# Funções para carregar dados e modelo com cache
-@st.cache_data
-def load_data():
-    """Carrega os dados do repositório"""
-    try:
-        # Ajuste o caminho conforme sua estrutura no GitHub
-        data_path = os.path.join('data', 'online_gaming_behavior_dataset.csv')
-        dados = pd.read_csv(data_path)
-        return dados[dados['EngagementLevel'].isin(['Low', 'High'])]
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {e}")
-        return None
-
+# Carregar modelo (ajuste o nome se necessário)
 @st.cache_resource
 def load_ml_model():
-    """Carrega o modelo treinado"""
     try:
-        model_path = os.path.join('models', 'melhor_modelo_dificuldade_jogo')
-        return load_model(model_path)
+        return load_model('game_eng')  # Assumindo que o modelo foi salvo com este nome
     except Exception as e:
-        st.error(f"Erro ao carregar modelo: {e}")
+        st.error(f"Erro ao carregar modelo: {str(e)}")
         return None
 
-# Carregar dados e modelo
-dados = load_data()
 model = load_ml_model()
 
-# Seção de Análise Exploratória
-if dados is not None:
-    with st.expander("🔍 Análise Exploratória dos Dados", expanded=True):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Dados Brutos")
-            st.dataframe(dados.head(), use_container_width=True)
-            
-            st.subheader("Estatísticas")
-            st.dataframe(dados.describe(), use_container_width=True)
-        
-        with col2:
-            st.subheader("Distribuição de Engajamento")
-            fig, ax = plt.subplots()
-            sns.countplot(data=dados, x='EngagementLevel', ax=ax)
-            st.pyplot(fig)
-            
-            st.subheader("Idade vs. Tempo de Jogo")
-            fig, ax = plt.subplots()
-            sns.scatterplot(data=dados, x='Age', y='PlayTimeHours', hue='EngagementLevel', ax=ax)
-            st.pyplot(fig)
+# Seção de análise
+st.header("📊 Resultados do Modelo")
 
-# Seção do Modelo
-if model is not None:
-    with st.expander("🤖 Resultados do Modelo", expanded=True):
-        st.subheader("Informações do Modelo")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            **Modelo Treinado:**
-            - Algoritmo: CatBoost (provavelmente)
-            - Métrica otimizada: F1-Score
-            - Variável alvo: EngagementLevel
-            """)
-            
-        with col2:
-            st.markdown("""
-            **Variáveis Importantes:**
-            1. PlayTimeHours
-            2. PlayerLevel
-            3. GameDifficulty_Hard
-            4. AchievementsUnlocked
-            5. Age
-            """)
+if model:
+    # Mostrar tipo do modelo
+    st.subheader("Informações do Modelo")
+    st.write(f"**Algoritmo:** {type(model).__name__}")
+    
+    # Exemplo de features importantes (ajuste conforme seu modelo)
+    st.subheader("Fatores Importantes para Engajamento")
+    st.markdown("""
+    - Tempo de jogo (PlayTimeHours)
+    - Nível do jogador (PlayerLevel)
+    - Dificuldade do jogo (GameDifficulty)
+    - Conquistas desbloqueadas (AchievementsUnlocked)
+    """)
+    
+    # Gráfico explicativo
+    st.subheader("Relação entre Variáveis")
+    fig, ax = plt.subplots()
+    sample_data = pd.DataFrame({
+        'Variável': ['Tempo de Jogo', 'Nível', 'Dificuldade', 'Conquistas'],
+        'Importância': [0.45, 0.3, 0.15, 0.1]  # Valores exemplos - substitua pelos reais
+    })
+    sns.barplot(data=sample_data, x='Importância', y='Variável', ax=ax)
+    st.pyplot(fig)
+else:
+    st.warning("Modelo não encontrado. Verifique se o arquivo 'game_eng.pkl' existe.")
 
-# Configuração para GitHub
+# Rodapé
 st.markdown("---")
-st.markdown("""
-**Configuração do Repositório:**
+st.caption("""
+Desenvolvido por [Seu Nome] | [Repositório GitHub](https://github.com/thaisar13)
+""")
