@@ -1,10 +1,10 @@
 # requirements.txt
 streamlit==1.32.0
-pandas==2.0.3
 pycaret==3.0.4
+pandas==2.0.3
+numpy==1.23.5
+scikit-learn==1.2.2
 matplotlib==3.7.1
 seaborn==0.12.2
-numpy==1.23.5  # Versão compatível com PyCaret
-scikit-learn==1.2.2  # Necessário para PyCaret
-joblib==1.2.0  # Para salvar/carregar modelos
-plotly==5.15.0  # Opcional para visualizações extras
+joblib==1.2.0
+lightgbm==3.3.5
