@@ -1,5 +1,5 @@
 # streamlit_app.py
-#import streamlit as st
+import streamlit as st
 #import kagglehub
 
 # Configuração da página
