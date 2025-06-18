@@ -116,8 +116,12 @@ evaluate_model(tuned_model)
 
 # Finalizar e salvar modelo
 final_model = finalize_model(tuned_model)
-save_model(final_model, 'melhor_modelo_dificuldade_jogo')
 
-evaluate_model(final_model)
-tuned_model
-final_model
+import joblib
+
+# Se estiver usando PyCaret:
+from pycaret.classification import save_model
+save_model(final_model, 'models/melhor_modelo_dificuldade_jogo')  # PyCaret cria vários arquivos
+
+# Versão alternativa simplificada (compatível com Streamlit):
+joblib.dump(final_model, 'models/melhor_modelo_dificuldade_jogo.pkl')
