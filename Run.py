@@ -1,4 +1,12 @@
-pip install -r requirements.txt
+pip install streamlit==1.32.0
+pip install pycaret==3.0.4
+pip install pandas==2.0.3
+pip install numpy==1.23.5
+pip install scikit-learn==1.2.2
+pip install matplotlib==3.7.1
+pip install seaborn==0.12.2
+pip install joblib==1.2.0
+pip install lightgbm==3.3.5
 
 """Game- Pré-processamento de dados.ipynb
 
