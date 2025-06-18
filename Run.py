@@ -1,5 +1,5 @@
 
-pip install streamlit
+# pip install streamlit
 pip install pycaret==3.0.4
 pip install pandas==2.0.3
 pip install numpy==1.23.5
