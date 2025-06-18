@@ -56,11 +56,11 @@ dados_orig, dados_prep, scaler = load_data()
 st.sidebar.title("Menu")
 pagina = st.sidebar.radio(
     "Seções:",
-    ["📌 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", "🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
+    ["🏠 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", "🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
 )
 
 # Página 1: Visão Geral
-if pagina == "📌 Visão Geral":
+if pagina == "🏠 Visão Geral":
     st.title("🎮 Análise de Engajamento em Jogos")
     st.markdown("---")
     
@@ -74,13 +74,13 @@ if pagina == "📌 Visão Geral":
     
     if dados_orig is not None:
         st.header("📊 Dados Brutos (Amostra)")
-        st.dataframe(dados_orig.head(), use_container_width=True)
+        st.dataframe(dados_prep.head(), use_container_width=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Total de Registros", len(dados_orig))
+            st.metric("Total de Registros", len(dados_prep))
         with col2:
-            st.metric("Variáveis Originais", len(dados_orig.columns))
+            st.metric("Variáveis Originais", len(dados_prep.columns))
 
 # Página 2: Análise Exploratória
 elif pagina == "🔍 Análise Exploratória":
