@@ -52,6 +52,10 @@ def load_data():
 
 dados_orig, dados_prep, scaler = load_data()
 
+dados_orig = dados_orig[dados_orig['EngagementLevel'].isin(['Low', 'High'])]
+dados_orig = dados_orig.drop(['PlayerID', 'AvgSessionDurationMinutes', 'Gender', 'Location'], 
+                             axis=1, inplace=True)
+
 # Barra lateral - Navegação
 st.sidebar.title("Menu")
 pagina = st.sidebar.radio(
@@ -74,13 +78,13 @@ if pagina == "🏠 Visão Geral":
     
     if dados_orig is not None:
         st.header("📊 Dados Brutos (Amostra)")
-        st.dataframe(dados_prep.head(), use_container_width=True)
+        st.dataframe(dados_orig.head(), use_container_width=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Total de Registros", len(dados_prep))
+            st.metric("Total de Registros", len(dados_orig))
         with col2:
-            st.metric("Variáveis Originais", len(dados_prep.columns))
+            st.metric("Variáveis Originais", len(dados_orig.columns))
 
 # Página 2: Análise Exploratória
 elif pagina == "🔍 Análise Exploratória":
