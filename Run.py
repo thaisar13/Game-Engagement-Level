@@ -52,7 +52,7 @@ def load_data():
 
 dados_orig, dados_prep, scaler = load_data()
 
-dados_orig = dados_orig[dados_orig['EngagementLevel'].isin(['Low', 'High'])]
+dados_orig = dados_orig['EngagementLevel'].isin(['Low', 'High'])
 dados_orig = dados_orig.drop(['PlayerID', 'AvgSessionDurationMinutes', 'Gender', 'Location'], 
                              axis=1, inplace=True)
 
