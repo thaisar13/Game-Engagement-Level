@@ -22,7 +22,7 @@ st.title("🎮 Análise de Engajamento em Jogos")
 st.markdown("Análise preditiva baseada no modelo de machine learning treinado.")
 
 
-st.subtitle("📊 Descrição do Problema")
+st.markdown("##📊 Descrição do Problema")
 st.markdown("""
 
 O pricipal objetivo desse trabalho foi o de criar um modelo capaz de prever o engajamento de um jogo, 
