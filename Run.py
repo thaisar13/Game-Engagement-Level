@@ -1,11 +1,5 @@
 # streamlit_app.py
 import streamlit as st
-import pandas as pd
-import joblib
-import os
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-import seaborn as sns
 import kagglehub
 
 # Configuração da página
