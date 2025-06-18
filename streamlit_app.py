@@ -4,18 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-import kagglehub
 import os
 
-
-import kagglehub
-import pandas as pd
-import os
-
-# Download latest version
-path = kagglehub.dataset_download("rabieelkharoua/predict-online-gaming-behavior-dataset")
-csv_path = os.path.join(path, "online_gaming_behavior_dataset.csv")
-dados = pd.read_csv(csv_path)
+dados = pd.read_csv(online_gaming_behavior_dataset.csv)
 
 # Filtrar apenas níveis Fácil e Difícil
 dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
