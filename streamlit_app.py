@@ -6,7 +6,11 @@ import seaborn as sns
 import joblib
 import os
 
-# Configuração da página (APENAS UMA VEZ no início do arquivo)
+#Sua aplicação Streamlit deve conter as seguintes seções:
+#Explicação do Problema: Detalhar o problema de ML e apresentar o conjunto de dados.
+#Processo e Justificativa: Descrever e justificar as escolhas no pré-processamento dos dados e na seleção do modelo.
+#Implantação do Modelo: A aplicação deve permitir a interação do usuário para obter previsões com o modelo selecionado.
+
 st.set_page_config(
     page_title="Game Engagement Analysis",
     layout="centered",
@@ -17,6 +21,8 @@ st.set_page_config(
 st.title("🎮 Análise de Engajamento em Jogos")
 st.markdown("Análise preditiva baseada no modelo de machine learning treinado.")
 
+
+st.secion("ii")
 # --- Carregamento do Modelo ---
 # Caminho corrigido para o Streamlit Sharing
 model_path = os.path.join('model.pkl')
