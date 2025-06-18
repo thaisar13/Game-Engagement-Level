@@ -19,7 +19,7 @@ st.markdown("Análise preditiva baseada no modelo de machine learning treinado."
 
 # --- Carregamento do Modelo ---
 # Caminho corrigido para o Streamlit Sharing
-model_path = os.path.join('models', 'melhor_modelo_dificuldade_jogo.pkl')
+model_path = os.path.join('model.pkl')
 
 try:
     if os.path.exists(model_path):
