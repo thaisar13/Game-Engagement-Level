@@ -6,6 +6,12 @@ import seaborn as sns
 import joblib
 import os
 
+
+dados = pd.read_csv("online_gaming_behavior_dataset.csv")
+
+# Filtrar apenas níveis Fácil e Difícil
+dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
+
 # Configurações iniciais
 st.set_page_config(
     page_title="Game Engagement Analysis",
@@ -13,15 +19,6 @@ st.set_page_config(
     page_icon="🎮",
     initial_sidebar_state="expanded"
 )
-
-# Carregamento dos dados
-@st.cache_data
-def load_data():
-    dados = pd.read_csv("online_gaming_behavior_dataset.csv")
-    dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
-    return dados
-
-dados = load_data()
 
 # Barra lateral - Navegação
 st.sidebar.title("Navegação")
