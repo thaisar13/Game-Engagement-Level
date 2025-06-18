@@ -22,7 +22,50 @@ st.title("🎮 Análise de Engajamento em Jogos")
 st.markdown("Análise preditiva baseada no modelo de machine learning treinado.")
 
 
-st.secion("ii")
+st.header("📊 Descrição do Problema")
+st.markdown("""
+
+O pricipal objetivo desse trabalho foi o de criar um modelo capaz de prever o engajamento de um jogo, 
+com base nas caracteristicas dos jogadores. E para isso foi utilizada a base de dados *online_gaming_behavior_dataset*
+disponivel no Kaggle[https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset].
+
+""")
+
+# adicionar uma breve descritiva dos dados
+st.header("📊 Conjunto de Dados")
+st.markdown("""
+## """)
+
+# colocar um barplot das contagens de cada categoria dos dados
+st.subheader("Contagem de Categorias")
+fig, ax = plt.subplots(figsize=(10, 6))
+dados['EngagementLevel'].value_counts().plot(kind='bar', ax=ax)
+st.pyplot(fig)
+
+colunas = ['Age', 'SessionsPerWeek', 'PlayTimeHours', 'AchievementsUnlocked', 'PlayerLevel', 'GenderGame']
+st.subheader("Distribuição das Variáveis")
+for i in colunas:
+    fig, ax = plt.subplots(figsize=(10, 6))
+    dados[i].value_counts().plot(kind='bar', ax=ax)
+    st.pyplot(fig)
+fig, ax = plt.subplots(figsize=(10, 6))
+dados['EngagementLevel'].value_counts().plot(kind='bar', ax=ax)
+st.pyplot(fig)
+
+# colocar uma matriz de correlação das variaveis continuas
+st.subheader("Matriz de Correlação")
+fig, ax = plt.subplots(figsize=(10, 8))
+sns.heatmap(dados.corr(), annot=True, cmap='coolwarm', ax=ax)
+st.pyplot(fig)
+
+
+
+st.header("📊 Processo e Justificativa")  
+
+st.markdown("""
+## """)
+
+
 # --- Carregamento do Modelo ---
 # Caminho corrigido para o Streamlit Sharing
 model_path = os.path.join('model.pkl')
