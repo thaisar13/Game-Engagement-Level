@@ -6,7 +6,7 @@ import seaborn as sns
 import joblib
 import os
 
-dados = pd.read_csv(online_gaming_behavior_dataset.csv)
+dados = pd.read_csv("online_gaming_behavior_dataset.csv")
 
 # Filtrar apenas níveis Fácil e Difícil
 dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
