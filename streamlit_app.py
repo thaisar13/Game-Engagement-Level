@@ -1,9 +1,5 @@
 # streamlit_app.py
 
-import sys
-st.write(f"Python version: {sys.version}")
-st.write(f"Pandas version: {pd.__version__}")
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
