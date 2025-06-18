@@ -4,8 +4,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+import kagglehub
 import os
 
+
+# Download latest version
+path = kagglehub.dataset_download("rabieelkharoua/predict-online-gaming-behavior-dataset")
+csv_path = os.path.join(path, "online_gaming_behavior_dataset.csv")
+dados = pd.read_csv(csv_path)
+
+# Filtrar apenas níveis Fácil e Difícil
+dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
 #Sua aplicação Streamlit deve conter as seguintes seções:
 #Explicação do Problema: Detalhar o problema de ML e apresentar o conjunto de dados.
 #Processo e Justificativa: Descrever e justificar as escolhas no pré-processamento dos dados e na seleção do modelo.
