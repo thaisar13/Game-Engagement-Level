@@ -15,46 +15,57 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Funções de pré-processamento (baseadas no seu notebook)
+# Funções de pré-processamento
 def preprocess_data(df):
-    # Filtrar apenas níveis Low e High
-    df = df[df['EngagementLevel'].isin(['Low', 'High'])]
+    # Criar cópia para não modificar o original
+    df_processed = df.copy()
     
-    # Remover colunas não relevantes
-    df.drop(['PlayerID', 'AvgSessionDurationMinutes', 'Gender', 'Location'], 
-            axis=1, inplace=True)
+    # Filtrar apenas níveis Low e High
+    df_processed = df_processed[df_processed['EngagementLevel'].isin(['Low', 'High'])]
     
     # Converter EngagementLevel para binário
-    df['EngagementLevel'] = df['EngagementLevel'].map({'Low': 0, 'High': 1})
+    df_processed['EngagementLevel'] = df_processed['EngagementLevel'].map({'Low': 0, 'High': 1})
     
     # Dummyficação
     cat_vars = ['GameGenre', 'GameDifficulty', 'InGamePurchases']
-    df = pd.get_dummies(df, columns=cat_vars, drop_first=True)
+    df_processed = pd.get_dummies(df_processed, columns=cat_vars, drop_first=True)
     
     # Padronização
     scaler = StandardScaler()
     numeric_vars = ['Age', 'SessionsPerWeek', 'PlayTimeHours', 
                    'AchievementsUnlocked', 'PlayerLevel']
-    df[numeric_vars] = scaler.fit_transform(df[numeric_vars])
+    df_processed[numeric_vars] = scaler.fit_transform(df_processed[numeric_vars])
     
-    return df, scaler
+    return df_processed, scaler
 
-# Carregar dados
+# Carregar e preparar dados
 @st.cache_data
 def load_data():
     try:
+        # Carregar dados originais
         dados = pd.read_csv("online_gaming_behavior_dataset.csv")
+        
+        # Filtrar apenas Low e High para visualização também
+        dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
+        
+        # Criar versão para visualização (remove colunas não usadas)
+        cols_to_keep = ['Age', 'SessionsPerWeek', 'PlayTimeHours', 
+                       'AchievementsUnlocked', 'PlayerLevel', 'EngagementLevel',
+                       'GameGenre', 'GameDifficulty', 'InGamePurchases']
+        
+        dados_vis = dados[cols_to_keep].copy()
+        
+        # Processar dados para modelagem
         dados_prep, scaler = preprocess_data(dados)
-        return dados, dados_prep, scaler
+        
+        return dados_vis, dados_prep, scaler
+    
     except Exception as e:
         st.error(f"Erro ao carregar dados: {e}")
         return None, None, None
 
-dados_orig, dados_prep, scaler = load_data()
-
-dados_orig = dados_orig['EngagementLevel'].isin(['Low', 'High'])
-dados_orig = dados_orig.drop(['PlayerID', 'AvgSessionDurationMinutes', 'Gender', 'Location'], 
-                             axis=1, inplace=True)
+# Carregar os dados
+dados_vis, dados_prep, scaler = load_data()
 
 # Barra lateral - Navegação
 st.sidebar.title("Menu")
@@ -76,15 +87,15 @@ if pagina == "🏠 Visão Geral":
     - Preferências e conquistas
     """)
     
-    if dados_orig is not None:
+    if dados_vis is not None:
         st.header("📊 Dados Brutos (Amostra)")
-        st.dataframe(dados_orig.head(), use_container_width=True)
+        st.dataframe(dados_vis.head(), use_container_width=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Total de Registros", len(dados_orig))
+            st.metric("Total de Registros", len(dados_vis))
         with col2:
-            st.metric("Variáveis Originais", len(dados_orig.columns))
+            st.metric("Variáveis Originais", len(dados_vis.columns))
 
 # Página 2: Análise Exploratória
 elif pagina == "🔍 Análise Exploratória":
