@@ -102,10 +102,10 @@ elif pagina == "🔍 Análise Exploratória":
     st.title("🔍 Análise Exploratória dos Dados")
     st.markdown("---")
     
-    if dados_orig is not None:
+    if dados_vis is not None:
         st.header("Distribuição de Engajamento")
         fig, ax = plt.subplots(figsize=(8,4))
-        dados_orig['EngagementLevel'].value_counts().plot(
+        dados_vis['EngagementLevel'].value_counts().plot(
             kind='bar', color=['#FF6B6B', '#4ECDC4'])
         plt.xticks(rotation=0)
         st.pyplot(fig)
@@ -113,7 +113,7 @@ elif pagina == "🔍 Análise Exploratória":
         st.header("Relação Idade vs Tempo de Jogo")
         fig, ax = plt.subplots(figsize=(10,6))
         sns.scatterplot(
-            data=dados_orig, 
+            data=dados_vis, 
             x='Age', 
             y='PlayTimeHours', 
             hue='EngagementLevel',
@@ -180,7 +180,7 @@ elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão")
     st.markdown("---")
     
-    if dados_orig is not None and scaler is not None:
+    if dados_vis is not None and scaler is not None:
         st.header("Insira os Dados do Jogador")
         
         col1, col2 = st.columns(2)
