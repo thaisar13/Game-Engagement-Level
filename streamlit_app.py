@@ -7,43 +7,19 @@ import joblib
 import kagglehub
 import os
 
-import streamlit as st
-import pandas as pd
+
 import kagglehub
+import pandas as pd
 import os
 
-# Configuração inicial
-try:
-    # Método 1: Usando a nova API (se disponível)
-    path = kagglehub.model_download(
-        "rabieelkharoua/predict-online-gaming-behavior-dataset",
-        "1.0.0"  # Versão do dataset
-    )
-    
-    # Método alternativo se o anterior falhar
-    if not os.path.exists(path):
-        from kaggle.api.kaggle_api_extended import KaggleApi
-        api = KaggleApi()
-        api.authenticate()
-        api.dataset_download_files(
-            'rabieelkharoua/predict-online-gaming-behavior-dataset',
-            path=path,
-            unzip=True
-        )
+# Download latest version
+path = kagglehub.dataset_download("rabieelkharoua/predict-online-gaming-behavior-dataset")
+csv_path = os.path.join(path, "online_gaming_behavior_dataset.csv")
+dados = pd.read_csv(csv_path)
 
-    # Carregando os dados
-    csv_path = os.path.join(path, "online_gaming_behavior_dataset.csv")
-    dados = pd.read_csv(csv_path)
-    dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
+# Filtrar apenas níveis Fácil e Difícil
+dados = dados[dados['EngagementLevel'].isin(['Low', 'High'])]
 
-    # Se chegou aqui, mostre os dados
-    st.write("Dados carregados com sucesso!")
-    st.dataframe(dados.head())
-
-except Exception as e:
-    st.error(f"Erro crítico: {str(e)}")
-    st.info("Dica: Verifique se o kaggle.json está configurado corretamente")
-    
 
 #Sua aplicação Streamlit deve conter as seguintes seções:
 #Explicação do Problema: Detalhar o problema de ML e apresentar o conjunto de dados.
