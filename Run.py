@@ -150,11 +150,9 @@ if pagina == "🏠 Visão Geral":
     with tab3:
         st.markdown("""
         **Principais Features:**
-        1. PlayTimeHours (Importância: 34%)
-        2. PlayerLevel (22%)
-        3. AchievementsUnlocked (18%)
-        4. Age (12%)
-        5. GameDifficulty_Hard (8%)
+        1. SessionsPerWeek (Importância: 98%)
+        2. PlayerLevel (2%)
+        3. AchievementsUnlocked (2%)
         
         **Transformações:**
         - One-Hot Encoding: Gênero, Dificuldade
