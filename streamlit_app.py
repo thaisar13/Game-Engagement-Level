@@ -411,6 +411,9 @@ elif pagina == "🤖 Modelo Preditivo":
             st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
             por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
             aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+            
+        except Exception as e:
+            st.error(f"Erro ao carregar modelo: {e}")
 
     with tab2:
         # Seção 3: Conhecendo o Gradient Boosting
@@ -436,17 +439,18 @@ elif pagina == "🤖 Modelo Preditivo":
                Resultado final é a soma das previsões de todas as árvores
             """)
             
-#            st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
- #                    caption="Fonte: Medium - Gradient Boosting em ação")
+            # Se quiser ativar a imagem, descomente:
+            # st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
+            #          caption="Fonte: Medium - Gradient Boosting em ação")
         
         with col2:
             st.markdown("""
             ### 🏆 Por que foi Escolhido?
             | Vantagem          | Nosso Caso           |
             |-------------------|----------------------|
-            | Alta perfomance nas métricas  testadas  | fff        |
-            | Robustez          | Mantém performance com novos dados |
-            | Versatilidade     | Funciona bem com nossos tipos de variáveis |
+            | Alta performance  | Melhor F1-Score (0.88) |
+            | Robustez          | AUC de 0.917         |
+            | Versatilidade     | Lida bem com todos os tipos de variáveis |
             """)
         
         # Detalhes técnicos com expansor
@@ -468,15 +472,13 @@ elif pagina == "🤖 Modelo Preditivo":
             5. Repete até convergência ou limite de iterações
             """)
         
+        # Caixa de curiosidade com cores contrastantes
         st.markdown("""
-        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
-        <strong>💡 Curiosidade:</strong> Nosso modelo final combina <strong>150 dessas árvores</strong>, cada uma com profundidade máxima 4 
-        (para evitar overfitting), alcançando o equilíbrio perfeito entre complexidade e generalização.
+        <div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
+        <strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
+        cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
         </div>
         """, unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"Erro ao carregar modelo: {e}")
-
 # Página 5: Previsão com o Modelo
 elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
