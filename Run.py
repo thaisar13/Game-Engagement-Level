@@ -56,7 +56,7 @@ def load_data():
         dados_vis = dados[cols_to_keep].copy()
         
         # Processar dados para modelagem
-        dados_prep, scaler = preprocess_data(dados)
+        dados_prep, scaler = preprocess_data(dados_vis)
         
         return dados_vis, dados_prep, scaler
     
@@ -279,10 +279,8 @@ elif pagina == "⚙️ Pré-processamento":
         ### 2. Seleção de Features
         Foram removidas as seguintes variáveis:
         - **PlayerID:** Identificador único sem valor preditivo
-        - **AvgSessionDurationMinutes:** Eliminada para evitar multicolinearidade com:
-          - `SessionsPerWeek` (r = {:.2f})
-          - `PlayTimeHours` (r = {:.2f})
-        - **Gender e Location:** Removidas após análise de importância de features mostrar baixa contribuição (< {:.1%} de importância relativa)
+        - **AvgSessionDurationMinutes:** Eliminada para evitar multicolinearidade com `SessionsPerWeek` e `PlayTimeHours`
+        - **Gender e Location:** Removidas após análise de importância de features por piorarem decimalmente o desempenho dos modelos testados
         """)
 
         st.markdown("""
@@ -318,16 +316,14 @@ elif pagina == "⚙️ Pré-processamento":
         ### 4. Validação do Pré-processamento
         - **Balanceamento de classes:** {:.1f}:{:.1f} (Low:High)
         - **Ausência de NaNs:** Confirmada ({} valores faltantes totais)
-        - **Matriz de correlação:** Verificada ausência de multicolinearidade crítica (|r| < {:.2f})
         """.format(
             *dados_prep['EngagementLevel'].value_counts(normalize=True).values,
-            dados_prep.isna().sum().sum(),
-            0.49  
+            dados_prep.isna().sum().sum(),  
         ))
 
-        with st.expander("🔍 Visualização do Pipeline Completo"):
-            st.image("https://miro.medium.com/max/1400/1*4PqYyZbws0N4yR0sFw3yJQ.png", 
-                    caption="Exemplo de fluxo de pré-processamento", width=400)
+#        with st.expander("🔍 Visualização do Pipeline Completo"):
+ #           st.image("https://miro.medium.com/max/1400/1*4PqYyZbws0N4yR0sFw3yJQ.png", 
+  #                  caption="Exemplo de fluxo de pré-processamento", width=400)
         
         st.header("📋 Dados Pré-processados (Amostra)")
         st.dataframe(dados_prep.head(), use_container_width=True)
