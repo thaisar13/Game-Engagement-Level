@@ -128,24 +128,49 @@ if pagina == "🏠 Visão Geral":
         3. **Tunagem:** Otimização de hiperparâmetros com busca Bayesiana
         4. **Validação:** Teste com holdout de 25% dos dados
         
-        **Algoritmos Testados:**
-        
-        - Ada Boost Classifier	(F1: 0.88)
-        - Gradient Boosting Classifier	(F1: 0.88) **← Selecionado**
-        - Light Gradient Boosting Machine	(F1: 0.88)	
-        - Random Forest Classifier	(F1: 0.88)	
-        - Ridge Classifier	(F1: 0.88)
-        - Linear Discriminant Analysis		(F1: 0.88)	
-        - Naive Bayes	(F1: 0.87)
-        - Quadratic Discriminant Analysis	(F1: 0.87)	
-        - Logistic Regression	(F1: 0.87)	
-        - SVM - Linear Kernel	(F1: 0.87)
-        - Extra Trees Classifier	(F1: 0.87)	
-        - Extreme Gradient Boosting	(F1: 0.87)	
-        - K Neighbors Classifier	(F1: 0.85)	
-        - Decision Tree Classifier	(F1: 0.78)	
-        - Dummy Classifier (F1: 0.67)	
-    """)
+        **Algoritmos Testados:**""")
+
+# Dados da tabela
+data = {
+    "Model": [
+        "Ada Boost Classifier",
+        "Gradient Boosting Classifier",
+        "Light Gradient Boosting Machine",
+        "Random Forest Classifier",
+        "Ridge Classifier",
+        "Linear Discriminant Analysis",
+        "Naive Bayes",
+        "Quadratic Discriminant Analysis",
+        "Logistic Regression",
+        "SVM - Linear Kernel",
+        "Extra Trees Classifier",
+        "Extreme Gradient Boosting",
+        "K Neighbors Classifier",
+        "Decision Tree Classifier",
+        "Dummy Classifier"
+    ],
+    "Accuracy": [0.8718, 0.8720, 0.8712, 0.8705, 0.8716, 0.8716, 0.8709, 0.8705, 0.8700, 0.8667, 0.8663, 0.8624, 0.8499, 0.7826, 0.5003],
+    "Recall": [0.9316, 0.9241, 0.9192, 0.9185, 0.9063, 0.9063, 0.9020, 0.9012, 0.8965, 0.9084, 0.9053, 0.9018, 0.8831, 0.7813, 1.0000],
+    "Prec.": [0.8323, 0.8371, 0.8390, 0.8382, 0.8477, 0.8477, 0.8493, 0.8493, 0.8516, 0.8388, 0.8399, 0.8362, 0.8284, 0.7837, 0.5003],
+    "F1": [0.8792, 0.8784, 0.8772, 0.8765, 0.8760, 0.8760, 0.8748, 0.8745, 0.8734, 0.8721, 0.8714, 0.8677, 0.8548, 0.7823, 0.6669]
+}
+
+df = pd.DataFrame(data)
+
+st.write("Tabela comparativa de desempenho (sem AUC, Kappa, MCC e Tempo de Treinamento)")
+st.dataframe(df, hide_index=True, use_container_width=True)
+
+st.markdown("""
+<style>
+    .dataframe td {
+        text-align: center !important;
+    }
+    .dataframe th {
+        text-align: center !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+    
     
     with tab3:
         st.markdown("""
