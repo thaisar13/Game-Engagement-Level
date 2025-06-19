@@ -471,7 +471,22 @@ elif pagina == "🤖 Modelo Preditivo":
             4. Atualiza o modelo com taxa de aprendizado (η)
             5. Repete até convergência ou limite de iterações
             """)
-        
+        with st.expander("🔧 Configuração Técnica Detalhada", expanded=True):
+            st.code("""
+            GradientBoostingClassifier(
+                ccp_alpha=0.0,
+                criterion='friedman_mse',
+                learning_rate=0.001,  # Taxa de aprendizado cuidadosa
+                max_depth=6,          # Profundidade controlada
+                max_features='log2',  # Otimização para muitas features
+                min_samples_leaf=3,   # Prevenção de overfitting
+                min_impurity_decrease=0.0005,
+                n_estimators=60,      # Número ideal de árvores
+                subsample=0.95,       # Stochastic Gradient Boosting
+                random_state=42,      # Reprodutibilidade
+                loss='log_loss'       # Para problemas de classificação
+            )
+            """, language='python')
         # Caixa de curiosidade com cores contrastantes
         st.markdown("""
         <div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
