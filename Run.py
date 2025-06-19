@@ -390,6 +390,10 @@ elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
     st.markdown("---")
     
+    if 'dados_prep' not in globals():
+        st.error("Dados não carregados corretamente")
+        st.stop()
+    
     st.header("📋 Insira os Dados do Jogador")
     
     col1, col2 = st.columns(2)
@@ -410,13 +414,17 @@ elif pagina == "🔮 Fazer Previsão":
         try:
             model = joblib.load('model.pkl')
             
-            # Criar DataFrame no formato transformado que o modelo espera
+            # Usar dados_prep para obter estatísticas
+            numeric_cols = ['Age', 'PlayTimeHours', 'SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked']
+            stats = dados_prep[numeric_cols].agg(['mean', 'std'])
+            
+            # Criar DataFrame no formato transformado
             input_data = pd.DataFrame({
-                'Age': [(age - dados['Age'].mean()) / dados['Age'].std()],  # Padronizado
-                'PlayTimeHours': [(play_time - dados['PlayTimeHours'].mean()) / dados['PlayTimeHours'].std()],
-                'SessionsPerWeek': [(sessions - dados['SessionsPerWeek'].mean()) / dados['SessionsPerWeek'].std()],
-                'PlayerLevel': [(level - dados['PlayerLevel'].mean()) / dados['PlayerLevel'].std()],
-                'AchievementsUnlocked': [(achievements - dados['AchievementsUnlocked'].mean()) / dados['AchievementsUnlocked'].std()],
+                'Age': [(age - stats.loc['mean', 'Age']) / stats.loc['std', 'Age']],
+                'PlayTimeHours': [(play_time - stats.loc['mean', 'PlayTimeHours']) / stats.loc['std', 'PlayTimeHours']],
+                'SessionsPerWeek': [(sessions - stats.loc['mean', 'SessionsPerWeek']) / stats.loc['std', 'SessionsPerWeek']],
+                'PlayerLevel': [(level - stats.loc['mean', 'PlayerLevel']) / stats.loc['std', 'PlayerLevel']],
+                'AchievementsUnlocked': [(achievements - stats.loc['mean', 'AchievementsUnlocked']) / stats.loc['std', 'AchievementsUnlocked']],
                 'GameGenre_RPG': [1 if genre == "RPG" else 0],
                 'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
                 'GameGenre_Sports': [1 if genre == "Sports" else 0],
@@ -426,7 +434,7 @@ elif pagina == "🔮 Fazer Previsão":
                 'InGamePurchases_1': [1 if purchases == "Sim" else 0]
             })
             
-            # Reordenar colunas conforme o modelo espera
+            # Garantir a ordem correta das colunas
             input_data = input_data[model.feature_names_in_]
             
             # Fazer previsão
@@ -454,9 +462,9 @@ elif pagina == "🔮 Fazer Previsão":
             st.error(f"Erro na previsão: {str(e)}")
             st.info("""
             Verifique se:
-            1. Todas as variáveis foram preenchidas corretamente
-            2. O modelo está carregado corretamente
-            3. Os valores estão dentro das faixas esperadas
+            1. O modelo foi carregado corretamente
+            2. Todos os campos foram preenchidos
+            3. O arquivo 'model.pkl' está no diretório correto
             """)
 # Rodapé
 st.markdown("---")
