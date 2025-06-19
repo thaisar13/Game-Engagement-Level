@@ -133,9 +133,9 @@ if pagina == "🏠 Visão Geral":
         # Dados da tabela
         data = {
             "Model": [
-                "Gradient Boosting Classifier" 🥇,
-                "Ada Boost Classifier"🥈,
-                "Light Gradient Boosting Machine"🥉,
+                "Gradient Boosting Classifier",
+                "Ada Boost Classifier",
+                "Light Gradient Boosting Machine",
                 "Random Forest Classifier",
                 "Ridge Classifier",
                 "Linear Discriminant Analysis",
