@@ -70,6 +70,9 @@ dados_vis, dados_prep, scaler = load_data()
 # Barra lateral - Navegação
 st.sidebar.title("Menu")
 pagina = st.sidebar.columns(5)
+with cols[0]:
+    if st.button("🏠"): pagina = "Visão Geral"
+
 #    "Seções:",
 #    ["🏠 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", "🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
 #)
