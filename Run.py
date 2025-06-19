@@ -283,11 +283,7 @@ elif pagina == "⚙️ Pré-processamento":
           - `SessionsPerWeek` (r = {:.2f})
           - `PlayTimeHours` (r = {:.2f})
         - **Gender e Location:** Removidas após análise de importância de features mostrar baixa contribuição (< {:.1%} de importância relativa)
-        """.format(
-            dados_orig[['AvgSessionDurationMinutes', 'SessionsPerWeek']].corr().iloc[0,1],
-            dados_orig[['AvgSessionDurationMinutes', 'PlayTimeHours']].corr().iloc[0,1],
-            0.05  # Substitua pelo valor real da sua análise
-        ))
+        """)
 
         st.markdown("""
         ### 3. Transformação de Variáveis
