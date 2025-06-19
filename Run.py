@@ -434,7 +434,7 @@ elif pagina == "🔮 Fazer Previsão":
                 'InGamePurchases_1': [1 if purchases == "Sim" else 0]
             })
             # Adicione esta linha antes da previsão:
-            input_data['EngagementLevel'] = ["Low"]  # Valor dummy
+            input_data['EngagementLevel'] = [0]  # Valor dummy
             # Garantir a ordem correta das colunas
             input_data = input_data[model.feature_names_in_]
             
