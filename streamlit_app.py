@@ -390,83 +390,71 @@ elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
     st.markdown("---")
     
-    if 'dados_prep' not in globals():
-        st.error("Dados não carregados corretamente")
-        st.stop()
-    
-    st.header("📋 Insira os Dados do Jogador")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        age = st.number_input("Idade", min_value=10, max_value=70, value=25)
-        play_time = st.number_input("Horas Jogadas por Semana", min_value=1, max_value=100, value=15)
-        sessions = st.number_input("Sessões por Semana", min_value=1, max_value=30, value=5)
-        level = st.number_input("Nível do Personagem", min_value=1, max_value=100, value=50)
+    if dados_vis is not None and scaler is not None:
+        st.header("📋 Insira os Dados do Jogador")
         
-    with col2:
-        achievements = st.number_input("Conquistas Desbloqueadas", min_value=0, max_value=200, value=30)
-        difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"])
-        genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
-        purchases = st.radio("Fez Compras no Jogo?", ["Sim", "Não"], horizontal=True)
-    
-    if st.button("🔍 Prever Engajamento", type="primary"):
-        try:
-            model = joblib.load('model.pkl')
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            age = st.slider("Idade", 15, 50, 25)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
+            sessions = st.slider("Sessões por Semana", 1, 20, 5)
+            level = st.slider("Nível do Personagem", 1, 99, 45)
             
-            # Usar dados_prep para obter estatísticas
-            numeric_cols = ['Age', 'PlayTimeHours', 'SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked']
-            stats = dados_prep[numeric_cols].agg(['mean', 'std'])
-            
-            # Criar DataFrame no formato transformado
-            input_data = pd.DataFrame({
-                'Age': [(age - stats.loc['mean', 'Age']) / stats.loc['std', 'Age']],
-                'PlayTimeHours': [(play_time - stats.loc['mean', 'PlayTimeHours']) / stats.loc['std', 'PlayTimeHours']],
-                'SessionsPerWeek': [(sessions - stats.loc['mean', 'SessionsPerWeek']) / stats.loc['std', 'SessionsPerWeek']],
-                'PlayerLevel': [(level - stats.loc['mean', 'PlayerLevel']) / stats.loc['std', 'PlayerLevel']],
-                'AchievementsUnlocked': [(achievements - stats.loc['mean', 'AchievementsUnlocked']) / stats.loc['std', 'AchievementsUnlocked']],
-                'GameGenre_RPG': [1 if genre == "RPG" else 0],
-                'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
-                'GameGenre_Sports': [1 if genre == "Sports" else 0],
-                'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
-                'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
-                'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
-                'InGamePurchases_1': [1 if purchases == "Sim" else 0]
-            })
-            # Adicione esta linha antes da previsão:
-            input_data['EngagementLevel'] = [0]  # Valor dummy
-            # Garantir a ordem correta das colunas
-            input_data = input_data[model.feature_names_in_]
-            
-            # Fazer previsão
-            proba = model.predict_proba(input_data)[0][1]
-            prediction = model.predict(input_data)[0]
-            
-            # Exibir resultados
-            st.markdown("---")
-            st.subheader("📊 Resultado da Previsão")
-            
-            if prediction == 1:
-                st.success(f"## Alto Engajamento ({proba:.1%} de confiança)")
-                st.balloons()
-            else:
-                st.warning(f"## Baixo Engajamento ({(1-proba):.1%} de confiança)")
-            
-            # Gráfico de probabilidade
-            fig, ax = plt.subplots(figsize=(8, 2))
-            ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
-            ax.set_xlim(0, 1)
-            ax.axvline(0.5, color='gray', linestyle='--')
-            st.pyplot(fig)
-            
-        except Exception as e:
-            st.error(f"Erro na previsão: {str(e)}")
-            st.info("""
-            Verifique se:
-            1. O modelo foi carregado corretamente
-            2. Todos os campos foram preenchidos
-            3. O arquivo 'model.pkl' está no diretório correto
-            """)
+        with col2:
+            achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
+            difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
+            genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
+            purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+        
+        if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
+            try:
+                model = joblib.load('model.pkl')
+                
+                # Criar APENAS com as features de entrada (sem EngagementLevel)
+                input_data = pd.DataFrame({
+                    'Age': [age],
+                    'PlayTimeHours': [play_time*7],
+                    'SessionsPerWeek': [sessions],
+                    'PlayerLevel': [level],
+                    'AchievementsUnlocked': [achievements],
+                    'GameGenre_RPG': [1 if genre == "RPG" else 0],
+                    'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
+                    'GameGenre_Sports': [1 if genre == "Sports" else 0],
+                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
+                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
+                    'InGamePurchases_1': [1 if purchases == "Sim" else 0]
+                })[model.feature_names_in_]  # Garante a ordem correta
+                
+                # Fazer previsão
+                proba = model.predict_proba(input_data)[0][1]
+                prediction = model.predict(input_data)[0]
+                
+                # Exibir resultados
+                st.markdown("---")
+                st.subheader("📊 Resultado da Previsão")
+                
+                if prediction == 1:
+                    st.success(f"## Alto Engajamento ({proba:.1%} de confiança)")
+                    st.balloons()
+                else:
+                    st.warning(f"## Baixo Engajamento ({(1-proba):.1%} de confiança)")
+                
+                # Gráfico de probabilidade
+                fig, ax = plt.subplots(figsize=(8, 2))
+                ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
+                ax.set_xlim(0, 1)
+                ax.axvline(0.5, color='gray', linestyle='--')
+                st.pyplot(fig)
+                
+            except Exception as e:
+                st.error(f"Erro na previsão: {str(e)}")
+                st.info("""
+                Possíveis soluções:
+                1. Recrie o modelo garantindo que 'EngagementLevel' seja apenas a target
+                2. Verifique se todas as features estão na ordem correta
+                """)
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
