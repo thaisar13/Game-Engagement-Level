@@ -69,7 +69,7 @@ dados_vis, dados_prep, scaler = load_data()
 
 # Barra lateral - Navegação
 st.sidebar.title("Menu")
-pagina = st.sidebar.radio(
+pagina = st.sidebar.selectbox(
     "Seções:",
     ["🏠 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", "🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
 )
