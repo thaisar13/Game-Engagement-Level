@@ -182,9 +182,8 @@ if pagina == "🏠 Visão Geral":
         3. AchievementsUnlocked (2%)
         
         **Transformações:**
-        - One-Hot Encoding: Gênero, Dificuldade
-        - Standard Scaling: Variáveis numéricas
-        - Balanceamento: SMOTE para equalizar classes
+        - One-Hot Encoding nas variáveis categóricas
+        - Standard Scaling na variáveis numéricas
         """)
     
     # Chamada para ação
