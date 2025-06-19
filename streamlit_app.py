@@ -454,7 +454,7 @@ elif pagina == "🤖 Modelo Preditivo":
             """)
         
         # Detalhes técnicos com expansor
-        with st.expander("🔍 Quer entender a matemática por trás?", expanded=False):
+        with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
             **Função Objetivo**:
             ```
@@ -471,29 +471,28 @@ elif pagina == "🤖 Modelo Preditivo":
             4. Atualiza o modelo com taxa de aprendizado (η)
             5. Repete até convergência ou limite de iterações
             """)
-        with st.expander("🔧 Configuração Técnica Detalhada", expanded=True):
+        with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
             st.code("""
             GradientBoostingClassifier(
-                ccp_alpha=0.0,
-                criterion='friedman_mse',
-                learning_rate=0.001,  # Taxa de aprendizado cuidadosa
-                max_depth=6,          # Profundidade controlada
-                max_features='log2',  # Otimização para muitas features
-                min_samples_leaf=3,   # Prevenção de overfitting
-                min_impurity_decrease=0.0005,
-                n_estimators=60,      # Número ideal de árvores
-                subsample=0.95,       # Stochastic Gradient Boosting
-                random_state=42,      # Reprodutibilidade
-                loss='log_loss'       # Para problemas de classificação
+                ccp_alpha=0.0,                 # Sem poda de complexidade adicional
+                criterion='friedman_mse',      # Método para encontrar melhores splits (considera valores médios)
+                learning_rate=0.001,           # Taxa de aprendizado cuidadosa
+                max_depth=6,                   # Profundidade controlada
+                max_features='log2',           # Otimização para muitas features
+                min_samples_leaf=3,            # Prevenção de overfitting
+                min_impurity_decrease=0.0005,  # Explicação do mecanismo de poda automática
+                n_estimators=60,               # Número ideal de árvores
+                subsample=0.95,                # Stochastic Gradient Boosting
+                random_state=42,               # Reprodutibilidade
+                loss='log_loss'                # Para problemas de classificação
             )
             """, language='python')
-        # Caixa de curiosidade com cores contrastantes
-        st.markdown("""
-        <div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
-        <strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
-        cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
-        </div>
-        """, unsafe_allow_html=True)
+        #st.markdown("""
+        #<div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
+        #<strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
+        #cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
+        #</div>
+        #""", unsafe_allow_html=True)
 # Página 5: Previsão com o Modelo
 elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
