@@ -374,25 +374,9 @@ elif pagina == "⚙️ Pré-processamento":
 elif pagina == "🤖 Modelo Preditivo":
     st.title("🤖 Modelo Preditivo: Gradient Boosting")
     st.markdown("---")
+    tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Gradient Boosting?"])
     
-    # Seção 1: Análise das Métricas (adaptada para dados balanceados)
-    st.header("📈 Métricas de Desempenho")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.metric("Acurácia", "87%", 
-                 help="Metrica principal para dados balanceados - proporção de predições corretas")
-        
-    with col2:
-        st.metric("F1-Score", "0.88", 
-                 help="Média harmônica entre Precisão e Recall")
-    
-    
-    # Seção 42 Feature Importance (com destaque para dados balanceados)
-    try:
-        model = joblib.load('model.pkl')
-        st.success("✅ Modelo carregado com sucesso!")
-        
+    with tab1:
         st.header("🔍 Interpretação do Modelo")
         feature_importance = pd.DataFrame({
             'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
@@ -436,8 +420,8 @@ elif pagina == "🤖 Modelo Preditivo":
                Resultado final é a soma das previsões de todas as árvores
             """)
             
-            st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
-                     caption="Fonte: Medium - Gradient Boosting em ação")
+#            st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
+ #                    caption="Fonte: Medium - Gradient Boosting em ação")
         
         with col2:
             st.markdown("""
