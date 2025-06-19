@@ -213,6 +213,9 @@ elif pagina == "🔍 Análise Exploratória":
         
         st.markdown("---")
         st.header("Relação Idade vs Tempo de Jogo")
+
+        st.markdown(""" Embora apenas esse gráfico tenha sido apresentado, a proporção entre as variáveis categóricas seguem o mesmo padrão, 
+        apresentando um balanceamento de quase que proporcional ao número de categórias das variáveis.""")
         
         # Scatterplot
         fig, ax = plt.subplots(figsize=(12, 7))
@@ -235,6 +238,9 @@ elif pagina == "🔍 Análise Exploratória":
         ax.set_ylabel('Horas Jogadas por Semana')
         st.pyplot(fig)
         
+        st.markdown(""" Novamente, embora apenas esse gráfico tenha sido apresentado, a relação entre as variáveis contínuas seguem o mesmo padrão, 
+        uma "nuvem" de pontos sem indícios de relação entre as variáveis ou com o engajamento do jogador.""")
+        
         st.markdown("---")
         st.subheader("Matriz de Correlação")
         
@@ -256,6 +262,9 @@ elif pagina == "🔍 Análise Exploratória":
         # Ajustando o título
         ax.set_title('Correlação entre Variáveis Numéricas', pad=20)
         st.pyplot(fig)
+        
+        st.markdown(""" Note que as correlações entre as variaveis numericas são extremamente fracas, chegando a ser nula em alguns casos, 
+        esse fato ajuda a explicar o porquê das variáveis tere uma importância tão baixa na classificação do engajamento do jogador.""")
     
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
@@ -369,9 +378,14 @@ elif pagina == "🤖 Modelo Preditivo":
         sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
         st.pyplot(fig)
         
+        st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
+        por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
+        aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+
     except Exception as e:
         st.error(f"Erro ao carregar modelo: {e}")
 
+# Página 5: Previsão com o Modelo
 elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
     st.markdown("---")
@@ -383,7 +397,7 @@ elif pagina == "🔮 Fazer Previsão":
         
         with col1:
             age = st.slider("Idade", 15, 50, 25)
-            play_time = st.slider("Horas Jogadas/Dia", 1, 23, 3)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
             level = st.slider("Nível do Personagem", 1, 99, 45)
             sessions = st.slider("Sessões por Semana", 1, 20, 5)
             
@@ -395,56 +409,68 @@ elif pagina == "🔮 Fazer Previsão":
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
-                # Carregar modelo
+                # Carregar modelo (pipeline do PyCaret)
                 model = joblib.load('model.pkl')
                 
-                # Criar DataFrame com inputs
+                # Criar DataFrame com inputs (no formato original)
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'SessionsPerWeek': [sessions],
-                    'PlayTimeHours': [play_time*7],  # Convertendo para horas semanais
+                    'PlayTimeHours': [play_time*7],  # Horas semanais
                     'AchievementsUnlocked': [achievements],
                     'PlayerLevel': [level],
                     'GameGenre': [genre],
                     'GameDifficulty': [difficulty],
-                    'InGamePurchases': ["1" if purchases == "Sim" else "No"]
+                    'InGamePurchases': ["Yes" if purchases == "Sim" else "No"],
+                    'EngagementLevel': ["Low"]  # Valor dummy (será substituído)
                 })
                 
-                # Pré-processar
-                input_prep, _ = preprocess_data(input_data)
+                # O pipeline do PyCaret já aplica todas as transformações
+                # Usando predict_proba para obter probabilidades
+                proba = model.predict_proba(input_data)[0][1]  # Probabilidade da classe positiva
+                prediction = 1 if proba >= 0.5 else 0  # Threshold de 50%
                 
-                # Fazer previsão com Gradient Boosting
-                prediction = model.predict(input_prep)[0]  # Retorna 0 (Low) ou 1 (High)
-                proba = model.predict_proba(input_prep)[0][1]  # Probabilidade da classe 1 (High)
+                # Alternativamente, pode usar decision_function se disponível
+                try:
+                    scores = model.decision_function(input_data)
+                    proba = 1 / (1 + np.exp(-scores[0]))  # Convertendo para probabilidade
+                except AttributeError:
+                    pass
                 
                 # Exibir resultados
                 st.markdown("---")
                 st.subheader("📊 Resultado da Previsão")
                 
-                if prediction == 1:  # High Engagement
+                if prediction == 1:
                     st.success(f"""
                     ## Alto Engajamento ({proba:.1%} de confiança)
-                    - Probabilidade: {proba:.1%}
-                    - Perfil: Jogador dedicado
+                    - Score: {scores[0]:.2f} (quando disponível)
+                    - Threshold: ≥ 0.5
                     """)
                     st.balloons()
-                else:  # Low Engagement
+                else:
                     st.warning(f"""
                     ## Baixo Engajamento ({(1-proba):.1%} de confiança)
-                    - Probabilidade: {(1-proba):.1%}
-                    - Perfil: Jogador casual
+                    - Score: {scores[0]:.2f} (quando disponível)
+                    - Threshold: < 0.5
                     """)
                 
                 # Gráfico de probabilidade
                 fig, ax = plt.subplots(figsize=(8, 2))
                 ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
                 ax.set_xlim(0, 1)
-                ax.set_title('Confiança da Previsão', pad=10)
+                ax.axvline(0.5, color='gray', linestyle='--')
+                ax.set_title('Probabilidade de Alto Engajamento', pad=10)
                 st.pyplot(fig)
                 
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
-                st.info("Verifique se o modelo foi treinado corretamente.")
+                st.info("""
+                Possíveis causas:
+                1. Formato dos dados de entrada incorreto
+                2. Modelo não encontrado ou corrompido
+                3. Versão incompatível do PyCaret
+                """)
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
