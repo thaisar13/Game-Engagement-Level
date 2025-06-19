@@ -119,23 +119,33 @@ if pagina == "🏠 Visão Geral":
         col3.metric("Precisão", "0.84", help="Quando prevê Alto Engajamento, acerta 84%")
         col4.metric("Recall", "0.92", help="Identifica 92% dos casos reais de Alto Engajamento")
         
-        #st.plotly_chart(gera_grafico_radar())  # Substitua por sua função de gráfico
-    
+
     with tab2:
         st.markdown("""
         **Processo de Modelagem:**
         1. **Pré-processamento:** Filtragem, codificação e normalização
-        2. **Seleção de Modelos:** Comparação de 5 algoritmos via PyCaret
+        2. **Seleção de Modelos:** Comparação de 15 algoritmos via PyCaret
         3. **Tunagem:** Otimização de hiperparâmetros com busca Bayesiana
         4. **Validação:** Teste com holdout de 25% dos dados
         
         **Algoritmos Testados:**
-        - Random Forest (F1: 0.85)
-        - XGBoost (F1: 0.86)
-        - **Gradient Boosting (F1: 0.88) ← Selecionado**
-        - SVM (F1: 0.82)
-        - Regressão Logística (F1: 0.79)
-        """)
+        
+        - Ada Boost Classifier	(F1: 0.88)
+        - Gradient Boosting Classifier	(F1: 0.88) **← Selecionado**
+        - Light Gradient Boosting Machine	(F1: 0.88)	
+        - Random Forest Classifier	(F1: 0.88)	
+        - Ridge Classifier	(F1: 0.88)
+        - Linear Discriminant Analysis		(F1: 0.88)	
+        - Naive Bayes	(F1: 0.87)
+        - Quadratic Discriminant Analysis	(F1: 0.87)	
+        - Logistic Regression	(F1: 0.87)	
+        - SVM - Linear Kernel	(F1: 0.87)
+        - Extra Trees Classifier	(F1: 0.87)	
+        - Extreme Gradient Boosting	(F1: 0.87)	
+        - K Neighbors Classifier	(F1: 0.85)	
+        - Decision Tree Classifier	(F1: 0.78)	
+        - Dummy Classifier (F1: 0.67)	
+    """)
     
     with tab3:
         st.markdown("""
