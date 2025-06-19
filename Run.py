@@ -120,10 +120,10 @@ elif pagina == "🔍 Análise Exploratória":
             palette={0: '#FF6B6B', 1: '#4ECDC4'})
         st.pyplot(fig)
         
-        st.subheader("Matriz de Correlação")
-            fig, ax = plt.subplots(figsize=(10, 8))
-            sns.heatmap(dados.corr(), annot=True, cmap='coolwarm', ax=ax)
-        st.pyplot(fig)
+        #st.subheader("Matriz de Correlação")
+         #   fig, ax = plt.subplots(figsize=(10, 8))
+          #  sns.heatmap(dados.corr(), annot=True, cmap='coolwarm', ax=ax)
+        #st.pyplot(fig)
 
 
 # Página 3: Pré-processamento
