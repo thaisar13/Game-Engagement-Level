@@ -90,8 +90,8 @@ if pagina == "🏠 Visão Geral":
         **Abordagem:** Análise exploratória + Modelagem supervisionada (classificação binária)
         """)
         
-    with col2:
-        #st.image("https://cdn-icons-png.flaticon.com/512/2936/2936886.png", width=100)
+    #with col2:
+     #   st.image("https://cdn-icons-png.flaticon.com/512/2936/2936886.png", width=100)
     
     st.markdown("---")
     
