@@ -396,8 +396,8 @@ elif pagina == "🔮 Fazer Previsão":
         col1, col2 = st.columns(2)
         
         with col1:
-            age = st.slider("Idade", 15, 50, 25)
-            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
+            age = st.slider("Idade", 15, 50, 23)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 23, 3)
             level = st.slider("Nível do Personagem", 1, 99, 45)
             sessions = st.slider("Sessões por Semana", 1, 20, 5)
             
@@ -409,68 +409,61 @@ elif pagina == "🔮 Fazer Previsão":
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
-                # Carregar modelo (pipeline do PyCaret)
+                # Carregar modelo
                 model = joblib.load('model.pkl')
                 
-                # Criar DataFrame com inputs (no formato original)
+                # Criar DataFrame com inputs já no formato esperado pelo modelo (após one-hot encoding)
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'SessionsPerWeek': [sessions],
-                    'PlayTimeHours': [play_time],  # Horas semanais
+                    'PlayTimeHours': [play_time*7],
                     'AchievementsUnlocked': [achievements],
                     'PlayerLevel': [level],
-                    'GameGenre': [genre],
-                    'GameDifficulty': [difficulty],
-                    'InGamePurchases': [1 if purchases == "Sim" else "No"],
-                    'EngagementLevel': ["Low"]  # Valor dummy (será substituído)
+                    'GameDifficulty_Easy': [1 if difficulty == "Easy" else 0],
+                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
+                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
+                    'GameGenre_Action': [1 if genre == "Action" else 0],
+                    'GameGenre_Adventure': [1 if genre == "Adventure" else 0],
+                    'GameGenre_RPG': [1 if genre == "RPG" else 0],
+                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    'GameGenre_Sports': [1 if genre == "Sports" else 0],
+                    'InGamePurchases_Yes': [1 if purchases == "Sim" else 0],
+                    'InGamePurchases_No': [1 if purchases == "Não" else 0]
                 })
                 
-                # O pipeline do PyCaret já aplica todas as transformações
-                # Usando predict_proba para obter probabilidades
-                proba = model.predict_proba(input_data)[0][1]  # Probabilidade da classe positiva
-                prediction = 1 if proba >= 0.5 else 0  # Threshold de 50%
+                # Garantir que todas as colunas esperadas pelo modelo existam
+                expected_columns = model.feature_names_in_ if hasattr(model, 'feature_names_in_') else []
+                for col in expected_columns:
+                    if col not in input_data.columns:
+                        input_data[col] = 0  # Preenche com zero colunas faltantes
                 
-                # Alternativamente, pode usar decision_function se disponível
-                try:
-                    scores = model.decision_function(input_data)
-                    proba = 1 / (1 + np.exp(-scores[0]))  # Convertendo para probabilidade
-                except AttributeError:
-                    pass
+                # Reordenar colunas na ordem esperada pelo modelo
+                input_data = input_data[expected_columns]
+                
+                # Fazer previsão
+                proba = model.predict_proba(input_data)[0][1]
+                prediction = 1 if proba >= 0.5 else 0
                 
                 # Exibir resultados
                 st.markdown("---")
                 st.subheader("📊 Resultado da Previsão")
                 
                 if prediction == 1:
-                    st.success(f"""
-                    ## Alto Engajamento ({proba:.1%} de confiança)
-                    - Score: {scores[0]:.2f} (quando disponível)
-                    - Threshold: ≥ 0.5
-                    """)
+                    st.success(f"## Alto Engajamento ({proba:.1%} de confiança)")
                     st.balloons()
                 else:
-                    st.warning(f"""
-                    ## Baixo Engajamento ({(1-proba):.1%} de confiança)
-                    - Score: {scores[0]:.2f} (quando disponível)
-                    - Threshold: < 0.5
-                    """)
+                    st.warning(f"## Baixo Engajamento ({(1-proba):.1%} de confiança)")
                 
                 # Gráfico de probabilidade
                 fig, ax = plt.subplots(figsize=(8, 2))
                 ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
                 ax.set_xlim(0, 1)
                 ax.axvline(0.5, color='gray', linestyle='--')
-                ax.set_title('Probabilidade de Alto Engajamento', pad=10)
                 st.pyplot(fig)
                 
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
-                st.info("""
-                Possíveis causas:
-                1. Formato dos dados de entrada incorreto
-                2. Modelo não encontrado ou corrompido
-                3. Versão incompatível do PyCaret
-                """)
+                st.info("Verifique se todas as variáveis estão no formato correto")
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
