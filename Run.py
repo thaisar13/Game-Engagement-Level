@@ -119,6 +119,12 @@ elif pagina == "🔍 Análise Exploratória":
             hue='EngagementLevel',
             palette={0: '#FF6B6B', 1: '#4ECDC4'})
         st.pyplot(fig)
+        
+        st.subheader("Matriz de Correlação")
+            fig, ax = plt.subplots(figsize=(10, 8))
+            sns.heatmap(dados.corr(), annot=True, cmap='coolwarm', ax=ax)
+        st.pyplot(fig)
+
 
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
@@ -134,6 +140,18 @@ elif pagina == "⚙️ Pré-processamento":
            - EngagementLevel: Low → 0, High → 1
            - Variáveis categóricas: One-Hot Encoding
         4. **Padronização:** StandardScaler nas variáveis numéricas
+
+        Os dados foram filtrados pois não era do interesse a analise da categoria de resposta Médio para o engajamento. 
+        
+        A remoção das variaveis Gender e Location se deu pois os resultados classificatórios apresentaram um melhor desempenhos em sua ausencia. 
+        Já a remoção da variavel PlayerID foi pela informação do ID não ser util no processo de classificação. 
+        E por fim, a variavel AvgSessionDurationMinutes foi removida para evitar a multicolinearidade com as variaveis SessionsPerWeek e PlayTimeHours.
+        
+        As variaveis categoricas foram Dummyficadas (por meio da transformação One-Hot Encoding). 
+        Também foram testadas categorizar as variaveis quantitativas 'SessionsPerWeek', 'PlayTimeHours', 'AchievementsUnlocked' e 'PlayerLevel', 
+        mas o melhor o resultado classificatorio dos modelos, de modo geral, se deu considerando essas variaveis apenas como quantitativas.
+
+        Para uma melhor desempenho de alguns modelos, as variaveis quantitiativas foram padronizadas, ou seja, tiveram suas distribuições centralizadas por emio da...
         """)
         
         st.header("Dados Pré-processados (Amostra)")
@@ -150,15 +168,18 @@ elif pagina == "🤖 Modelo Preditivo":
     st.header("Metodologia")
     st.markdown("""
     - **Framework:** PyCaret
-    - **Seleção de Modelos:** Comparação com base em F1-Score
-    - **Melhor Modelo:** Random Forest (após tunagem)
+    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score e comparação do melhor desempenho geral entre as métricas
+    - **Melhor Modelo:** Gradient Boosting Classifier (tunado após seleção)
     - **Métricas:**
-      - Acurácia: 89%
+      - Acurácia: 87%
+      - Recall: 92%
+      - Precisão: 84%
       - F1-Score: 88%
     """)
+
     
     try:
-        model = joblib.load('models/melhor_modelo_dificuldade_jogo.pkl')
+        model = joblib.load('model.pkl')
         st.success("✅ Modelo carregado com sucesso!")
         
         st.header("Importância das Variáveis")
