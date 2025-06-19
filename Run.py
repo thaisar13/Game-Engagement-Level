@@ -372,54 +372,79 @@ elif pagina == "🤖 Modelo Preditivo":
     except Exception as e:
         st.error(f"Erro ao carregar modelo: {e}")
 
-# Página 5: Fazer Previsão
 elif pagina == "🔮 Fazer Previsão":
-    st.title("🔮 Simulador de Previsão")
+    st.title("🔮 Simulador de Previsão de Engajamento")
     st.markdown("---")
     
     if dados_vis is not None and scaler is not None:
-        st.header("Insira os Dados do Jogador")
+        st.header("📋 Insira os Dados do Jogador")
         
         col1, col2 = st.columns(2)
         
         with col1:
-            age = st.slider("Idade", 10, 60, 25)
-            play_time = st.slider("Horas Jogadas/Semana", 1, 40, 10)
-            level = st.slider("Nível do Personagem", 1, 100, 30)
+            age = st.slider("Idade", 15, 50, 25)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
+            level = st.slider("Nível do Personagem", 1, 99, 45)
+            sessions = st.slider("Sessões por Semana", 1, 20, 5)
             
         with col2:
-            achievements = st.slider("Conquistas", 0, 50, 5)
-            difficulty = st.selectbox("Dificuldade", ["Easy", "Medium", "Hard"])
-            genre = st.selectbox("Gênero", ["Action", "Adventure", "RPG", "Strategy"])
+            achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
+            difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
+            genre = st.selectbox("Gênero do Jogo", ["Action", "Adventure", "RPG", "Strategy", "Sports"])
+            purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
         
-        if st.button("Prever Engajamento", type="primary"):
+        if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
+                # Carregar modelo
+                model = joblib.load('model.pkl')
+                
                 # Criar DataFrame com inputs
                 input_data = pd.DataFrame({
                     'Age': [age],
-                    'SessionsPerWeek': [3],  # Valor padrão
-                    'PlayTimeHours': [play_time],
+                    'SessionsPerWeek': [sessions],
+                    'PlayTimeHours': [play_time*7],  # Convertendo para horas semanais
                     'AchievementsUnlocked': [achievements],
                     'PlayerLevel': [level],
                     'GameGenre': [genre],
                     'GameDifficulty': [difficulty],
-                    'InGamePurchases': ['Yes']  # Valor padrão
+                    'InGamePurchases': ["Yes" if purchases == "Sim" else "No"]
                 })
                 
                 # Pré-processar
                 input_prep, _ = preprocess_data(input_data)
                 
-                # Fazer previsão (simulação)
-                prediction = "High"  # Substitua pela previsão real
-                proba = 0.85  # Substitua pela probabilidade real
+                # Fazer previsão com Gradient Boosting
+                prediction = model.predict(input_prep)[0]  # Retorna 0 (Low) ou 1 (High)
+                proba = model.predict_proba(input_prep)[0][1]  # Probabilidade da classe 1 (High)
                 
-                st.success(f"Resultado: Engajamento {prediction} ({(proba if prediction == 'High' else 1-proba):.0%} de confiança)")
+                # Exibir resultados
+                st.markdown("---")
+                st.subheader("📊 Resultado da Previsão")
                 
-                if prediction == "High":
+                if prediction == 1:  # High Engagement
+                    st.success(f"""
+                    ## Alto Engajamento ({proba:.1%} de confiança)
+                    - Probabilidade: {proba:.1%}
+                    - Perfil: Jogador dedicado
+                    """)
                     st.balloons()
+                else:  # Low Engagement
+                    st.warning(f"""
+                    ## Baixo Engajamento ({(1-proba):.1%} de confiança)
+                    - Probabilidade: {(1-proba):.1%}
+                    - Perfil: Jogador casual
+                    """)
+                
+                # Gráfico de probabilidade
+                fig, ax = plt.subplots(figsize=(8, 2))
+                ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
+                ax.set_xlim(0, 1)
+                ax.set_title('Confiança da Previsão', pad=10)
+                st.pyplot(fig)
+                
             except Exception as e:
-                st.error(f"Erro na previsão: {e}")
-
+                st.error(f"Erro na previsão: {str(e)}")
+                st.info("Verifique se o modelo foi treinado corretamente.")
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
