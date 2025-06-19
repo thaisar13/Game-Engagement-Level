@@ -312,7 +312,7 @@ elif pagina == "⚙️ Pré-processamento":
         #)
 
         st.markdown("""
-        ### 2. Seleção de Features
+        ### 1. Seleção de Features
         Foram removidas as seguintes variáveis:
         - **PlayerID:** Identificador único sem valor preditivo
         - **AvgSessionDurationMinutes:** Eliminada para evitar multicolinearidade com `SessionsPerWeek` e `PlayTimeHours`
@@ -320,7 +320,7 @@ elif pagina == "⚙️ Pré-processamento":
         """)
 
         st.markdown("""
-        ### 3. Transformação de Variáveis
+        ### 2. Transformação de Variáveis
         **Variável Target:**
         - Codificação binária:
           - `Low` → 0
@@ -349,7 +349,7 @@ elif pagina == "⚙️ Pré-processamento":
         """)
 
         st.markdown("""
-        ### 4. Validação do Pré-processamento
+        ### 3. Validação do Pré-processamento
         - **Balanceamento de classes:** {:.1f}:{:.1f} (Low:High)
         - **Ausência de NaNs:** Confirmada ({} valores faltantes totais)
         """.format(
