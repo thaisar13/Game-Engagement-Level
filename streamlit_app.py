@@ -392,25 +392,25 @@ elif pagina == "🤖 Modelo Preditivo":
     with tab1:
         st.header("🔍 Interpretação do Modelo")
             try:
-        model = joblib.load('model.pkl')
-        st.success("✅ Modelo carregado com sucesso!")
-        
-        st.header("Importância das Variáveis")
-        # Nota: Substitua com os valores reais do seu modelo
-        feature_importance = pd.DataFrame({
-            'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
-                        'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
-                        'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
-            'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-        })
-        
-        fig, ax = plt.subplots(figsize=(10,5))
-        sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
-        st.pyplot(fig)
-        
-        st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
-        por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
-        aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+                model = joblib.load('model.pkl')
+                st.success("✅ Modelo carregado com sucesso!")
+                
+                st.header("Importância das Variáveis")
+                # Nota: Substitua com os valores reais do seu modelo
+                feature_importance = pd.DataFrame({
+                    'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
+                                'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
+                                'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
+                    'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+                })
+                
+                fig, ax = plt.subplots(figsize=(10,5))
+                sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
+                st.pyplot(fig)
+                
+                st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
+                por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
+                aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
 
     with tab2:
         # Seção 3: Conhecendo o Gradient Boosting
