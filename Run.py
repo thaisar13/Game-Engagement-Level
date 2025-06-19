@@ -116,10 +116,10 @@ if pagina == "🏠 Visão Geral":
         
         col1.metric("F1-Score", "0.88", help="Métrica balanceada entre precisão e recall")
         col2.metric("Acurácia", "0.87", help="Percentual total de acertos")
-        col3.metric("Precisão", "0.84", "3% acima da baseline", help="Quando prevê Alto Engajamento, acerta 84%")
-        col4.metric("Recall", "0.92", "9% acima da baseline", help="Identifica 92% dos casos reais de Alto Engajamento")
+        col3.metric("Precisão", "0.84", help="Quando prevê Alto Engajamento, acerta 84%")
+        col4.metric("Recall", "0.92", help="Identifica 92% dos casos reais de Alto Engajamento")
         
-        st.plotly_chart(gera_grafico_radar())  # Substitua por sua função de gráfico
+        #st.plotly_chart(gera_grafico_radar())  # Substitua por sua função de gráfico
     
     with tab2:
         st.markdown("""
