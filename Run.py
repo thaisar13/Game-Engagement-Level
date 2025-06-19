@@ -91,7 +91,7 @@ if pagina == "🏠 Visão Geral":
         """)
         
     with col2:
-        st.image("https://cdn-icons-png.flaticon.com/512/2936/2936886.png", width=100)
+        #st.image("https://cdn-icons-png.flaticon.com/512/2936/2936886.png", width=100)
     
     st.markdown("---")
     
@@ -99,7 +99,7 @@ if pagina == "🏠 Visão Geral":
     with st.expander("🔍 **Fonte de Dados**", expanded=True):
         st.markdown("""
         - **Dataset:** [Online Gaming Behavior Dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-online-gaming-behavior-dataset)
-        - **Variáveis originais:** 12 (comportamentais, demográficas e de jogo)
+        - **Variáveis originais:** 13
         - **Amostra final:** {:,} jogadores (Low: {:,} | High: {:,})
         """.format(
             len(dados_vis),
@@ -180,6 +180,12 @@ if pagina == "🏠 Visão Geral":
 
  
     
+
+# Página 2: Análise Exploratória
+elif pagina == "🔍 Análise Exploratória":
+    st.title("🔍 Análise Exploratória dos Dados")
+    st.markdown("---")
+    
     if dados_vis is not None:
         st.header("📊 Dados Brutos (Amostra)")
         st.dataframe(dados_vis.head(), use_container_width=True)
@@ -189,75 +195,70 @@ if pagina == "🏠 Visão Geral":
             st.metric("Total de Registros", len(dados_vis))
         with col2:
             st.metric("Variáveis Originais", len(dados_vis.columns))
-
-# Página 2: Análise Exploratória
-elif pagina == "🔍 Análise Exploratória":
-    st.title("🔍 Análise Exploratória dos Dados")
-    st.markdown("---")
     
-if dados_vis is not None:
-    st.header("Distribuição de Engajamento")
+    if dados_vis is not None:
+        st.header("Distribuição de Engajamento")
+        
+        # Gráfico de barras 
+        fig, ax = plt.subplots(figsize=(10, 5))
+        counts = dados_vis['EngagementLevel'].value_counts()
+        counts.plot(kind='bar', color=['#FF6B6B', '#4ECDC4'], ax=ax)
+        # Adicionando rótulos e formatação
+        ax.set_title('Distribuição dos Níveis de Engajamento', pad=20)
+        ax.set_xlabel('Nível de Engajamento')
+        ax.set_ylabel('Contagem')
+        ax.set_xticklabels(['Baixo (Low)', 'Alto (High)'], rotation=0)
+        # Adicionando valores nas barras
+        for i, v in enumerate(counts):
+            ax.text(i, v + 5, str(v), ha='center', va='bottom', fontsize=12)
+        st.pyplot(fig)
+        
+        st.markdown("---")
+        st.header("Relação Idade vs Tempo de Jogo")
+        
+        # Scatterplot
+        fig, ax = plt.subplots(figsize=(12, 7))
+        scatter = sns.scatterplot(
+            data=dados_vis, 
+            x='Age', 
+            y='PlayTimeHours', 
+            hue='EngagementLevel',
+            palette={'Low': '#FF6B6B', 'High': '#4ECDC4'},
+            s=100,  # Tamanho dos pontos aumentado
+            alpha=0.7,  # Transparência
+            ax=ax
+        )
+        # Legenda
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles, ['Baixo (Low)', 'Alto (High)'], title='Engajamento')
+        # Adicionando título e rótulos
+        ax.set_title('Relação entre Idade e Tempo de Jogo por Nível de Engajamento', pad=20)
+        ax.set_xlabel('Idade (anos)')
+        ax.set_ylabel('Horas Jogadas por Semana')
+        st.pyplot(fig)
+        
+        st.markdown("---")
+        st.subheader("Matriz de Correlação")
+        
+        # Matriz de correlação
+        fig, ax = plt.subplots(figsize=(12, 8))
+        # Calculando a matriz de correlação apenas para variáveis numéricas
+        numeric_vars = dados_vis.select_dtypes(include=['int64', 'float64'])
+        corr_matrix = numeric_vars.corr()
+        # Criando o heatmap
+        sns.heatmap(
+            corr_matrix,
+            annot=True,
+            cmap='coolwarm',
+            center=0,
+            fmt='.2f',
+            linewidths=0.5,
+            ax=ax
+        )
+        # Ajustando o título
+        ax.set_title('Correlação entre Variáveis Numéricas', pad=20)
+        st.pyplot(fig)
     
-    # Gráfico de barras 
-    fig, ax = plt.subplots(figsize=(10, 5))
-    counts = dados_vis['EngagementLevel'].value_counts()
-    counts.plot(kind='bar', color=['#FF6B6B', '#4ECDC4'], ax=ax)
-    # Adicionando rótulos e formatação
-    ax.set_title('Distribuição dos Níveis de Engajamento', pad=20)
-    ax.set_xlabel('Nível de Engajamento')
-    ax.set_ylabel('Contagem')
-    ax.set_xticklabels(['Baixo (Low)', 'Alto (High)'], rotation=0)
-    # Adicionando valores nas barras
-    for i, v in enumerate(counts):
-        ax.text(i, v + 5, str(v), ha='center', va='bottom', fontsize=12)
-    st.pyplot(fig)
-    
-    st.markdown("---")
-    st.header("Relação Idade vs Tempo de Jogo")
-    
-    # Scatterplot
-    fig, ax = plt.subplots(figsize=(12, 7))
-    scatter = sns.scatterplot(
-        data=dados_vis, 
-        x='Age', 
-        y='PlayTimeHours', 
-        hue='EngagementLevel',
-        palette={'Low': '#FF6B6B', 'High': '#4ECDC4'},
-        s=100,  # Tamanho dos pontos aumentado
-        alpha=0.7,  # Transparência
-        ax=ax
-    )
-    # Legenda
-    handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles, ['Baixo (Low)', 'Alto (High)'], title='Engajamento')
-    # Adicionando título e rótulos
-    ax.set_title('Relação entre Idade e Tempo de Jogo por Nível de Engajamento', pad=20)
-    ax.set_xlabel('Idade (anos)')
-    ax.set_ylabel('Horas Jogadas por Semana')
-    st.pyplot(fig)
-    
-    st.markdown("---")
-    st.subheader("Matriz de Correlação")
-    
-    # Matriz de correlação
-    fig, ax = plt.subplots(figsize=(12, 8))
-    # Calculando a matriz de correlação apenas para variáveis numéricas
-    numeric_vars = dados_vis.select_dtypes(include=['int64', 'float64'])
-    corr_matrix = numeric_vars.corr()
-    # Criando o heatmap
-    sns.heatmap(
-        corr_matrix,
-        annot=True,
-        cmap='coolwarm',
-        center=0,
-        fmt='.2f',
-        linewidths=0.5,
-        ax=ax
-    )
-    # Ajustando o título
-    ax.set_title('Correlação entre Variáveis Numéricas', pad=20)
-    st.pyplot(fig)
-
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
     st.title("⚙️ Pré-processamento dos Dados")
