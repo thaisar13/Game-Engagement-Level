@@ -467,7 +467,7 @@ elif pagina == "🤖 Modelo Preditivo":
             """)
         
         st.markdown("""
-        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+        <div style="background-color: #f5f5f5; padding: 15; border-radius: 5;">
         <strong>💡 Curiosidade:</strong> Nosso modelo final combina <strong>150 dessas árvores</strong>, cada uma com profundidade máxima 4 
         (para evitar overfitting), alcançando o equilíbrio perfeito entre complexidade e generalização.
         </div>
