@@ -396,8 +396,8 @@ elif pagina == "🔮 Fazer Previsão":
         col1, col2 = st.columns(2)
         
         with col1:
-            age = st.slider("Idade", 15, 50, 23)
-            play_time = st.slider("Horas Jogadas/Dia", 1, 23, 3)
+            age = st.slider("Idade", 15, 50, 25)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
             level = st.slider("Nível do Personagem", 1, 99, 45)
             sessions = st.slider("Sessões por Semana", 1, 20, 5)
             
@@ -412,7 +412,7 @@ elif pagina == "🔮 Fazer Previsão":
                 # Carregar modelo
                 model = joblib.load('model.pkl')
                 
-                # Criar DataFrame com inputs já no formato esperado pelo modelo (após one-hot encoding)
+                # Criar DataFrame com formato EXATO que o modelo espera
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'SessionsPerWeek': [sessions],
@@ -428,21 +428,20 @@ elif pagina == "🔮 Fazer Previsão":
                     'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
                     'GameGenre_Sports': [1 if genre == "Sports" else 0],
                     'InGamePurchases_Yes': [1 if purchases == "Sim" else 0],
-                    'InGamePurchases_No': [1 if purchases == "Não" else 0]
+                    'InGamePurchases_No': [1 if purchases == "Não" else 0],
+                    'EngagementLevel': [0]  # Valor dummy (0=Low) - necessário para o pipeline
                 })
                 
-                # Garantir que todas as colunas esperadas pelo modelo existam
-                expected_columns = model.feature_names_in_ if hasattr(model, 'feature_names_in_') else []
-                for col in expected_columns:
-                    if col not in input_data.columns:
-                        input_data[col] = 0  # Preenche com zero colunas faltantes
+                # Pré-processar usando a mesma função usada no treino
+                input_prep, _ = preprocess_data(input_data)
                 
-                # Reordenar colunas na ordem esperada pelo modelo
-                input_data = input_data[expected_columns]
+                # Remover a coluna target se ainda existir
+                if 'EngagementLevel' in input_prep.columns:
+                    input_prep = input_prep.drop('EngagementLevel', axis=1)
                 
                 # Fazer previsão
-                proba = model.predict_proba(input_data)[0][1]
-                prediction = 1 if proba >= 0.5 else 0
+                proba = model.predict_proba(input_prep)[0][1]  # Probabilidade da classe 1 (High)
+                prediction = model.predict(input_prep)[0]
                 
                 # Exibir resultados
                 st.markdown("---")
@@ -463,7 +462,12 @@ elif pagina == "🔮 Fazer Previsão":
                 
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
-                st.info("Verifique se todas as variáveis estão no formato correto")
+                st.info("""
+                Dica técnica: O pipeline espera receber os dados no formato original (antes das transformações), 
+                incluindo a coluna target (como valor dummy). Certifique-se que:
+                1. Todas colunas originais estão presentes
+                2. A função preprocess_data é idêntica à usada no treino
+                """)
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
