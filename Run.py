@@ -120,10 +120,10 @@ elif pagina == "🔍 Análise Exploratória":
             palette={0: '#FF6B6B', 1: '#4ECDC4'})
         st.pyplot(fig)
         
-        #st.subheader("Matriz de Correlação")
-         #   fig, ax = plt.subplots(figsize=(10, 8))
-          #  sns.heatmap(dados.corr(), annot=True, cmap='coolwarm', ax=ax)
-        #st.pyplot(fig)
+        st.subheader("Matriz de Correlação")
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.heatmap(dados_vis.corr(), annot=True, cmap='coolwarm', ax=ax)
+        st.pyplot(fig)
 
 
 # Página 3: Pré-processamento
@@ -176,7 +176,7 @@ elif pagina == "🤖 Modelo Preditivo":
       - Precisão: 84%
       - F1-Score: 88%
     """)
-
+    
     
     try:
         model = joblib.load('model.pkl')
@@ -185,8 +185,10 @@ elif pagina == "🤖 Modelo Preditivo":
         st.header("Importância das Variáveis")
         # Nota: Substitua com os valores reais do seu modelo
         feature_importance = pd.DataFrame({
-            'Feature': ['PlayTimeHours', 'PlayerLevel', 'Age', 'AchievementsUnlocked'],
-            'Importance': [0.35, 0.25, 0.20, 0.20]
+            'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
+                        'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
+                        'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
+            'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
         })
         
         fig, ax = plt.subplots(figsize=(10,5))
