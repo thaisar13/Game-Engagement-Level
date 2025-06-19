@@ -82,8 +82,7 @@ if pagina == "🏠 Visão Geral":
     st.header("📋 Sobre o Projeto")
     st.markdown("""
     Este projeto utiliza machine learning para prever o nível de engajamento de jogadores com base em:
-    - Características demográficas
-    - Comportamento de jogo
+    - Comportamento no jogo
     - Preferências e conquistas
     """)
     
@@ -158,7 +157,7 @@ elif pagina == "⚙️ Pré-processamento":
         st.dataframe(dados_prep.head(), use_container_width=True)
         
         st.header("Estrutura dos Dados Transformados")
-        st.write(f"**Formato final:** {dados_prep.shape[0]} linhas × {dados_prep.shape[1]} colunas")
+        st.write(f"**Formato Final:** {dados_prep.shape[0]} linhas × {dados_prep.shape[1]} colunas")
 
 # Página 4: Modelo Preditivo
 elif pagina == "🤖 Modelo Preditivo":
