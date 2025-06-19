@@ -6,6 +6,8 @@ import seaborn as sns
 import joblib
 import os
 from sklearn.preprocessing import StandardScaler
+import plotly.express as px  
+
 
 # Configurações da página
 st.set_page_config(
@@ -128,25 +130,50 @@ if pagina == "🏠 Visão Geral":
         3. **Tunagem:** Otimização de hiperparâmetros com busca Bayesiana
         4. **Validação:** Teste com holdout de 25% dos dados
         
-        **Algoritmos Testados:**
+        **Algoritmos Testados:**""")
+
+        # Dados da tabela
+        data = {
+            "Model": [
+                "Gradient Boosting Classifier",
+                "Ada Boost Classifier",
+                "Light Gradient Boosting Machine",
+                "Random Forest Classifier",
+                "Ridge Classifier",
+                "Linear Discriminant Analysis",
+                "Naive Bayes",
+                "Quadratic Discriminant Analysis",
+                "Logistic Regression",
+                "SVM - Linear Kernel",
+                "Extra Trees Classifier",
+                "Extreme Gradient Boosting",
+                "K Neighbors Classifier",
+                "Decision Tree Classifier",
+                "Dummy Classifier"
+            ],
+            "F1-Score": [0.8784, 0.8792, 0.8772, 0.8765, 0.8760, 0.8760, 0.8748, 0.8745, 0.8734, 0.8721, 0.8714, 0.8677, 0.8548, 0.7823, 0.6669],
+            "Acurácia": [0.8720, 0.8718, 0.8712, 0.8705, 0.8716, 0.8716, 0.8709, 0.8705, 0.8700, 0.8667, 0.8663, 0.8624, 0.8499, 0.7826, 0.5003],
+            "Precisão": [0.8371, 0.8323, 0.8390, 0.8382, 0.8477, 0.8477, 0.8493, 0.8493, 0.8516, 0.8388, 0.8399, 0.8362, 0.8284, 0.7837, 0.5003],
+            "Recall": [0.9241, 0.9316, 0.9192, 0.9185, 0.9063, 0.9063, 0.9020, 0.9012, 0.8965, 0.9084, 0.9053, 0.9018, 0.8831, 0.7813, 1.0000]
+        }
         
-        - Ada Boost Classifier	(F1: 0.88)
-        - Gradient Boosting Classifier	(F1: 0.88) **← Selecionado**
-        - Light Gradient Boosting Machine	(F1: 0.88)	
-        - Random Forest Classifier	(F1: 0.88)	
-        - Ridge Classifier	(F1: 0.88)
-        - Linear Discriminant Analysis		(F1: 0.88)	
-        - Naive Bayes	(F1: 0.87)
-        - Quadratic Discriminant Analysis	(F1: 0.87)	
-        - Logistic Regression	(F1: 0.87)	
-        - SVM - Linear Kernel	(F1: 0.87)
-        - Extra Trees Classifier	(F1: 0.87)	
-        - Extreme Gradient Boosting	(F1: 0.87)	
-        - K Neighbors Classifier	(F1: 0.85)	
-        - Decision Tree Classifier	(F1: 0.78)	
-        - Dummy Classifier (F1: 0.67)	
-    """)
-    
+        df = pd.DataFrame(data)
+        
+        st.write("Tabela comparativa de desempenho (sem AUC, Kappa, MCC e Tempo de Treinamento)")
+        st.dataframe(df, hide_index=True, use_container_width=True)
+        
+        st.markdown("""
+        <style>
+            .dataframe td {
+                text-align: center !important;
+            }
+            .dataframe th {
+                text-align: center !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+            
+            
     with tab3:
         st.markdown("""
         **Principais Features:**
@@ -345,9 +372,9 @@ elif pagina == "⚙️ Pré-processamento":
 
 # Página 4: Modelo Preditivo
 elif pagina == "🤖 Modelo Preditivo":
-    st.title("🤖 Modelo de Machine Learning")
+    st.title("🤖 Modelo Preditivo: Gradient Boosting")
     st.markdown("---")
-    
+
     st.header("Metodologia")
     st.markdown("""
     - **Framework:** PyCaret
@@ -360,31 +387,112 @@ elif pagina == "🤖 Modelo Preditivo":
       - F1-Score: 88%
     """)
     
+    tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Gradient Boosting?"])
     
-    try:
-        model = joblib.load('model.pkl')
-        st.success("✅ Modelo carregado com sucesso!")
-        
-        st.header("Importância das Variáveis")
-        # Nota: Substitua com os valores reais do seu modelo
-        feature_importance = pd.DataFrame({
-            'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
-                        'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
-                        'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
-            'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-        })
-        
-        fig, ax = plt.subplots(figsize=(10,5))
-        sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
-        st.pyplot(fig)
-        
-        st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
-        por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
-        aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+    with tab1:
+        st.header("🔍 Interpretação do Modelo")
+        try:
+            model = joblib.load('model.pkl')
+            st.success("✅ Modelo carregado com sucesso!")
+            
+            st.header("Importância das Variáveis")
+            # Nota: Substitua com os valores reais do seu modelo
+            feature_importance = pd.DataFrame({
+                'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
+                            'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
+                            'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
+                'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+            })
+            
+            fig, ax = plt.subplots(figsize=(10,5))
+            sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
+            st.pyplot(fig)
+            
+            st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
+            por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
+            aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+            
+        except Exception as e:
+            st.error(f"Erro ao carregar modelo: {e}")
 
-    except Exception as e:
-        st.error(f"Erro ao carregar modelo: {e}")
-
+    with tab2:
+        # Seção 3: Conhecendo o Gradient Boosting
+        st.header("🎯 Quem é o Gradient Boosting?")
+        st.markdown("""
+        <div style="text-align: justify">
+        O <strong>Gradient Boosting Classifier</strong> é como um time de especialistas trabalhando em equipe, onde cada novo membro 
+        aprende com os erros dos anteriores. Veja como ele se destaca:
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Explicação visual em colunas
+        col1, col2 = st.columns([1, 1])
+        
+        with col1:
+            st.markdown("""
+            ### 🧠 Como Funciona?
+            1. **Árvores Sequenciais**:  
+               Cria uma série de árvores de decisão pequenas (weak learners)
+            2. **Correção de Erros**:  
+               Cada nova árvore foca nos resíduos (erros) da anterior
+            3. **Combinação Ponderada**:  
+               Resultado final é a soma das previsões de todas as árvores
+            """)
+            
+            # Se quiser ativar a imagem, descomente:
+            # st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
+            #          caption="Fonte: Medium - Gradient Boosting em ação")
+        
+        with col2:
+            st.markdown("""
+            ### 🏆 Por que foi Escolhido?
+            | Vantagem          | Nosso Caso           |
+            |-------------------|----------------------|
+            | Alta performance  | Melhor F1-Score (0.88) |
+            | Robustez          | AUC de 0.917         |
+            | Versatilidade     | Lida bem com todos os tipos de variáveis |
+            """)
+        
+        # Detalhes técnicos com expansor
+        with st.expander("🧮 A Matemática por Trás", expanded=False):
+            st.markdown("""
+            **Função Objetivo**:
+            ```
+            F(x) = γ₁h₁(x) + γ₂h₂(x) + ... + γₙhₙ(x)
+            ```
+            Onde:
+            - `hₙ(x)`: Árvore individual (weak learner)
+            - `γₙ`: Peso de cada árvore (aprendido durante o treino)
+            
+            **Passo a Passo**:
+            1. Inicia com predição ingênua (média)
+            2. Calcula resíduos (erros) para cada observação
+            3. Treina nova árvore para prever esses resíduos
+            4. Atualiza o modelo com taxa de aprendizado (η)
+            5. Repete até convergência ou limite de iterações
+            """)
+        with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
+            st.code("""
+            GradientBoostingClassifier(
+                ccp_alpha=0.0,                 # Sem poda de complexidade adicional
+                criterion='friedman_mse',      # Método para encontrar melhores splits (considera valores médios)
+                learning_rate=0.001,           # Taxa de aprendizado cuidadosa
+                max_depth=6,                   # Profundidade controlada
+                max_features='log2',           # Otimização para muitas features
+                min_samples_leaf=3,            # Prevenção de overfitting
+                min_impurity_decrease=0.0005,  # Explicação do mecanismo de poda automática
+                n_estimators=60,               # Número ideal de árvores
+                subsample=0.95,                # Stochastic Gradient Boosting
+                random_state=42,               # Reprodutibilidade
+                loss='log_loss'                # Para problemas de classificação
+            )
+            """, language='python')
+        #st.markdown("""
+        #<div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
+        #<strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
+        #cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
+        #</div>
+        #""", unsafe_allow_html=True)
 # Página 5: Previsão com o Modelo
 elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
