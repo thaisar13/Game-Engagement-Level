@@ -398,13 +398,13 @@ elif pagina == "🔮 Fazer Previsão":
         with col1:
             age = st.slider("Idade", 15, 50, 25)
             play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
-            level = st.slider("Nível do Personagem", 1, 99, 45)
             sessions = st.slider("Sessões por Semana", 1, 20, 5)
+            level = st.slider("Nível do Personagem", 1, 99, 45)
             
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
-            genre = st.selectbox("Gênero do Jogo", ["Action", "Adventure", "RPG", "Strategy", "Sports"])
+            genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
             purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
@@ -415,33 +415,26 @@ elif pagina == "🔮 Fazer Previsão":
                 # Criar DataFrame com formato EXATO que o modelo espera
                 input_data = pd.DataFrame({
                     'Age': [age],
+                    'PlayTimeHours': [play_time*7],  # Convertendo para horas semanais
                     'SessionsPerWeek': [sessions],
-                    'PlayTimeHours': [play_time*7],
-                    'AchievementsUnlocked': [achievements],
                     'PlayerLevel': [level],
-                    'GameDifficulty_Easy': [1 if difficulty == "Easy" else 0],
-                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
-                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
-                    'GameGenre_Action': [1 if genre == "Action" else 0],
-                    'GameGenre_Adventure': [1 if genre == "Adventure" else 0],
+                    'AchievementsUnlocked': [achievements],
                     'GameGenre_RPG': [1 if genre == "RPG" else 0],
-                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
                     'GameGenre_Sports': [1 if genre == "Sports" else 0],
-                    'InGamePurchases_Yes': [1 if purchases == "Sim" else 0],
-                    'InGamePurchases_No': [1 if purchases == "Não" else 0],
-                    'EngagementLevel': [0]  # Valor dummy (0=Low) - necessário para o pipeline
+                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
+                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
+                    'InGamePurchases_1': [1 if purchases == "Sim" else 0],
+                    'EngagementLevel': [0]  # Valor dummy necessário
                 })
                 
-                # Pré-processar usando a mesma função usada no treino
-                input_prep, _ = preprocess_data(input_data)
-                
-                # Remover a coluna target se ainda existir
-                if 'EngagementLevel' in input_prep.columns:
-                    input_prep = input_prep.drop('EngagementLevel', axis=1)
+                # Garantir a ordem correta das colunas
+                input_data = input_data[model.feature_names_in_]
                 
                 # Fazer previsão
-                proba = model.predict_proba(input_prep)[0][1]  # Probabilidade da classe 1 (High)
-                prediction = model.predict(input_prep)[0]
+                proba = model.predict_proba(input_data)[0][1]  # Probabilidade da classe 1 (High)
+                prediction = model.predict(input_data)[0]
                 
                 # Exibir resultados
                 st.markdown("---")
@@ -463,10 +456,10 @@ elif pagina == "🔮 Fazer Previsão":
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 st.info("""
-                Dica técnica: O pipeline espera receber os dados no formato original (antes das transformações), 
-                incluindo a coluna target (como valor dummy). Certifique-se que:
-                1. Todas colunas originais estão presentes
-                2. A função preprocess_data é idêntica à usada no treino
+                Verifique se:
+                1. Todas as colunas necessárias estão presentes
+                2. Os valores estão nos intervalos esperados
+                3. O modelo foi carregado corretamente
                 """)
 # Rodapé
 st.markdown("---")
