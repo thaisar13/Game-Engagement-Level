@@ -210,12 +210,12 @@ elif pagina == "🔍 Análise Exploratória":
         for i, v in enumerate(counts):
             ax.text(i, v + 5, str(v), ha='center', va='bottom', fontsize=12)
         st.pyplot(fig)
-        
-        st.markdown("---")
-        st.header("Relação Idade vs Tempo de Jogo")
 
         st.markdown(""" Embora apenas esse gráfico tenha sido apresentado, a proporção entre as variáveis categóricas seguem o mesmo padrão, 
         apresentando um balanceamento de quase que proporcional ao número de categórias das variáveis.""")
+        
+        st.markdown("---")
+        st.header("Relação Idade vs Tempo de Jogo")
         
         # Scatterplot
         fig, ax = plt.subplots(figsize=(12, 7))
@@ -416,12 +416,12 @@ elif pagina == "🔮 Fazer Previsão":
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'SessionsPerWeek': [sessions],
-                    'PlayTimeHours': [play_time*7],  # Horas semanais
+                    'PlayTimeHours': [play_time],  # Horas semanais
                     'AchievementsUnlocked': [achievements],
                     'PlayerLevel': [level],
                     'GameGenre': [genre],
                     'GameDifficulty': [difficulty],
-                    'InGamePurchases': ["Yes" if purchases == "Sim" else "No"],
+                    'InGamePurchases': [1 if purchases == "Sim" else "No"],
                     'EngagementLevel': ["Low"]  # Valor dummy (será substituído)
                 })
                 
