@@ -374,10 +374,29 @@ elif pagina == "⚙️ Pré-processamento":
 elif pagina == "🤖 Modelo Preditivo":
     st.title("🤖 Modelo Preditivo: Gradient Boosting")
     st.markdown("---")
+
+    st.header("Metodologia")
+    st.markdown("""
+    - **Framework:** PyCaret
+    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score e comparação do melhor desempenho geral entre as métricas
+    - **Melhor Modelo:** Gradient Boosting Classifier (tunado após seleção)
+    - **Métricas:**
+      - Acurácia: 87%
+      - Recall: 92%
+      - Precisão: 84%
+      - F1-Score: 88%
+    """)
+    
     tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Gradient Boosting?"])
     
     with tab1:
         st.header("🔍 Interpretação do Modelo")
+            try:
+        model = joblib.load('model.pkl')
+        st.success("✅ Modelo carregado com sucesso!")
+        
+        st.header("Importância das Variáveis")
+        # Nota: Substitua com os valores reais do seu modelo
         feature_importance = pd.DataFrame({
             'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
                         'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
@@ -385,18 +404,15 @@ elif pagina == "🤖 Modelo Preditivo":
             'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
         })
         
-        fig = px.bar(feature_importance.nlargest(5, 'Importance'),
-                     x='Importance', y='Feature',
-                     title='Top 5 Variáveis Preditivas',
-                     color='Importance')
-        st.plotly_chart(fig)
+        fig, ax = plt.subplots(figsize=(10,5))
+        sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
+        st.pyplot(fig)
         
-        st.markdown("""
-        **Padrão Identificado:**  
-        - Variáveis comportamentais (ex: `SessionsPerWeek`) dominam a importância  
-        - Características demográficas têm menor influência  
-        - Consistente com estudos de engagement em games
-        """)
+        st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
+        por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
+        aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+
+    with tab2:
         # Seção 3: Conhecendo o Gradient Boosting
         st.header("🎯 Quem é o Gradient Boosting?")
         st.markdown("""
