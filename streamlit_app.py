@@ -6,6 +6,8 @@ import seaborn as sns
 import joblib
 import os
 from sklearn.preprocessing import StandardScaler
+import plotly.express as px  
+
 
 # Configurações da página
 st.set_page_config(
@@ -467,7 +469,7 @@ elif pagina == "🤖 Modelo Preditivo":
             """)
         
         st.markdown("""
-        <div style="background-color: #f5f5f5; padding: 15; border-radius: 5;">
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
         <strong>💡 Curiosidade:</strong> Nosso modelo final combina <strong>150 dessas árvores</strong>, cada uma com profundidade máxima 4 
         (para evitar overfitting), alcançando o equilíbrio perfeito entre complexidade e generalização.
         </div>
