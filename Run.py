@@ -409,13 +409,12 @@ elif pagina == "🔮 Fazer Previsão":
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
-                # Carregar modelo
                 model = joblib.load('model.pkl')
                 
-                # Criar DataFrame com formato EXATO que o modelo espera
+                # Criar APENAS com as features de entrada (sem EngagementLevel)
                 input_data = pd.DataFrame({
                     'Age': [age],
-                    'PlayTimeHours': [play_time*7],  # Convertendo para horas semanais
+                    'PlayTimeHours': [play_time*7],
                     'SessionsPerWeek': [sessions],
                     'PlayerLevel': [level],
                     'AchievementsUnlocked': [achievements],
@@ -425,15 +424,11 @@ elif pagina == "🔮 Fazer Previsão":
                     'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
                     'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
                     'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
-                    'InGamePurchases_1': [1 if purchases == "Sim" else 0],
-                    'EngagementLevel': [0]  # Valor dummy necessário
-                })
-                
-                # Garantir a ordem correta das colunas
-                input_data = input_data[model.feature_names_in_]
+                    'InGamePurchases_1': [1 if purchases == "Sim" else 0]
+                })[model.feature_names_in_]  # Garante a ordem correta
                 
                 # Fazer previsão
-                proba = model.predict_proba(input_data)[0][1]  # Probabilidade da classe 1 (High)
+                proba = model.predict_proba(input_data)[0][1]
                 prediction = model.predict(input_data)[0]
                 
                 # Exibir resultados
@@ -456,10 +451,9 @@ elif pagina == "🔮 Fazer Previsão":
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 st.info("""
-                Verifique se:
-                1. Todas as colunas necessárias estão presentes
-                2. Os valores estão nos intervalos esperados
-                3. O modelo foi carregado corretamente
+                Possíveis soluções:
+                1. Recrie o modelo garantindo que 'EngagementLevel' seja apenas a target
+                2. Verifique se todas as features estão na ordem correta
                 """)
 # Rodapé
 st.markdown("---")
