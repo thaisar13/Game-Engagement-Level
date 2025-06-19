@@ -383,7 +383,7 @@ elif pagina == "🔮 Fazer Previsão":
         
         with col1:
             age = st.slider("Idade", 15, 50, 25)
-            play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
+            play_time = st.slider("Horas Jogadas/Dia", 1, 23, 3)
             level = st.slider("Nível do Personagem", 1, 99, 45)
             sessions = st.slider("Sessões por Semana", 1, 20, 5)
             
@@ -407,7 +407,7 @@ elif pagina == "🔮 Fazer Previsão":
                     'PlayerLevel': [level],
                     'GameGenre': [genre],
                     'GameDifficulty': [difficulty],
-                    'InGamePurchases': ["Yes" if purchases == "Sim" else "No"]
+                    'InGamePurchases': ["1" if purchases == "Sim" else "No"]
                 })
                 
                 # Pré-processar
