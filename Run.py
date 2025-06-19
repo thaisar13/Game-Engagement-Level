@@ -255,16 +255,16 @@ elif pagina == "⚙️ Pré-processamento":
     
     if dados_prep is not None:
         st.header("Transformações Aplicadas")
-        st.markdown("""
+        #st.markdown("""
         ### 1. Filtragem Inicial
-        - **Seleção de categorias:** Mantivemos apenas os níveis 'Low' e 'High' de engajamento
-        - **Justificativa:** A categoria 'Medium' foi excluída para criar um problema de classificação binária mais definido
-        - **Resultado:** Redução de {:.1%} no volume de dados (de {} para {} registros)
-        """.format(
-            1 - len(dados_prep)/len(dados_orig),
-            len(dados_orig),
-            len(dados_prep)
-        )
+       # - **Seleção de categorias:** Mantivemos apenas os níveis 'Low' e 'High' de engajamento
+        #- **Justificativa:** A categoria 'Medium' foi excluída para criar um problema de classificação binária mais definido
+        #- **Resultado:** Redução de {:.1%} no volume de dados (de {} para {} registros)
+        #""".format(
+        #    1 - len(dados_prep)/len(dados_orig),
+        #    len(dados_orig),
+        #    len(dados_prep)
+        #)
 
         st.markdown("""
         ### 2. Seleção de Features
