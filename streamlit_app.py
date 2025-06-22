@@ -617,7 +617,8 @@ elif pagina == "🔮 Fazer Previsão":
                 ax.set_xlim(0, 1)
                 ax.axvline(0.5, color='gray', linestyle='--')
                 st.pyplot(fig)
-                
+                # Após fazer a previsão
+                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 st.info("""
