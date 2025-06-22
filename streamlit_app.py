@@ -290,7 +290,7 @@ elif pagina == "🔍 Análise Exploratória":
         st.pyplot(fig)
         
         st.markdown(""" Note que as correlações entre as variaveis numericas são extremamente fracas, chegando a ser nula em alguns casos, 
-        esse fato ajuda a explicar o porquê das variáveis tere uma importância tão baixa na classificação do engajamento do jogador.""")
+        esse fato ajuda a explicar o porquê das variáveis terem uma importância tão baixa na classificação do engajamento do jogador.""")
     
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
@@ -563,5 +563,9 @@ elif pagina == "🔮 Fazer Previsão":
                 2. Verifique se todas as features estão na ordem correta
                 """)
 # Rodapé
+#st.markdown("---")
+#st.caption("Desenvolvido com base nas análises de pré-processamento do notebook disponíveis no [github](https://github.com/thaisar13/Game-Engagement-Level)")
+# Rodapé
 st.markdown("---")
-st.caption("Desenvolvido com base nas análises de pré-processamento do notebook")
+st.caption("Desenvolvido com base nas análises de pré-processamento do notebook disponíveis no [GitHub](https://github.com/thaisar13/Game-Engagement-Level)")
+st.markdown('<div style="text-align: right;"><a href="https://nivelengajamentojogo.streamlit.app"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" width="100px"></a></div>', unsafe_allow_html=True)
