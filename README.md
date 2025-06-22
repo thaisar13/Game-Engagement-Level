@@ -89,21 +89,21 @@ Técnicas implementadas:
 
 ## 🏆 Comparative Model Performance Analysis
 
-| Rank | Model                     | Accuracy | AUC   | Recall | Precision | F1-Score | Training Time |
-|------|---------------------------|----------|-------|--------|-----------|----------|---------------|
-| 🥇   | **Gradient Boosting**     | **0.8720**   | *0.9167*| *0.9241* | 0.8371    | *0.8784*   | 1.6050s      |
-| 🥈   | *Ada Boost Classifier*   | *0.8718*   | 0.9156| **0.9316** | 0.8323    | **0.8792**   | 0.4470s      |
-| 🥉   | LightGBM                  | 0.8712   | 0.9128| 0.9192 | *0.8390*    | 0.8772   | 1.5580s      |
-| 4️⃣   | Random Forest             | 0.8705   | 0.9082| 0.9185 | 0.8382    | 0.8765   | 1.8570s      |
-| 5️⃣   | Ridge Classifier          | 0.8716   | **0.9169**| 0.9063 | **0.8477**    | 0.8760   | **0.0410s**      |
+| Rank | Model                     | Acurácia    | AUC       | Sencibilidade    | Precisão | F1-Score   | Tempo de Treinamento|
+|------|---------------------------|-------------|-----------|-----------|-----------|------------|---------------|
+| 🥇   | **Gradient Boosting**     | **0.8720**  | *0.9167* | *0.9241*   | 0.8371    | *0.8784*  | 1.6050s      |
+| 🥈   | *Ada Boost Classifier*    | *0.8718*    | 0.9156   | **0.9316** | 0.8323    | **0.8792**| 0.4470s      |
+| 🥉   | LightGBM                  | 0.8712     | 0.9128    | 0.9192     | *0.8390*  | 0.8772    | 1.5580s      |
+| 4️⃣   | Random Forest             | 0.8705     | 0.9082    | 0.9185     | 0.8382    | 0.8765    | 1.8570s      |
+| 5️⃣   | Ridge Classifier          | 0.8716     | **0.9169**| 0.9063     | **0.8477**| 0.8760    | **0.0410s**      |
 
 ### Legenda:
 - **Negrito** = Melhor resultado na métrica
 - *Itálico* = Segundo melhor resultado
 
-Note que embora o Ada Boost Classifier tenha apresentado o melhor resultado para a métrica F1-Score, que é uma métrica que balanceia os resultados de acerto do modelo classificador, o Gradient Boosting apresentou um resultado sutilmente melhor em um número maior de métricas, sendo por isso o modelo escolhido.
+Note que embora o Ada Boost Classifier tenha apresentado o melhor resultado para a métrica F1-Score, que é uma métrica que balanceia os resultados de acerto do modelo classificador, o Gradient Boosting apresentou um resultado sutilmente melhor em AUC, o que indica que esse modelo apresenta uma maior capacidade de distinção das classe, e como a variável resposta não paresenta limites muito bem definidos, o Gradient Boosting foi o modelo escolhido.
 
 ## 🚀 Experimente Agora!
 Acesse a versão interativa do modelo:  
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://seusite-streamlit-app.com)
-
+[![Streamlit App](https://nivelengajamentojogo.streamlit.app)]
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://nivelengajamentojogo.streamlit.app).
