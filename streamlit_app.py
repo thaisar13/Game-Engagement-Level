@@ -565,6 +565,7 @@ elif pagina == "🔮 Fazer Previsão":
             try:                
                 # 1. Carrega o pipeline
                 pipeline = joblib.load('model.pkl')
+                pipeline = joblib.load('modelo.pkl')
                 
                 # 2. Prepara os dados JÁ CODIFICADOS como o modelo espera
                 input_data = pd.DataFrame({
