@@ -495,11 +495,8 @@ elif pagina == "🤖 Modelo Preditivo":
             <h4>Critério de Desempate</h4>
             Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> (refletido pelo AUC mais alto) é preferível.
             
-            <div style="background-color: #f4d35e; padding: 10px; border-radius: 5px; margin-top: 10px;">
-            <small>💡 <b>Observação Final:</b> As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.</small>
-            </div>
             """, unsafe_allow_html=True)
-            st.success("💡 As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
+            st.success(" **Observação Final:**💡 As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
@@ -564,32 +561,42 @@ elif pagina == "🔮 Fazer Previsão":
             purchases = st.radio("Realizou Compras no Jogo", [1, 0], horizontal=True)
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
-            try:
-                # Carrega o pipeline
+            try:                
+                # 1. Carrega o pipeline
                 pipeline = joblib.load('model.pkl')
                 
-                # Prepara os dados de entrada (COM OS NOMES ORIGINAIS USADOS NO TREINO)
+                # 2. Prepara os dados JÁ CODIFICADOS como o modelo espera
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'PlayTimeHours': [play_time],
                     'SessionsPerWeek': [sessions],
                     'PlayerLevel': [level],
                     'AchievementsUnlocked': [achievements],
-                    'GameGenre': [genre],  # Valores originais como "RPG", "Strategy" etc.
-                    'GameDifficulty': [difficulty],  # "Hard", "Medium", "Easy"
-                    'InGamePurchases': [purchases]  # "Sim" ou "Não"
+                    
+                    # Variáveis categóricas JÁ CODIFICADAS (one-hot)
+                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
+                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
+                    'GameGenre_RPG': [1 if genre == "RPG" else 0],
+                    'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
+                    'GameGenre_Sports': [1 if genre == "Sports" else 0],
+                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    'InGamePurchases_1': [1 if purchases == "Sim" else 0]
                 })
                 
+                # 3. Garante a ordem correta das colunas
+                input_data = input_data[pipeline.named_steps['actual_estimator'].feature_names_in_]
+                
                 try:
-                    # Aplica o pré-processamento e faz a previsão
+                    # 4. Faz a previsão (o imputer vai lidar com quaisquer valores faltantes)
                     prediction = pipeline.predict(input_data)[0]
                     proba = pipeline.predict_proba(input_data)[0][1]
                     
-                    st.success(f"Engajamento previsto: {prediction} (Probabilidade: {proba:.1%})")
+                    st.success(f"Previsão: {prediction} (Probabilidade: {proba:.1%})")
                     
                 except Exception as e:
                     st.error(f"Erro na previsão: {str(e)}")
                     st.write("Dados enviados:", input_data)
+                    st.write("Features esperadas:", pipeline.named_steps['actual_estimator'].feature_names_in_)
                 
                 # Exibir resultados
                 st.markdown("---")
