@@ -462,22 +462,6 @@ elif pagina == "🤖 Modelo Preditivo":
             #          caption="Fonte: Medium - Gradient Boosting em ação")
         
         with col2:
-#            st.markdown("""
-            ### 🏆 Por que foi Escolhido?
-#            | Vantagem          | Nosso Caso           |
-#            |-------------------|----------------------|
-#            | Melhor Desempenho Geral  | Melhor resultado em  |
-#            | Alta performance  | 2º melhor F1-Score |
-#            | Robustez          | AUC de 0.917         |
-            
-#            Para seleção do modelo foram comparados os resultados de suas métricas, sendo considerado apenas os 5 com maior F!-Score, dando um peso por sua posição,
-#            onde o melhor resultado resultaria em +2 e o segundo melhor em +1. Após isso, os 2 melhores modelos ficaram empatados com 5 pontos cada um, 
-#            sendo eles o Ada Bosst Classifier (tendo o melhor resultado do F1-Score e Sencibilidade, e a segunda maior acurácia) e o Gradient Bossting (tendo o 
-#            melhor resultado da Acurácia e o segundo melhor resultado da AUC, Sencibilidade e F1-Score). Como critério de desempate foi considerado o melhor 
-#            resultado da AUC, uma vez que a variável resposta não apreenta limites bem definidos entre suas duas categorias, e portanto, uma maior distinção entre
-#            tais categorias é algo interessante. Vale ressaltar que as diferenças entre as métricas de um modelo para o outro são bem sutíls, não tendo um desempenho
-#            significativamente superior ao outro.
-#            """)
 
             st.markdown("""
             ### 🏆 Critério de Seleção do Modelo
@@ -511,7 +495,7 @@ elif pagina == "🤖 Modelo Preditivo":
             <h4>Critério de Desempate</h4>
             Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> (refletido pelo AUC mais alto) é preferível.
             
-            <div style="background-color: #f0f2f6; padding: 10px; border-radius: 5px; margin-top: 10px;">
+            <div style="background-color: #f4d35e; padding: 10px; border-radius: 5px; margin-top: 10px;">
             <small>💡 <b>Observação Final:</b> As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.</small>
             </div>
             """, unsafe_allow_html=True)
@@ -576,31 +560,44 @@ elif pagina == "🔮 Fazer Previsão":
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
             genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
-            purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+           # purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+            purchases = st.radio("Realizou Compras no Jogo", [0, 1], horizontal=True)
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
-                model = joblib.load('model.pkl')
+                # Carrega o pipeline completo do PyCaret
+                pipeline = joblib.load('model.pkl')
                 
-                # Criar APENAS com as features de entrada (sem EngagementLevel)
+                # 1. Extrai o modelo e o pré-processador
+                model = pipeline.named_steps['trained_model']
+                preprocessor = pipeline.named_steps['prep_pipe']
+                
+                # 2. Prepara os dados de entrada (usando os nomes originais das colunas)
                 input_data = pd.DataFrame({
                     'Age': [age],
-                    'PlayTimeHours': [play_time*7],
+                    'PlayTimeHours': [play_time],
                     'SessionsPerWeek': [sessions],
                     'PlayerLevel': [level],
                     'AchievementsUnlocked': [achievements],
-                    'GameGenre_RPG': [1 if genre == "RPG" else 0],
-                    'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
-                    'GameGenre_Sports': [1 if genre == "Sports" else 0],
-                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
-                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
-                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
-                    'InGamePurchases_1': [1 if purchases == "Sim" else 0]
-                })[model.feature_names_in_]  # Garante a ordem correta
+                    'GameGenre': [genre],  # Valor original ("RPG", "Strategy", etc.)
+                    'GameDifficulty': [difficulty],  # Valor original ("Hard", "Medium", etc.)
+                    'InGamePurchases': [purchases]  # Valor original ("Sim", "Não")
+                })
                 
-                # Fazer previsão
-                proba = model.predict_proba(input_data)[0][1]
-                prediction = model.predict(input_data)[0]
+                # 3. Aplica o pré-processamento
+                try:
+                    # Transforma os dados
+                    processed_data = preprocessor.transform(input_data)
+                    
+                    # 4. Faz a previsão
+                    proba = model.predict_proba(processed_data)[0][1]
+                    prediction = model.predict(processed_data)[0]
+                    
+                    st.success(f"Previsão: {prediction} (Probabilidade: {proba:.2%})")
+                    
+                except Exception as e:
+                    st.error(f"Erro na previsão: {str(e)}")
+                    st.write("Input data:", input_data)
                 
                 # Exibir resultados
                 st.markdown("---")
