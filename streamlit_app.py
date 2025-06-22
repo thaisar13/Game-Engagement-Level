@@ -493,10 +493,13 @@ elif pagina == "🤖 Modelo Preditivo":
             </div>
             
             <h4>Critério de Desempate</h4>
-            Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> (refletido pelo AUC mais alto) é preferível.
+            Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta
+            <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> 
+            (refletido pelo AUC mais alto) é preferível.
             
             """, unsafe_allow_html=True)
-            st.success(" **Observação Final:**💡 As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
+            st.success(" **Observação Final:💡 As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente 
+            superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
@@ -556,10 +559,9 @@ elif pagina == "🔮 Fazer Previsão":
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
-            genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
-           # purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
-            purchases = st.radio("Realizou Compras no Jogo", [1, 0], horizontal=True)
-        
+            genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
+            purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+           
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:                
                 # 1. Carrega o pipeline
