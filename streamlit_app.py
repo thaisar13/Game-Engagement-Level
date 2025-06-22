@@ -499,7 +499,7 @@ elif pagina == "🤖 Modelo Preditivo":
             <small>💡 <b>Observação Final:</b> As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.</small>
             </div>
             """, unsafe_allow_html=True)
-        
+            st.success("💡 As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
@@ -551,53 +551,45 @@ elif pagina == "🔮 Fazer Previsão":
         col1, col2 = st.columns(2)
         
         with col1:
-            age = st.slider("Idade", 15, 50, 25)
+            age = st.slider("Idade", 15, 50, 23)
             play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
-            sessions = st.slider("Sessões por Semana", 1, 20, 5)
-            level = st.slider("Nível do Personagem", 1, 99, 45)
+            sessions = st.slider("Sessões por Semana", 1, 20, 13)
+            level = st.slider("Nível do Personagem", 1, 99, 25)
             
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
             genre = st.selectbox("Gênero do Jogo", ["RPG", "Simulation", "Sports", "Strategy"])
            # purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
-            purchases = st.radio("Realizou Compras no Jogo", [0, 1], horizontal=True)
+            purchases = st.radio("Realizou Compras no Jogo", [1, 0], horizontal=True)
         
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:
-                # Carrega o pipeline completo do PyCaret
+                # Carrega o pipeline
                 pipeline = joblib.load('model.pkl')
                 
-                # 1. Extrai o modelo e o pré-processador
-                model = pipeline.named_steps['trained_model']
-                preprocessor = pipeline.named_steps['prep_pipe']
-                
-                # 2. Prepara os dados de entrada (usando os nomes originais das colunas)
+                # Prepara os dados de entrada (COM OS NOMES ORIGINAIS USADOS NO TREINO)
                 input_data = pd.DataFrame({
                     'Age': [age],
                     'PlayTimeHours': [play_time],
                     'SessionsPerWeek': [sessions],
                     'PlayerLevel': [level],
                     'AchievementsUnlocked': [achievements],
-                    'GameGenre': [genre],  # Valor original ("RPG", "Strategy", etc.)
-                    'GameDifficulty': [difficulty],  # Valor original ("Hard", "Medium", etc.)
-                    'InGamePurchases': [purchases]  # Valor original ("Sim", "Não")
+                    'GameGenre': [genre],  # Valores originais como "RPG", "Strategy" etc.
+                    'GameDifficulty': [difficulty],  # "Hard", "Medium", "Easy"
+                    'InGamePurchases': [purchases]  # "Sim" ou "Não"
                 })
                 
-                # 3. Aplica o pré-processamento
                 try:
-                    # Transforma os dados
-                    processed_data = preprocessor.transform(input_data)
+                    # Aplica o pré-processamento e faz a previsão
+                    prediction = pipeline.predict(input_data)[0]
+                    proba = pipeline.predict_proba(input_data)[0][1]
                     
-                    # 4. Faz a previsão
-                    proba = model.predict_proba(processed_data)[0][1]
-                    prediction = model.predict(processed_data)[0]
-                    
-                    st.success(f"Previsão: {prediction} (Probabilidade: {proba:.2%})")
+                    st.success(f"Engajamento previsto: {prediction} (Probabilidade: {proba:.1%})")
                     
                 except Exception as e:
                     st.error(f"Erro na previsão: {str(e)}")
-                    st.write("Input data:", input_data)
+                    st.write("Dados enviados:", input_data)
                 
                 # Exibir resultados
                 st.markdown("---")
