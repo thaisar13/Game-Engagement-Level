@@ -126,8 +126,8 @@ if pagina == "🏠 Visão Geral":
         st.markdown("""
         **Processo de Modelagem:**
         1. **Pré-processamento:** Filtragem, codificação e normalização
-        2. **Seleção de Modelos:** Comparação de 15 algoritmos via PyCaret
-        3. **Tunagem:** Otimização de hiperparâmetros com busca Bayesiana
+        2. **Seleção de Modelos:** Comparação de 15 algoritmos via PyCaret (seleciondo o Gradient Boosting)
+        3. **Tunagem:** Otimização de hiperparâmetros para melhor F1-Score
         4. **Validação:** Teste com holdout de 25% dos dados
         
         **Algoritmos Testados:**""")
@@ -237,8 +237,9 @@ elif pagina == "🔍 Análise Exploratória":
             ax.text(i, v + 5, str(v), ha='center', va='bottom', fontsize=12)
         st.pyplot(fig)
 
-        st.markdown(""" Embora apenas esse gráfico tenha sido apresentado, a proporção entre as variáveis categóricas seguem o mesmo padrão, 
-        apresentando um balanceamento de quase que proporcional ao número de categórias das variáveis.""")
+        st.markdown(""" Embora este seja o único gráfico apresentado, todas as variáveis categóricas analisadas seguem o mesmo padrão de distribuição, 
+        mantendo uma proporcionalidade equilibrada entre suas categorias que reflete quase que diretamente a quantidade de observações em cada classe.
+        """)
         
         st.markdown("---")
         st.header("Relação Idade vs Tempo de Jogo")
@@ -264,8 +265,10 @@ elif pagina == "🔍 Análise Exploratória":
         ax.set_ylabel('Horas Jogadas por Semana')
         st.pyplot(fig)
         
-        st.markdown(""" Novamente, embora apenas esse gráfico tenha sido apresentado, a relação entre as variáveis contínuas seguem o mesmo padrão, 
-        uma "nuvem" de pontos sem indícios de relação entre as variáveis ou com o engajamento do jogador.""")
+        st.markdown(""" Novamente, embora tenhamos destacado apenas este gráfico específico, todas as análises entre variáveis contínuas revelaram o mesmo padrão: 
+        uma dispersão aleatória de pontos que não indica qualquer correlação significativa entre as variáveis analisadas nem com os níveis de engajamento dos 
+        jogadores.
+        """)
         
         st.markdown("---")
         st.subheader("Matriz de Correlação")
@@ -289,8 +292,9 @@ elif pagina == "🔍 Análise Exploratória":
         ax.set_title('Correlação entre Variáveis Numéricas', pad=20)
         st.pyplot(fig)
         
-        st.markdown(""" Note que as correlações entre as variaveis numericas são extremamente fracas, chegando a ser nula em alguns casos, 
-        esse fato ajuda a explicar o porquê das variáveis terem uma importância tão baixa na classificação do engajamento do jogador.""")
+        st.markdown(""" As correlações entre as variáveis numéricas são notavelmente fracas (próximas de zero em vários casos), o que explica diretamente sua baixa 
+        importância no modelo de classificação do engajamento dos jogadores.
+        """)
     
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
@@ -377,13 +381,14 @@ elif pagina == "🤖 Modelo Preditivo":
     st.header("Metodologia")
     st.markdown("""
     - **Framework:** PyCaret
-    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score e comparação do melhor desempenho geral entre as métricas
+    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score, seguido do melhor desempenho geral entre as métricas e desempatada pela AUC
     - **Melhor Modelo:** Gradient Boosting Classifier (tunado após seleção)
     - **Métricas:**
       - Acurácia: 87%
-      - Recall: 92%
+      - Sencibilidade: 92%
       - Precisão: 84%
       - F1-Score: 88%
+      - AUC: 92%
     """)
     
     tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Gradient Boosting?"])
@@ -394,8 +399,27 @@ elif pagina == "🤖 Modelo Preditivo":
             model = joblib.load('model.pkl')
             st.success("✅ Modelo carregado com sucesso!")
             
+            st.header("Significado das Métricas")
+    
+            st.markdown("""
+            
+            **Interpretação:**  
+            
+            O modelo demonstra um **bom desempenho geral** (Acurácia de 87%), com destaque para sua capacidade de:  
+            
+                - **Capturar casos Positivos**: Alta Sencibilidade (92%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
+            
+                - **Distinguir Classes**: AUC (Área sib a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
+            
+                - **Equilíbrio**: F1-Score (88%) mostra boa harmonia entre Precisão e Recall  
+            
+                - **Chance de Erro**: Precisão (84%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
+                sobreposição natural nos padrões de engajamento e das variáveis preditoras apresentarem um poder limitado de discriminação  
+            
+            """)
+            
             st.header("Importância das Variáveis")
-            # Nota: Substitua com os valores reais do seu modelo
+
             feature_importance = pd.DataFrame({
                 'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
                             'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
@@ -410,6 +434,7 @@ elif pagina == "🤖 Modelo Preditivo":
             st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
             por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
             aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+    
             
         except Exception as e:
             st.error(f"Erro ao carregar modelo: {e}")
@@ -438,19 +463,63 @@ elif pagina == "🤖 Modelo Preditivo":
                Resultado final é a soma das previsões de todas as árvores
             """)
             
-            # Se quiser ativar a imagem, descomente:
             # st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
             #          caption="Fonte: Medium - Gradient Boosting em ação")
         
         with col2:
-            st.markdown("""
+#            st.markdown("""
             ### 🏆 Por que foi Escolhido?
-            | Vantagem          | Nosso Caso           |
-            |-------------------|----------------------|
-            | Alta performance  | Melhor F1-Score (0.88) |
-            | Robustez          | AUC de 0.917         |
-            | Versatilidade     | Lida bem com todos os tipos de variáveis |
-            """)
+#            | Vantagem          | Nosso Caso           |
+#            |-------------------|----------------------|
+#            | Melhor Desempenho Geral  | Melhor resultado em  |
+#            | Alta performance  | 2º melhor F1-Score |
+#            | Robustez          | AUC de 0.917         |
+            
+#            Para seleção do modelo foram comparados os resultados de suas métricas, sendo considerado apenas os 5 com maior F!-Score, dando um peso por sua posição,
+#            onde o melhor resultado resultaria em +2 e o segundo melhor em +1. Após isso, os 2 melhores modelos ficaram empatados com 5 pontos cada um, 
+#            sendo eles o Ada Bosst Classifier (tendo o melhor resultado do F1-Score e Sencibilidade, e a segunda maior acurácia) e o Gradient Bossting (tendo o 
+#            melhor resultado da Acurácia e o segundo melhor resultado da AUC, Sencibilidade e F1-Score). Como critério de desempate foi considerado o melhor 
+#            resultado da AUC, uma vez que a variável resposta não apreenta limites bem definidos entre suas duas categorias, e portanto, uma maior distinção entre
+#            tais categorias é algo interessante. Vale ressaltar que as diferenças entre as métricas de um modelo para o outro são bem sutíls, não tendo um desempenho
+#            significativamente superior ao outro.
+#            """)
+
+            st.markdown("""
+            ### 🏆 Critério de Seleção do Modelo
+            
+            O modelo foi selecionado através de uma análise comparativa das métricas de desempenho, considerando inicialmente os **5 melhores modelos com base no F1-Score**. Foi atribuído um sistema de pontuação por posição:
+            
+            - <b>1º lugar</b> em cada métrica: <b>+2 pontos</b>
+            - <b>2º lugar</b>: <b>+1 ponto</b>
+            
+            <br>
+            
+            Após essa avaliação, os dois melhores modelos ficaram <b>empatados com 5 pontos cada</b>:
+            
+            <div style="margin-left: 20px;">
+            
+            <b>1. AdaBoost Classifier</b>  
+               - 🥇 <b>Melhor desempenho</b> em:  
+                 • F1-Score  
+                 • Sensibilidade (Recall)  
+               - 🥈 <b>Segunda melhor</b> acurácia  
+            
+            <b>2. Gradient Boosting</b>  
+               - 🥇 <b>Melhor desempenho</b> em:  
+                 • Acurácia  
+               - 🥈 <b>Segundo melhor</b> em:  
+                 • AUC  
+                 • Sensibilidade (Recall)  
+                 • F1-Score  
+            </div>
+            
+            <h4>Critério de Desempate</h4>
+            Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> (refletido pelo AUC mais alto) é preferível.
+            
+            <div style="background-color: #f0f2f6; padding: 10px; border-radius: 5px; margin-top: 10px;">
+            <small>💡 <b>Observação Final:</b> As diferenças entre as métricas dos dois modelos são <b>muito sutis</b>, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.</small>
+            </div>
+            """, unsafe_allow_html=True)
         
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
@@ -563,9 +632,5 @@ elif pagina == "🔮 Fazer Previsão":
                 2. Verifique se todas as features estão na ordem correta
                 """)
 # Rodapé
-#st.markdown("---")
-#st.caption("Desenvolvido com base nas análises de pré-processamento do notebook disponíveis no [github](https://github.com/thaisar13/Game-Engagement-Level)")
-# Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook disponíveis no [GitHub](https://github.com/thaisar13/Game-Engagement-Level)")
-st.markdown('<div style="text-align: right;"><a href="https://nivelengajamentojogo.streamlit.app"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" width="100px"></a></div>', unsafe_allow_html=True)
