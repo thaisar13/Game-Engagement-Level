@@ -498,7 +498,7 @@ elif pagina == "🤖 Modelo Preditivo":
             (refletido pelo AUC mais alto) é preferível.
             
             """, unsafe_allow_html=True)
-            st.success(" **Observação Final:**💡 **As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
+            st.success(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
