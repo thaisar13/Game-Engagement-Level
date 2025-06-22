@@ -416,12 +416,37 @@ elif pagina == "🤖 Modelo Preditivo":
             st.markdown(""" ### Importância das Variáveis""")
 
             feature_importance = pd.DataFrame({
-                'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
-                            'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
-                            'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
-                'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+                #'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
+                 #           'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
+                  #          'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
+                #'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+                'Feature': ['Age',
+                            'PlayTimeHours',
+                            'SessionsPerWeek',
+                            'PlayerLevel',
+                            'AchievementsUnlocked',
+                            'GameGenre_RPG',
+                            'GameGenre_Simulation',
+                            'GameGenre_Sports',
+                            'GameGenre_Strategy',
+                            'GameDifficulty_Hard',
+                            'GameDifficulty_Medium',
+                            'InGamePurchases_1'],
+                'Importance': [ 0.0020455549745578097,
+                                0.0034587584138015045,
+                                0.9677092269470668,
+                                0.012357714943323328,
+                                0.012393614261096106,
+                                0.0004021791727387025,
+                                0.00016528511567884998,
+                                0.000249364058400549,
+                                0.0002594564962351831,
+                                0.00023868326279678667,
+                                0.0003271009703858708,
+                                0.000393061383918566]
+
             })
-            
+
             fig, ax = plt.subplots(figsize=(10,5))
             sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
             st.pyplot(fig)
@@ -564,7 +589,6 @@ elif pagina == "🔮 Fazer Previsão":
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:                
                 # 1. Carrega o pipeline
-                pipeline = joblib.load('model.pkl')
                 pipeline = joblib.load('modelo.pkl')
                 
                 # 2. Prepara os dados JÁ CODIFICADOS como o modelo espera
@@ -587,9 +611,9 @@ elif pagina == "🔮 Fazer Previsão":
                 
                 # 3. Garante a ordem correta das colunas
                 input_data = input_data[pipeline.named_steps['actual_estimator'].feature_names_in_]
-                st.write("Classes do modelo:", pipeline.classes_)
-                st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
-                st.write(pipeline.named_steps)
+                #st.write("Classes do modelo:", pipeline.classes_)
+                #st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                #st.write(pipeline.named_steps)
                 try:
                     # 4. Faz a previsão (o imputer vai lidar com quaisquer valores faltantes)
                     prediction = pipeline.predict(input_data)[0]
@@ -607,26 +631,15 @@ elif pagina == "🔮 Fazer Previsão":
                 st.subheader("📊 Resultado da Previsão")
                 
                 if prediction == 1:
-                    st.success(f"## Alto Engajamento ({proba:.1%} de confiança)")
-                    st.balloons()
+                    st.success(f"## Alto Engajamento ({proba:.2%} de probabilidade)")
+                    #st.balloons()
                 else:
-                    st.warning(f"## Baixo Engajamento ({(1-proba):.1%} de confiança)")
+                    st.warning(f"## Baixo Engajamento ({(1-proba):.2%} de probabilidade)")
                 
-                # Gráfico de probabilidade
-                fig, ax = plt.subplots(figsize=(8, 2))
-                ax.barh(['Probabilidade'], [proba], color='#4ECDC4' if prediction == 1 else '#FF6B6B')
-                ax.set_xlim(0, 1)
-                ax.axvline(0.5, color='gray', linestyle='--')
-                st.pyplot(fig)
-                # Após fazer a previsão
-                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
-                st.info("""
-                Possíveis soluções:
-                1. Recrie o modelo garantindo que 'EngagementLevel' seja apenas a target
-                2. Verifique se todas as features estão na ordem correta
-                """)
+                
 # Rodapé
 st.markdown("---")
 st.caption("Desenvolvido com base nas análises de pré-processamento do notebook disponíveis no [GitHub](https://github.com/thaisar13/Game-Engagement-Level)")
