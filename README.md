@@ -33,7 +33,7 @@ GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
 | **F1-Score** | 0.88  | **"Harmonia" entre precisão e recall** - Pontuação balanceada considerando ambos os aspectos |
 | **Acurácia** | 0.87  | **Acertos totais** - Percentual geral de classificações corretas              |
 | **Precisão** | 0.84  | **Confiança nos positivos** - Quando prevê "Alto Engajamento", acerta 83% das vezes |
-| **Recall**   | 0.92  | **Cobertura de positivos** - Detecta 93% dos casos reais de Alto Engajamento  |
+| **Sencibilidade**   | 0.92  | **Cobertura de positivos** - Detecta 93% dos casos reais de Alto Engajamento  |
 
 
 ## 💡 Conhecendo o Gradient Boosting Classifier
@@ -105,5 +105,4 @@ Note que embora o Ada Boost Classifier tenha apresentado o melhor resultado para
 
 ## 🚀 Experimente Agora!
 Acesse a versão interativa do modelo:  
-[![Streamlit App](https://nivelengajamentojogo.streamlit.app)]
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://nivelengajamentojogo.streamlit.app).
