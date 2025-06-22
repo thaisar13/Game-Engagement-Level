@@ -399,26 +399,21 @@ elif pagina == "🤖 Modelo Preditivo":
             model = joblib.load('model.pkl')
             st.success("✅ Modelo carregado com sucesso!")
             
-            st.header("Significado das Métricas")
-    
             st.markdown("""
+            ### Significado das Métricas
             
             **Interpretação:**  
             
             O modelo demonstra um **bom desempenho geral** (Acurácia de 87%), com destaque para sua capacidade de:  
             
-                - **Capturar casos Positivos**: Alta Sencibilidade (92%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
-            
-                - **Distinguir Classes**: AUC (Área sib a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
-            
-                - **Equilíbrio**: F1-Score (88%) mostra boa harmonia entre Precisão e Recall  
-            
-                - **Chance de Erro**: Precisão (84%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
-                sobreposição natural nos padrões de engajamento e das variáveis preditoras apresentarem um poder limitado de discriminação  
-            
+            - **Capturar casos Positivos**: Alta Sencibilidade (92%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
+            - **Distinguir Classes**: AUC (Área sib a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
+            - **Equilíbrio**: F1-Score (88%) mostra boa harmonia entre Precisão e Recall  
+            - **Chance de Erro**: Precisão (84%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
+            sobreposição natural nos padrões de engajamento e das variáveis preditoras apresentarem um poder limitado de discriminação  
             """)
             
-            st.header("Importância das Variáveis")
+            st.markdown(""" ### Importância das Variáveis""")
 
             feature_importance = pd.DataFrame({
                 'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
