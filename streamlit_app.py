@@ -475,17 +475,34 @@ elif pagina == "🤖 Modelo Preditivo":
         with col1:
             st.markdown("""
             ### 🧠 Como Funciona?
-            1. **Árvores Sequenciais**:  
-               Cria uma série de árvores de decisão pequenas (weak learners)
-            2. **Correção de Erros**:  
-               Cada nova árvore foca nos resíduos (erros) da anterior
-            3. **Combinação Ponderada**:  
-               Resultado final é a soma das previsões de todas as árvores
-            """)
             
-            # st.image("https://miro.medium.com/v2/resize:fit:1400/1*_kqsmyUwK8v1gKi0tRGsCQ.gif", 
-            #          caption="Fonte: Medium - Gradient Boosting em ação")
-        
+            #### 🌱 **Passo Inicial - Base Simples**
+            - Começa com um "palpite" básico (ex: média dos valores)
+            - Esta será a fundação para os ajustes posteriores
+            
+            #### 🔄 **Processo Iterativo - Aprendizado com Erros**
+            1. **Primeira Árvore**:
+               - Analisa os erros do palpite inicial
+               - Cria regras simples para corrigi-los parcialmente
+            
+            2. **Árvores Seguintes**:
+               - Cada nova árvore foca **exclusivamente** nos erros restantes
+               - Como um professor que adapta suas aulas baseado nas dúvidas dos alunos
+            
+            #### ⚖️ **Controle de Ajustes**
+            - **Tamanho do Passo**: Cada árvore corrige só um pouco (evita mudanças bruscas)
+            - **Profundidade**: Árvores pequenas (stumps) mantêm o modelo generalizável
+            
+            #### ✨ **Resultado Final - Soma Inteligente**
+            - Combina todas as mini-correções das árvores
+            - Cada contribuição é ponderada pela taxa de aprendizado
+            
+            #### 🌟 **Vantagens Chave**
+            - Foco automático nos casos mais difíceis
+            - Adaptável a problemas de regressão e classificação
+            - Resistente a overfitting
+            
+            """)
         with col2:
 
             st.markdown("""
@@ -523,7 +540,7 @@ elif pagina == "🤖 Modelo Preditivo":
             (refletido pelo AUC mais alto) é preferível.
             
             """, unsafe_allow_html=True)
-            st.success(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
+            st.note(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
@@ -619,7 +636,7 @@ elif pagina == "🔮 Fazer Previsão":
                     prediction = pipeline.predict(input_data)[0]
                     proba = pipeline.predict_proba(input_data)[0][1]
                     
-                    st.success(f"Previsão: {prediction} (Probabilidade: {proba:.2%})")
+                    #st.success(f"Previsão: {prediction} (Probabilidade: {proba:.2%})")
                     
                 except Exception as e:
                     st.error(f"Erro na previsão: {str(e)}")
