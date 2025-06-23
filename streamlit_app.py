@@ -397,7 +397,7 @@ elif pagina == "🤖 Modelo Preditivo":
         st.header("🔍 Interpretação do Modelo")
         try:
             model = joblib.load('model.pkl')
-            st.success("✅ Modelo carregado com sucesso!")
+            #st.success("✅ Modelo carregado com sucesso!")
             
             st.markdown("""
             ### Significado das Métricas
@@ -476,11 +476,11 @@ elif pagina == "🤖 Modelo Preditivo":
             st.markdown("""
             ### 🧠 Como Funciona?
             
-            #### 🌱 **Passo Inicial - Base Simples**
+            ##### 🌱 **Passo Inicial - Base Simples**
             - Começa com um "palpite" básico (ex: média dos valores)
             - Esta será a fundação para os ajustes posteriores
             
-            #### 🔄 **Processo Iterativo - Aprendizado com Erros**
+            ##### 🔄 **Processo Iterativo - Aprendizado com Erros**
             1. **Primeira Árvore**:
                - Analisa os erros do palpite inicial
                - Cria regras simples para corrigi-los parcialmente
@@ -489,15 +489,15 @@ elif pagina == "🤖 Modelo Preditivo":
                - Cada nova árvore foca **exclusivamente** nos erros restantes
                - Como um professor que adapta suas aulas baseado nas dúvidas dos alunos
             
-            #### ⚖️ **Controle de Ajustes**
+            ##### ⚖️ **Controle de Ajustes**
             - **Tamanho do Passo**: Cada árvore corrige só um pouco (evita mudanças bruscas)
             - **Profundidade**: Árvores pequenas (stumps) mantêm o modelo generalizável
             
-            #### ✨ **Resultado Final - Soma Inteligente**
+            ##### ✨ **Resultado Final - Soma Inteligente**
             - Combina todas as mini-correções das árvores
             - Cada contribuição é ponderada pela taxa de aprendizado
             
-            #### 🌟 **Vantagens Chave**
+            ##### 🌟 **Vantagens Chave**
             - Foco automático nos casos mais difíceis
             - Adaptável a problemas de regressão e classificação
             - Resistente a overfitting
