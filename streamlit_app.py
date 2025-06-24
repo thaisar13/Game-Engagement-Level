@@ -390,7 +390,7 @@ elif pagina == "🤖 Modelo Preditivo":
       - AUC: 92%
     """)
     
-    tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Gradient Boosting?"])
+    tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Ada Boost Classifier?"])
     
     with tab1:
         st.header("🔍 Interpretação do Modelo")
@@ -419,7 +419,7 @@ elif pagina == "🤖 Modelo Preditivo":
                  #           'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
                   #          'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
                 #'Importance': [0.98, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-                'Feature': ['Age',
+                'Variável': ['Age',
                             'PlayTimeHours',
                             'SessionsPerWeek',
                             'PlayerLevel',
@@ -427,7 +427,7 @@ elif pagina == "🤖 Modelo Preditivo":
                             'GameDifficulty_Hard',
                             'GameDifficulty_Medium',
                             'Gender_Male'],
-                'Importance': [ 0.06,
+                'Importância': [ 0.06,
                                 0.12,
                                 0.6,
                                 0.1,
@@ -446,7 +446,7 @@ elif pagina == "🤖 Modelo Preditivo":
             #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
 
             fig, ax = plt.subplots(figsize=(10,5))
-            sns.barplot(data=feature_importance, x='Importância', y='Feature', palette='viridis')
+            sns.barplot(data=feature_importance, x='Importância', y='Variável', palette='viridis')
             st.pyplot(fig)
             
             st.markdown(""" 
@@ -463,7 +463,7 @@ elif pagina == "🤖 Modelo Preditivo":
 
     with tab2:
         # Seção 3: Conhecendo o Gradient Boosting
-        st.header("🎯 Quem é o Ada Boosting?")
+        st.header("🎯 Quem é o Ada Boost Classifier?")
         st.markdown("""
         <div style="text-align: justify">
         O <strong>Gradient Boosting Classifier</strong> é como um time de especialistas trabalhando em equipe, onde cada novo membro 
