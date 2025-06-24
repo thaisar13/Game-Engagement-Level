@@ -415,7 +415,7 @@ elif pagina == "🤖 Modelo Preditivo":
             
             st.markdown(""" ### Importância das Variáveis""")
 
-            feature_importance = pd.DataFrame({
+            feature_importance1 = pd.DataFrame({
                 #'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
                  #           'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
                   #          'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
