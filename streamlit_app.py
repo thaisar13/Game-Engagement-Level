@@ -640,6 +640,8 @@ elif pagina == "🔮 Fazer Previsão":
                 st.write("Classes do modelo:", pipeline.classes_)
                 st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
                 st.write(pipeline.named_steps)
+                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+
                 try:
                     # 4. Faz a previsão (o imputer vai lidar com quaisquer valores faltantes)
                     prediction = pipeline.predict(input_data)[0]
