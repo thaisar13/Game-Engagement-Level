@@ -319,8 +319,8 @@ elif pagina == "⚙️ Pré-processamento":
         Foram removidas as seguintes variáveis:
         - **PlayerID:** Identificador único sem valor preditivo
         - **AvgSessionDurationMinutes:** Eliminada para evitar multicolinearidade com `SessionsPerWeek` e `PlayTimeHours`
-        - **Gender e Location:** Removidas após análise de importância de features por piorarem decimalmente o desempenho dos modelos testados
         """)
+        #- **Gender e Location:** Removidas após análise de importância de features por piorarem decimalmente o desempenho dos modelos testados
 
         st.markdown("""
         ### 2. Transformação de Variáveis
@@ -331,12 +331,12 @@ elif pagina == "⚙️ Pré-processamento":
 
         **Variáveis Categóricas (One-Hot Encoding):**
         ```python
-        pd.get_dummies(columns=['GameGenre', 'GameDifficulty', 'InGamePurchases'], 
-                      drop_first=True)
+        pd.get_dummies(columns=['GameGenre', 'GameDifficulty', 'InGamePurchases', 
+                                'Gender', 'Location'], drop_first=True)
         ```
-        - **Estratégia:** `drop_first=True` para evitar a armadilha da variável dummy
         - **Resultado:** Adição de {} novas colunas
-        """.format(len(dados_prep.columns) - 8))  # Ajuste o número conforme suas variáveis
+        """.format(len(dados_prep.columns)))  # Ajuste o número conforme suas variáveis
+        #- **Estratégia:** `drop_first=True` para evitar a armadilha da variável dummy
 
         st.markdown("""
         **Variáveis Numéricas:**
@@ -628,9 +628,9 @@ elif pagina == "🔮 Fazer Previsão":
                 
                 # 3. Garante a ordem correta das colunas
                 input_data = input_data[pipeline.named_steps['actual_estimator'].feature_names_in_]
-                #st.write("Classes do modelo:", pipeline.classes_)
-                #st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
-                #st.write(pipeline.named_steps)
+                st.write("Classes do modelo:", pipeline.classes_)
+                st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                st.write(pipeline.named_steps)
                 try:
                     # 4. Faz a previsão (o imputer vai lidar com quaisquer valores faltantes)
                     prediction = pipeline.predict(input_data)[0]
@@ -653,7 +653,7 @@ elif pagina == "🔮 Fazer Previsão":
                 else:
                     st.warning(f"## Baixo Engajamento ({(1-proba):.2%} de probabilidade)")
                 
-                #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 
