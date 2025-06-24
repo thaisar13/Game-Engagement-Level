@@ -175,6 +175,13 @@ if pagina == "🏠 Visão Geral":
             
     with tab3:
         st.markdown("""
+        **Váriaveis Descartadas:**
+        1. PlayerID
+        2. AvgSessionDurationMinutes
+        3. GameGenre
+        4. InGamePurchases
+        5. Location
+
         **Principais Features:**
         1. SessionsPerWeek (Importância: 60%)
         2. PlayTimeHours (12%)
@@ -207,6 +214,75 @@ elif pagina == "🔍 Análise Exploratória":
             st.metric("Variáveis Originais", len(dados_vis.columns))
     
     if dados_vis is not None:
+
+        st.header("Seleção das Variáveis")
+        # Gráfico Univariado
+        st.sidebar.subheader("Gráfico Univariado")
+        var_univariada = st.sidebar.selectbox(
+            "Selecione a variável para análise univariada:",
+            options=['Age', 'PlayTimeHours', 'SessionsPerWeek', 'Gender',
+                     'PlayerLevel', 'AchievementsUnlocked', 'GameDifficulty'],
+            index=0
+        )
+        
+        # Gráfico Bivariado
+        st.sidebar.subheader("Gráfico Bivariado")
+        var_x = st.sidebar.selectbox(
+            "Selecione a variável para o eixo X:",
+            options=['Age', 'PlayTimeHours', 'SessionsPerWeek', 'Gender',
+                     'PlayerLevel', 'AchievementsUnlocked', 'GameDifficulty'],
+            index=0
+        )
+        
+        var_y = st.sidebar.selectbox(
+            "Selecione a variável para o eixo Y:",
+            options=['Age', 'PlayTimeHours', 'InGamePurchases', 'SessionsPerWeek', 
+                     'AvgSessionDurationMinutes', 'PlayerLevel', 'AchievementsUnlocked'],
+            index=1
+        )
+        
+        # Layout dos gráficos
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader(f"Distribuição de {var_univariada} por Engajamento")
+            
+            # Usando Plotly para interatividade
+            fig = px.histogram(dados_vis, x=var_univariada, color="EngagementLevel",
+                               nbins=30, barmode="overlay",
+                               title=f"Distribuição de {var_univariada}",
+                               opacity=0.7,
+                               color_discrete_map={
+                                   "High": "#2ca02c",
+                                   "Medium": "#ff7f0e",
+                                   "Low": "#d62728"
+                               })
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.subheader(f"Relação entre {var_x} e {var_y} por Engajamento")
+            
+            # Gráfico de dispersão com Plotly
+            fig2 = px.scatter(dados_vis, x=var_x, y=var_y, color="EngagementLevel",
+                              title=f"{var_x} vs {var_y}",
+                              opacity=0.6,
+                              color_discrete_map={
+                                  "High": "#2ca02c",
+                                  "Medium": "#ff7f0e",
+                                  "Low": "#d62728"
+                              },
+                              hover_data=['PlayerID'])  # Mostra ID ao passar o mouse
+            st.plotly_chart(fig2, use_container_width=True)
+        
+        # Explicação abaixo dos gráficos
+        st.markdown("""
+        **Como usar esta análise:**
+        - No gráfico à esquerda: Compare como cada nível de engajamento se distribui para uma variável específica
+        - No gráfico à direita: Explore relações entre pares de variáveis numéricas
+        - Passe o mouse sobre os pontos para ver detalhes
+        - Use os menus laterais para selecionar diferentes variáveis
+        """)
+        
         st.header("Distribuição de Engajamento")
         
         # Gráfico de barras 
