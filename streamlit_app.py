@@ -53,7 +53,7 @@ def load_data():
         # Criar versão para visualização (remove colunas não usadas)
         cols_to_keep = ['Age', 'SessionsPerWeek', 'PlayTimeHours', 
                        'AchievementsUnlocked', 'PlayerLevel', 'EngagementLevel',
-                       'GameGenre', 'GameDifficulty', 'InGamePurchases']
+                        'GameDifficulty']
         
         dados_vis = dados[cols_to_keep].copy()
         
@@ -113,20 +113,19 @@ if pagina == "🏠 Visão Geral":
     tab1, tab2, tab3 = st.tabs(["📊 Métricas", "🧠 Modelagem", "⚙️ Engenharia de Features"])
     
     with tab1:
-        st.subheader("Desempenho do Modelo (Gradient Boosting)")
+        st.subheader("Desempenho do Modelo (Ada Boost Classifier)")
         col1, col2, col3, col4 = st.columns(4)
         
         col1.metric("F1-Score", "0.88", help="Métrica balanceada entre precisão e recall")
         col2.metric("Acurácia", "0.87", help="Percentual total de acertos")
-        col3.metric("Precisão", "0.84", help="Quando prevê Alto Engajamento, acerta 84%")
-        col4.metric("Recall", "0.92", help="Identifica 92% dos casos reais de Alto Engajamento")
-        
-
+        col3.metric("Precisão", "0.83", help="Quando prevê Alto Engajamento, acerta 84%")
+        col4.metric("Sencibilidade", "0.93", help="Identifica 92% dos casos reais de Alto Engajamento")
+          
     with tab2:
         st.markdown("""
         **Processo de Modelagem:**
         1. **Pré-processamento:** Filtragem, codificação e normalização
-        2. **Seleção de Modelos:** Comparação de 15 algoritmos via PyCaret (seleciondo o Gradient Boosting)
+        2. **Seleção de Modelos:** Comparação de 15 algoritmos via PyCaret (seleciondo o Ada Boos Classifier)
         3. **Tunagem:** Otimização de hiperparâmetros para melhor F1-Score
         4. **Validação:** Teste com holdout de 25% dos dados
         
@@ -135,28 +134,28 @@ if pagina == "🏠 Visão Geral":
         # Dados da tabela
         data = {
             "Model": [
-                "Gradient Boosting Classifier",
                 "Ada Boost Classifier",
+                "Gradient Boosting Classifier",
                 "Light Gradient Boosting Machine",
-                "Random Forest Classifier",
                 "Ridge Classifier",
                 "Linear Discriminant Analysis",
+                "Random Forest Classifier",
                 "Naive Bayes",
                 "Quadratic Discriminant Analysis",
                 "Logistic Regression",
-                "SVM - Linear Kernel",
                 "Extra Trees Classifier",
+                "SVM - Linear Kernel",
                 "Extreme Gradient Boosting",
                 "K Neighbors Classifier",
                 "Decision Tree Classifier",
                 "Dummy Classifier"
             ],
-            "F1-Score": [0.8784, 0.8792, 0.8772, 0.8765, 0.8760, 0.8760, 0.8748, 0.8745, 0.8734, 0.8721, 0.8714, 0.8677, 0.8548, 0.7823, 0.6669],
-            "Acurácia": [0.8720, 0.8718, 0.8712, 0.8705, 0.8716, 0.8716, 0.8709, 0.8705, 0.8700, 0.8667, 0.8663, 0.8624, 0.8499, 0.7826, 0.5003],
-            "Precisão": [0.8371, 0.8323, 0.8390, 0.8382, 0.8477, 0.8477, 0.8493, 0.8493, 0.8516, 0.8388, 0.8399, 0.8362, 0.8284, 0.7837, 0.5003],
-            "Recall": [0.9241, 0.9316, 0.9192, 0.9185, 0.9063, 0.9063, 0.9020, 0.9012, 0.8965, 0.9084, 0.9053, 0.9018, 0.8831, 0.7813, 1.0000]
+            "F1-Score": [0.8792, 0.8776, 0.8767, 0.8759, 0.8759, 0.8755, 0.8743, 0.8735, 0.8723, 0.8705, 0.8680, 0.8679, 0.8540, 0.7823, 0.6669],
+            "Acurácia": [0.8719, 0.8711, 0.8707, 0.8716, 0.8716, 0.8696, 0.8703, 0.8696, 0.8689, 0.8651, 0.8663, 0.8628, 0.8491, 0.7840, 0.5003],
+            "Precisão": [0.8324, 0.8365, 0.8381, 0.8478, 0.8478, 0.8382, 0.8491, 0.8485, 0.8510, 0.8378, 0.8397, 0.8373, 0.8278, 0.7866, 0.5003],
+            "Sensibilidade": [0.9316, 0.9230, 0.9192, 0.9060, 0.9060, 0.9164, 0.9011, 0.9002, 0.8947, 0.9058, 0.8985, 0.9011, 0.8821, 0.7799, 1.0000]
         }
-        
+
         df = pd.DataFrame(data)
         
         st.write("Tabela comparativa de desempenho (sem AUC, Kappa, MCC e Tempo de Treinamento)")
@@ -177,9 +176,10 @@ if pagina == "🏠 Visão Geral":
     with tab3:
         st.markdown("""
         **Principais Features:**
-        1. SessionsPerWeek (Importância: 98%)
-        2. PlayerLevel (2%)
-        3. AchievementsUnlocked (2%)
+        1. SessionsPerWeek (Importância: 60%)
+        2. PlayTimeHours (12%)
+        3. PlayerLevel (10%)
+        4. AchievementsUnlocked (10%)
         
         **Transformações:**
         - One-Hot Encoding nas variáveis categóricas
@@ -190,20 +190,6 @@ if pagina == "🏠 Visão Geral":
     st.markdown("---")
     st.success("💡 **Explore as outras seções para análises detalhadas e simulações de previsão!**")
 
-#```{python}
-        #GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
-        #                           learning_rate=0.001, loss='log_loss', max_depth=6,
-       #                            max_features='log2', max_leaf_nodes=None,
-      #                             min_impurity_decrease=0.0005, min_samples_leaf=3,
-     #                              min_samples_split=4, min_weight_fraction_leaf=0.0,
-    #                               n_estimators=60, n_iter_no_change=None,
-   #                                random_state=42, subsample=0.95, tol=0.0001,
-  #                                 validation_fraction=0.1, verbose=0,
- #                                  warm_start=False)
-#```
-
- 
-    
 
 # Página 2: Análise Exploratória
 elif pagina == "🔍 Análise Exploratória":
@@ -237,10 +223,7 @@ elif pagina == "🔍 Análise Exploratória":
             ax.text(i, v + 5, str(v), ha='center', va='bottom', fontsize=12)
         st.pyplot(fig)
 
-        st.markdown(""" Embora este seja o único gráfico apresentado, todas as variáveis categóricas analisadas seguem o mesmo padrão de distribuição, 
-        mantendo uma proporcionalidade equilibrada entre suas categorias que reflete quase que diretamente a quantidade de observações em cada classe.
-        """)
-        
+       
         st.markdown("---")
         st.header("Relação Idade vs Tempo de Jogo")
         
@@ -248,7 +231,7 @@ elif pagina == "🔍 Análise Exploratória":
         fig, ax = plt.subplots(figsize=(12, 7))
         scatter = sns.scatterplot(
             data=dados_vis, 
-            x='Age', 
+            x='SessionsPerWeek', 
             y='PlayTimeHours', 
             hue='EngagementLevel',
             palette={'Low': '#FF6B6B', 'High': '#4ECDC4'},
@@ -260,16 +243,11 @@ elif pagina == "🔍 Análise Exploratória":
         handles, labels = ax.get_legend_handles_labels()
         ax.legend(handles, ['Baixo (Low)', 'Alto (High)'], title='Engajamento')
         # Adicionando título e rótulos
-        ax.set_title('Relação entre Idade e Tempo de Jogo por Nível de Engajamento', pad=20)
-        ax.set_xlabel('Idade (anos)')
+        ax.set_title('Relação entre Seções por Semana e Tempo de Jogo por Nível de Engajamento', pad=20)
+        ax.set_xlabel('Seções por Semana')
         ax.set_ylabel('Horas Jogadas por Semana')
         st.pyplot(fig)
-        
-        st.markdown(""" Novamente, embora tenhamos destacado apenas este gráfico específico, todas as análises entre variáveis contínuas revelaram o mesmo padrão: 
-        uma dispersão aleatória de pontos que não indica qualquer correlação significativa entre as variáveis analisadas nem com os níveis de engajamento dos 
-        jogadores.
-        """)
-        
+
         st.markdown("---")
         st.subheader("Matriz de Correlação")
         
@@ -291,11 +269,42 @@ elif pagina == "🔍 Análise Exploratória":
         # Ajustando o título
         ax.set_title('Correlação entre Variáveis Numéricas', pad=20)
         st.pyplot(fig)
+
+        st.markdown("---")
+        st.subheader("Interpretações Gerais")
         
-        st.markdown(""" As correlações entre as variáveis numéricas são notavelmente fracas (próximas de zero em vários casos), o que explica diretamente sua baixa 
-        importância no modelo de classificação do engajamento dos jogadores.
+        st.markdown("""
+        ### 📊 Análise das Variáveis Categóricas
+        **Observação**: *Apenas um gráfico representativo é exibido, mas o padrão se repete para todas as variáveis categóricas.*
+        
+        - Todas as variáveis categóricas apresentam distribuição equilibrada entre categorias
+        - Proporcionalidade reflete diretamente a quantidade de observações em cada classe
+        - **Implicação**: 
+          - Nenhuma categoria domina excessivamente os dados
+          - Distribuição uniforme pode dificultar identificação de padrões de engajamento
         """)
-    
+        
+        st.markdown("""
+        ### 📈 Análise das Variáveis Contínuas
+        **Observação**: *Mostramos apenas um gráfico de dispersão exemplar, porém todas as análises seguiram o mesmo padrão.*
+        
+        - Dispersão aleatória de pontos em todos os casos analisados
+        - Nenhuma correlação visual significativa entre variáveis ou com o engajamento
+        - **Implicação**:
+          - Relações lineares aparentemente ausentes
+          - Necessidade de investigar possíveis padrões não-lineares
+        """)
+        
+        st.markdown("""
+        ### 🔍 Análise de Correlação Numérica
+        
+        - Correlações geralmente próximas de zero
+        - Ausência de relações lineares fortes entre features
+        - **Implicação**:
+          - Desafio para modelos lineares tradicionais
+          - Oportunidade para algoritmos que capturam relações complexas
+        """)
+        
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
     st.title("⚙️ Pré-processamento dos Dados")
@@ -303,17 +312,7 @@ elif pagina == "⚙️ Pré-processamento":
     
     if dados_prep is not None:
         st.header("Transformações Aplicadas")
-        #st.markdown("""
-        ### 1. Filtragem Inicial
-       # - **Seleção de categorias:** Mantivemos apenas os níveis 'Low' e 'High' de engajamento
-        #- **Justificativa:** A categoria 'Medium' foi excluída para criar um problema de classificação binária mais definido
-        #- **Resultado:** Redução de {:.1%} no volume de dados (de {} para {} registros)
-        #""".format(
-        #    1 - len(dados_prep)/len(dados_orig),
-        #    len(dados_orig),
-        #    len(dados_prep)
-        #)
-
+      
         st.markdown("""
         ### 1. Seleção de Features
         Foram removidas as seguintes variáveis:
@@ -374,22 +373,22 @@ elif pagina == "⚙️ Pré-processamento":
 
 # Página 4: Modelo Preditivo
 elif pagina == "🤖 Modelo Preditivo":
-    st.title("🤖 Modelo Preditivo: Gradient Boosting")
+    st.title("🤖 Modelo Preditivo: Ada Boost Classifier")
     st.markdown("---")
 
     st.header("Metodologia")
     st.markdown("""
     - **Framework:** PyCaret
-    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score, seguido do melhor desempenho geral entre as métricas e desempatada pela AUC
-    - **Melhor Modelo:** Gradient Boosting Classifier (tunado após seleção)
+    - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score, seguido do melhor desempenho geral entre as métricas
+    - **Melhor Modelo:** Ada Boost Classifier (tunado após seleção)
     - **Métricas:**
       - Acurácia: 87%
-      - Sencibilidade: 92%
-      - Precisão: 84%
+      - Sencibilidade: 93%
+      - Precisão: 83%
       - F1-Score: 88%
       - AUC: 92%
     """)
-    
+
     tab1, tab2 = st.tabs(["🔍 Interpretação do Modelo", "🎯 Quem é o Ada Boost Classifier?"])
     
     with tab1:
@@ -405,10 +404,10 @@ elif pagina == "🤖 Modelo Preditivo":
             
             O modelo demonstra um **bom desempenho geral** (Acurácia de 87%), com destaque para sua capacidade de:  
             
-            - **Capturar casos Positivos**: Alta Sencibilidade (92%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
+            - **Capturar casos Positivos**: Alta Sencibilidade (93%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
             - **Distinguir Classes**: AUC (Área sib a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
             - **Equilíbrio**: F1-Score (88%) mostra boa harmonia entre Precisão e Recall  
-            - **Chance de Erro**: Precisão (84%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
+            - **Chance de Erro**: Precisão (83%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
             sobreposição natural nos padrões de engajamento e das variáveis preditoras apresentarem um poder limitado de discriminação  
             """)
             
@@ -450,11 +449,13 @@ elif pagina == "🤖 Modelo Preditivo":
             st.pyplot(fig)
             
             st.markdown(""" 
-            Com o gráfico acima é possível notar que a variável 'SessionsPerWeek' é a que possui a maior importância para a classificar se o jogador apresenta um 
-            alto ou ou baixo nível de engajamento, apresentando sozinha 60% da tomada de decisão. Já os outros 40% são definidos pelas variáveis 'Age',
-            'PlayTimeHours', 'PlayerLevel', 'AchievementsUnlocked' e a variável dummy 'Gender_Male', sendo ela a de menor importância. Por fim as variáveis dummy 
-            'GameDifficulty_Hard' e 'GameDifficulty_Medium' não apresentam relevância para a classificação, contudo a retirada da variável 'GameDifficulty' resultou
-            em um acumulo da importância de 100% na variável 'SessionPerWeek', e por esse motivo optou-se por sua inclusão.
+            A análise de importância de variáveis revela que 'SessionsPerWeek' é o preditor mais relevante, respondendo por 60% do poder explicativo do modelo, 
+            indicando que a frequência de sessões é o fator determinante para classificar o engajamento. As demais variáveis ('Age', 'PlayTimeHours', 
+            'PlayerLevel', 'AchievementsUnlocked' e 'Gender_Male') compartilham os 40% restantes de importância, com 'Gender_Male' sendo a menos influente. 
+            Embora as dummies 'GameDifficulty_Hard' e 'GameDifficulty_Medium' não apresentem contribuição significativa individualmente, 
+            sua inclusão se mostrou necessária, pois a remoção da variável 'GameDifficulty' causou superconcentração de importância (100%) em 'SessionsPerWeek', 
+            sugerendo que essas categorias atuam como reguladores da importância da variável principal, garantindo uma distribuição mais equilibrada do poder 
+            preditivo entre as features.
             """)
     
             
@@ -470,7 +471,6 @@ elif pagina == "🤖 Modelo Preditivo":
         aprende com os erros dos anteriores. Veja como ele se destaca:
         </div>
         """, unsafe_allow_html=True)
-        
         # Explicação visual em colunas
         col1, col2 = st.columns([1, 1])
         
@@ -479,30 +479,30 @@ elif pagina == "🤖 Modelo Preditivo":
             ### 🧠 Como Funciona?
             
             ##### 🌱 **Passo Inicial - Base Simples**
-            - Começa com um "palpite" básico (ex: média dos valores)
-            - Esta será a fundação para os ajustes posteriores
+            - Começa com um modelo fraco (ex: árvore de decisão rasa - stump)
+            - Todos os exemplos têm peso igual inicialmente
             
             ##### 🔄 **Processo Iterativo - Aprendizado com Erros**
-            1. **Primeira Árvore**:
-               - Analisa os erros do palpite inicial
-               - Cria regras simples para corrigi-los parcialmente
+            1. **Primeira Iteração**:
+               - O stump faz predições iniciais
+               - Erros são identificados e os exemplos mal classificados recebem mais peso
             
-            2. **Árvores Seguintes**:
-               - Cada nova árvore foca **exclusivamente** nos erros restantes
-               - Como um professor que adapta suas aulas baseado nas dúvidas dos alunos
+            2. **Iterações Seguintes**:
+               - Cada novo stump foca nos exemplos mais difíceis (com maior peso)
+               - Modelos subsequentes "herdam" os erros corrigidos anteriormente
             
-            ##### ⚖️ **Controle de Ajustes**
-            - **Tamanho do Passo**: Cada árvore corrige só um pouco (evita mudanças bruscas)
-            - **Profundidade**: Árvores pequenas (stumps) mantêm o modelo generalizável
+            ##### ⚖️ **Mecanismo de Peso**
+            - **Peso dos Exemplos**: Aumenta para casos mal classificados
+            - **Peso dos Modelos**: Stumps mais precisos têm maior influência no voto final
             
-            ##### ✨ **Resultado Final - Soma Inteligente**
-            - Combina todas as mini-correções das árvores
-            - Cada contribuição é ponderada pela taxa de aprendizado
+            ##### ✨ **Resultado Final - Voto Ponderado**
+            - Combina todas as previsões dos stumps
+            - Cada contribuição é ponderada pela precisão do modelo
             
             ##### 🌟 **Vantagens Chave**
             - Foco automático nos casos mais difíceis
-            - Adaptável a problemas de regressão e classificação
-            - Resistente a overfitting
+            - Simples e eficaz para problemas binários
+            - Menos propenso a overfitting que algoritmos complexos
             
             """)
         with col2:
@@ -510,71 +510,80 @@ elif pagina == "🤖 Modelo Preditivo":
             st.markdown("""
             ### 🏆 Critério de Seleção do Modelo
             
-            O modelo foi selecionado através de uma análise comparativa das métricas de desempenho, considerando inicialmente os **5 melhores modelos com base no F1-Score**. Foi atribuído um sistema de pontuação por posição:
+            O modelo foi selecionado através de uma análise comparativa das métricas de desempenho, considerando inicialmente os **3 melhores modelos com base no F1-Score**. 
+            Foi atribuído um sistema de pontuação por posição:
             
             - <b>1º lugar</b> em cada métrica: <b>+2 pontos</b>
             - <b>2º lugar</b>: <b>+1 ponto</b>
-            
-            <br>
-            
-            Após essa avaliação, os dois melhores modelos ficaram <b>empatados com 5 pontos cada</b>:
+                        
+            Após essa avaliação, os três melhores modelos ficaram com:
             
             <div style="margin-left: 20px;">
             
-            <b>1. AdaBoost Classifier</b>  
+            <b>1. Ada Boost Classifier: (7 ponttos)</b>  
                - 🥇 <b>Melhor desempenho</b> em:  
-                 • F1-Score  
-                 • Sensibilidade (Recall)  
-               - 🥈 <b>Segunda melhor</b> acurácia  
+                 • F1-Score
+                 • Acurácia
+                 • Sencibilidade  
+               - 🥈 <b>Segunda melhor</b> em:
+                 • Área sob a Curva ROC
             
-            <b>2. Gradient Boosting</b>  
+            <b>2. Gradient Boosting Classifier (6 pontos)</b>  
                - 🥇 <b>Melhor desempenho</b> em:  
-                 • Acurácia  
+                 • Área sob a Curva ROC
                - 🥈 <b>Segundo melhor</b> em:  
-                 • AUC  
-                 • Sensibilidade (Recall)  
-                 • F1-Score  
+                 • F1-Score
+                 • Acurácia
+                 • Sencibilidade
+                 • Precisão
+                 
+            <b>3. Light Gradient Boosting Machine (2 pontos)</b>  
+               - 🥇 <b>Melhor desempenho</b> em:  
+                 • Precisão
+
             </div>
             
-            <h4>Critério de Desempate</h4>
-            Como fator decisivo, foi considerado o <b>maior valor de AUC</b> (Area Under the Curve) do <i>Gradient Boosting</i>, uma vez que a variável resposta
-            <b>não apresenta limites bem definidos entre suas categorias</b>. Nesse contexto, um modelo com maior capacidade de <b>distinguir as classes</b> 
-            (refletido pelo AUC mais alto) é preferível.
+            <h4>Critério de Seleção Final</h4>
+            Outro fator que influenciou na escolha do AdaBoost Classifier foi a distribuição de importância das variáveis. No Gradient Boosting Classifier, 
+            a variável 'SessionsPerWeek' apresentava 97% de importância, reduzindo 'PlayTimeHour' a uma relevância quase nula - um padrão inadequado, pois: 
+            um jogador pouco engajado pode ter várias sessões semanais mas com poucas horas jogadas em cada, enquanto um jogador altamente engajado pode 
+            acumular muitas horas de jogo em poucas sessões prolongadas. O AdaBoost, ao distribuir melhor essa importância, captura essa nuance comportamental 
+            de forma mais equilibrada.
+
             
             """, unsafe_allow_html=True)
-            st.info(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro. A escolha final priorizou a robustez na discriminação das categorias.**")
+            st.info(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro.**")
+                
         # Detalhes técnicos com expansor
         with st.expander("🧮 A Matemática por Trás", expanded=False):
             st.markdown("""
-            **Função Objetivo**:
+            **Fórmula de Atualização de Pesos**:
             ```
-            F(x) = γ₁h₁(x) + γ₂h₂(x) + ... + γₙhₙ(x)
+            w_i ← w_i * exp(α_t * I(y_i ≠ h_t(x_i)))
             ```
             Onde:
-            - `hₙ(x)`: Árvore individual (weak learner)
-            - `γₙ`: Peso de cada árvore (aprendido durante o treino)
+            - `α_t`: Peso do classificador (baseado em sua precisão)
+            - `h_t(x_i)`: Predição do stump no passo t
+            - `I()`: Função indicadora (1 se erro, 0 se correto)
             
             **Passo a Passo**:
-            1. Inicia com predição ingênua (média)
-            2. Calcula resíduos (erros) para cada observação
-            3. Treina nova árvore para prever esses resíduos
-            4. Atualiza o modelo com taxa de aprendizado (η)
-            5. Repete até convergência ou limite de iterações
+            1. Inicializa pesos uniformes para todos os exemplos
+            2. Para cada iteração:
+               a. Treina stump nos dados com pesos atuais
+               b. Calcula erro ponderado
+               c. Atualiza pesos dos exemplos
+               d. Atribui peso ao modelo baseado em sua precisão
+            3. Combina todos os stumps via voto ponderado
             """)
+            
         with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
             st.code("""
-            GradientBoostingClassifier(
-                ccp_alpha=0.0,                 # Sem poda de complexidade adicional
-                criterion='friedman_mse',      # Método para encontrar melhores splits (considera valores médios)
-                learning_rate=0.001,           # Taxa de aprendizado cuidadosa
-                max_depth=6,                   # Profundidade controlada
-                max_features='log2',           # Otimização para muitas features
-                min_samples_leaf=3,            # Prevenção de overfitting
-                min_impurity_decrease=0.0005,  # Explicação do mecanismo de poda automática
-                n_estimators=60,               # Número ideal de árvores
-                subsample=0.95,                # Stochastic Gradient Boosting
-                random_state=42,               # Reprodutibilidade
-                loss='log_loss'                # Para problemas de classificação
+            AdaBoostClassifier(
+                algorithm='SAMME.R',       # Versão real do algoritmo AdaBoost
+                base_estimator=None,        # Por padrão usa DecisionTree com max_depth=1 (stump)
+                learning_rate=1.0,          # Taxa de aprendizado (contribuição de cada modelo)
+                n_estimators=50,           # Número de stumps (modelos fracos)
+                random_state=42             # Reprodutibilidade
             )
             """, language='python')
         #st.markdown("""
@@ -636,10 +645,10 @@ elif pagina == "🔮 Fazer Previsão":
                 
                 # 3. Garante a ordem correta das colunas
                 input_data = input_data[pipeline.named_steps['actual_estimator'].feature_names_in_]
-                st.write("Classes do modelo:", pipeline.classes_)
-                st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
-                st.write(pipeline.named_steps['actual_estimator'])
-                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                #st.write("Classes do modelo:", pipeline.classes_)
+                #st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                #st.write(pipeline.named_steps['actual_estimator'])
+                #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
 
                 try:
                     # 4. Faz a previsão (o imputer vai lidar com quaisquer valores faltantes)
