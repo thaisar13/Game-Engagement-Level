@@ -396,7 +396,7 @@ elif pagina == "🤖 Modelo Preditivo":
     with tab1:
         st.header("🔍 Interpretação do Modelo")
         try:
-            model = joblib.load('model.pkl')
+            model = joblib.load('modelo.pkl')
             #st.success("✅ Modelo carregado com sucesso!")
             
             st.markdown("""
