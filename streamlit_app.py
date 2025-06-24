@@ -414,7 +414,7 @@ elif pagina == "🤖 Modelo Preditivo":
             
             st.markdown(""" ### Importância das Variáveis""")
 
-            feature_importance1 = pd.DataFrame({
+            feature_importance = pd.DataFrame({
                 #'Feature': ['SessionsPerWeek', 'PlayerLevel', 'AchievementsUnlocked', 'PlayTimeHours','Age', 
                  #           'InGamePurchases_1', 'EngagementLevel', 'GameGenre_RPG', 'GameGenre_Simulation', 
                   #          'GameGenre_Sports', 'GameGenre_Strategy', 'GameDifficulty_Hard', 'GameDifficulty_Medium'],
@@ -463,7 +463,7 @@ elif pagina == "🤖 Modelo Preditivo":
 
     with tab2:
         # Seção 3: Conhecendo o Gradient Boosting
-        st.header("🎯 Quem é o Gradient Boosting?")
+        st.header("🎯 Quem é o Ada Boosting?")
         st.markdown("""
         <div style="text-align: justify">
         O <strong>Gradient Boosting Classifier</strong> é como um time de especialistas trabalhando em equipe, onde cada novo membro 
@@ -638,7 +638,7 @@ elif pagina == "🔮 Fazer Previsão":
                 input_data = input_data[pipeline.named_steps['actual_estimator'].feature_names_in_]
                 st.write("Classes do modelo:", pipeline.classes_)
                 st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
-                st.write(pipeline.named_steps)
+                st.write(pipeline.named_steps['actual_estimator'])
                 st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
 
                 try:
