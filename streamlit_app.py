@@ -425,13 +425,9 @@ elif pagina == "🤖 Modelo Preditivo":
                             'SessionsPerWeek',
                             'PlayerLevel',
                             'AchievementsUnlocked',
-                            'GameGenre_RPG',
-                            'GameGenre_Simulation',
-                            'GameGenre_Sports',
-                            'GameGenre_Strategy',
                             'GameDifficulty_Hard',
                             'GameDifficulty_Medium',
-                            'InGamePurchases_1'],
+                            'Gender_Male'],
                 'Importance': [ 0.0020455549745578097,
                                 0.0034587584138015045,
                                 0.9677092269470668,
@@ -446,8 +442,8 @@ elif pagina == "🤖 Modelo Preditivo":
                                 0.000393061383918566]
 
             })
-            feature_importance = pd.DataFrame({'Variavel': pipeline.named_steps['actual_estimator'].feature_names_in_, 
-                                               'Importancia': pipeline.named_steps['actual_estimator'].feature_importances_})
+            #feature_importance = pd.DataFrame({'Variavel': pipeline.named_steps['actual_estimator'].feature_names_in_, 
+            #                                   'Importancia': pipeline.named_steps['actual_estimator'].feature_importances_})
 
             #st.write("Classes do modelo:", pipeline.classes_)
             #st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
