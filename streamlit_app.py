@@ -596,12 +596,14 @@ elif pagina == "🔮 Fazer Previsão":
             play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
             sessions = st.slider("Sessões por Semana", 1, 20, 13)
             level = st.slider("Nível do Personagem", 1, 99, 25)
-            
+            location = st.radio("Localização do Jogador", ["Ásia", "USA", "Europa", "Outro"], horizontal=True)
+        
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
             genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
             purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+            gender = st.radio("Gênero do Jogador", ["Femnino", "Masculino"], horizontal=True)        
            
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:                
@@ -624,6 +626,10 @@ elif pagina == "🔮 Fazer Previsão":
                     'GameGenre_Sports': [1 if genre == "Sports" else 0],
                     'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
                     'InGamePurchases_1': [1 if purchases == "Sim" else 0]
+                    'Gender_Male': [1 if gender == "Masculino" else 0]
+                    'Location_Europe': [1 if location == "Europa" else 0]
+                    'Location_Other': [1 if location == "Outro" else 0]
+                    'Location_USA': [1 if location == "USA" else 0]
                 })
                 
                 # 3. Garante a ordem correta das colunas
@@ -642,6 +648,9 @@ elif pagina == "🔮 Fazer Previsão":
                     st.error(f"Erro na previsão: {str(e)}")
                     st.write("Dados enviados:", input_data)
                     st.write("Features esperadas:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                    st.write("Classes do modelo:", pipeline.classes_)
+                    st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                    st.write(pipeline.named_steps)
                 
                 # Exibir resultados
                 st.markdown("---")
