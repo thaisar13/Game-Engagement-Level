@@ -396,7 +396,7 @@ elif pagina == "🤖 Modelo Preditivo":
         st.header("🔍 Interpretação do Modelo")
         try:
             pipeline = joblib.load('modelo.pkl')
-            st.success("✅ Modelo carregado com sucesso!")
+            #st.success("✅ Modelo carregado com sucesso!")
             
             st.markdown("""
             ### Significado das Métricas
