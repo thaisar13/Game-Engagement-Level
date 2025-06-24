@@ -53,7 +53,7 @@ def load_data():
         # Criar versão para visualização (remove colunas não usadas)
         cols_to_keep = ['Age', 'SessionsPerWeek', 'PlayTimeHours', 
                        'AchievementsUnlocked', 'PlayerLevel', 'EngagementLevel',
-                        'GameDifficulty']
+                        'GameDifficulty', 'Gender']
         
         dados_vis = dados[cols_to_keep].copy()
         
