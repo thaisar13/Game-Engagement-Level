@@ -317,10 +317,10 @@ elif pagina == "⚙️ Pré-processamento":
         st.markdown("""
         ### 1. Seleção de Features
         Foram removidas as seguintes variáveis:
-        - **PlayerID:** Identificador único sem valor preditivo
-        - **AvgSessionDurationMinutes:** Eliminada para evitar multicolinearidade com `SessionsPerWeek` e `PlayTimeHours`
+        - **'PlayerID':** Identificador único sem valor preditivo
+        - **'AvgSessionDurationMinutes':** Eliminada para evitar multicolinearidade com `SessionsPerWeek` e `PlayTimeHours`
+        - **'GameGenre', 'InGamePurchases' e 'Location':** Removidas após análise de importância de features por não apresentarem relevância nos melhores modelos testados
         """)
-        #- **Gender e Location:** Removidas após análise de importância de features por piorarem decimalmente o desempenho dos modelos testados
 
         st.markdown("""
         ### 2. Transformação de Variáveis
@@ -331,8 +331,7 @@ elif pagina == "⚙️ Pré-processamento":
 
         **Variáveis Categóricas (One-Hot Encoding):**
         ```python
-        pd.get_dummies(columns=['GameGenre', 'GameDifficulty', 'InGamePurchases', 
-                                'Gender', 'Location'], drop_first=True)
+        pd.get_dummies(columns=['GameDifficulty', 'Gender'], drop_first=True)
         ```
         - **Resultado:** Adição de {} novas colunas
         """.format(len(dados_prep.columns)))  # Ajuste o número conforme suas variáveis
@@ -428,18 +427,14 @@ elif pagina == "🤖 Modelo Preditivo":
                             'GameDifficulty_Hard',
                             'GameDifficulty_Medium',
                             'Gender_Male'],
-                'Importance': [ 0.0020455549745578097,
-                                0.0034587584138015045,
-                                0.9677092269470668,
-                                0.012357714943323328,
-                                0.012393614261096106,
-                                0.0004021791727387025,
-                                0.00016528511567884998,
-                                0.000249364058400549,
-                                0.0002594564962351831,
-                                0.00023868326279678667,
-                                0.0003271009703858708,
-                                0.000393061383918566]
+                'Importance': [ 0.06,
+                                0.12,
+                                0.6,
+                                0.1,
+                                0.1,
+                                0,
+                                0,
+                                0.02]
 
             })
             #feature_importance = pd.DataFrame({'Variavel': pipeline.named_steps['actual_estimator'].feature_names_in_, 
@@ -451,12 +446,16 @@ elif pagina == "🤖 Modelo Preditivo":
             #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
 
             fig, ax = plt.subplots(figsize=(10,5))
-            sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
+            sns.barplot(data=feature_importance, x='Importância', y='Feature', palette='viridis')
             st.pyplot(fig)
             
-            st.markdown(""" Embora, por terem uma relevãncia tão baixa na classificação do engajamento do jogador, praticamente todas as variáveis,
-            por exceção de SessionPerWeek, poderiam ter sido descartadas do modelo final, mas como sua remoção teve uma mudança quase que insignificante
-            aos resultados, optou-se por deixar tais variáveis com o intuito de melhorar o desempenho da tunagem dos hiperparâmetros do modelo final.""")
+            st.markdown(""" 
+            Com o gráfico acima é possível notar que a variável 'SessionsPerWeek' é a que possui a maior importância para a classificar se o jogador apresenta um 
+            alto ou ou baixo nível de engajamento, apresentando sozinha 60% da tomada de decisão. Já os outros 40% são definidos pelas variáveis 'Age',
+            'PlayTimeHours', 'PlayerLevel', 'AchievementsUnlocked' e a variável dummy 'Gender_Male', sendo ela a de menor importância. Por fim as variáveis dummy 
+            'GameDifficulty_Hard' e 'GameDifficulty_Medium' não apresentam relevância para a classificação, contudo a retirada da variável 'GameDifficulty' resultou
+            em um acumulo da importância de 100% na variável 'SessionPerWeek', e por esse motivo optou-se por sua inclusão.
+            """)
     
             
         except Exception as e:
