@@ -625,10 +625,10 @@ elif pagina == "🔮 Fazer Previsão":
                     'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
                     'GameGenre_Sports': [1 if genre == "Sports" else 0],
                     'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
-                    'InGamePurchases_1': [1 if purchases == "Sim" else 0]
-                    'Gender_Male': [1 if gender == "Masculino" else 0]
-                    'Location_Europe': [1 if location == "Europa" else 0]
-                    'Location_Other': [1 if location == "Outro" else 0]
+                    'InGamePurchases_1': [1 if purchases == "Sim" else 0],
+                    'Gender_Male': [1 if gender == "Masculino" else 0],
+                    'Location_Europe': [1 if location == "Europa" else 0],
+                    'Location_Other': [1 if location == "Outro" else 0],
                     'Location_USA': [1 if location == "USA" else 0]
                 })
                 
