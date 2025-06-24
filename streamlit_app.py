@@ -396,8 +396,8 @@ elif pagina == "🤖 Modelo Preditivo":
     with tab1:
         st.header("🔍 Interpretação do Modelo")
         try:
-            model = joblib.load('modelo.pkl')
-            #st.success("✅ Modelo carregado com sucesso!")
+            pipeline = joblib.load('modelo.pkl')
+            st.success("✅ Modelo carregado com sucesso!")
             
             st.markdown("""
             ### Significado das Métricas
@@ -446,6 +446,13 @@ elif pagina == "🤖 Modelo Preditivo":
                                 0.000393061383918566]
 
             })
+            feature_importance = pd.DataFrame({'Variavel': pipeline.named_steps['actual_estimator'].feature_names_in_, 
+                                               'Importancia': pipeline.named_steps['actual_estimator'].feature_importances_})
+
+            #st.write("Classes do modelo:", pipeline.classes_)
+            #st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+            #st.write(pipeline.named_steps)
+            #st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
 
             fig, ax = plt.subplots(figsize=(10,5))
             sns.barplot(data=feature_importance, x='Importance', y='Feature', palette='viridis')
@@ -661,8 +668,11 @@ elif pagina == "🔮 Fazer Previsão":
                     #st.balloons()
                 else:
                     st.warning(f"## Baixo Engajamento ({(1-proba):.2%} de probabilidade)")
-                
-                st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                    st.write("Classes do modelo:", pipeline.classes_)
+                    st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
+                    st.write(pipeline.named_steps)
+                    st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                    
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 
