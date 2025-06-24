@@ -596,7 +596,7 @@ elif pagina == "🔮 Fazer Previsão":
             play_time = st.slider("Horas Jogadas/Dia", 1, 12, 3)
             sessions = st.slider("Sessões por Semana", 1, 20, 13)
             level = st.slider("Nível do Personagem", 1, 99, 25)
-            location = st.radio("Localização do Jogador", ["Ásia", "USA", "Europa", "Outro"], horizontal=True)
+            #location = st.radio("Localização do Jogador", ["Ásia", "USA", "Europa", "Outro"], horizontal=True)
         
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
@@ -626,10 +626,10 @@ elif pagina == "🔮 Fazer Previsão":
                     'GameGenre_Sports': [1 if genre == "Sports" else 0],
                     'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
                     'InGamePurchases_1': [1 if purchases == "Sim" else 0],
-                    'Gender_Male': [1 if gender == "Masculino" else 0],
-                    'Location_Europe': [1 if location == "Europa" else 0],
-                    'Location_Other': [1 if location == "Outro" else 0],
-                    'Location_USA': [1 if location == "USA" else 0]
+                    'Gender_Male': [1 if gender == "Masculino" else 0]#,
+                    #'Location_Europe': [1 if location == "Europa" else 0],
+                    #'Location_Other': [1 if location == "Outro" else 0],
+                    #'Location_USA': [1 if location == "USA" else 0]
                 })
                 
                 # 3. Garante a ordem correta das colunas
