@@ -268,8 +268,7 @@ elif pagina == "🔍 Análise Exploratória":
                               color_discrete_map={
                                   "High": '#4ECDC4',
                                   "Low": '#FF6B6B'
-                              },
-                              hover_data=['PlayerID'])  # Mostra ID ao passar o mouse
+                              })
             st.plotly_chart(fig2, use_container_width=True)
         
         # Explicação abaixo dos gráficos
