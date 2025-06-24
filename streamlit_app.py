@@ -253,10 +253,9 @@ elif pagina == "🔍 Análise Exploratória":
                                title=f"Distribuição de {var_univariada}",
                                opacity=0.7,
                                color_discrete_map={
-                                   "High": "#2ca02c",
-                                   "Medium": "#ff7f0e",
-                                   "Low": "#d62728"
-                               })
+                                  "High": '#4ECDC4',
+                                  "Low": '#FF6B6B'
+                              })
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
@@ -267,9 +266,8 @@ elif pagina == "🔍 Análise Exploratória":
                               title=f"{var_x} vs {var_y}",
                               opacity=0.6,
                               color_discrete_map={
-                                  "High": "#2ca02c",
-                                  "Medium": "#ff7f0e",
-                                  "Low": "#d62728"
+                                  "High": '#4ECDC4',
+                                  "Low": '#FF6B6B'
                               },
                               hover_data=['PlayerID'])  # Mostra ID ao passar o mouse
             st.plotly_chart(fig2, use_container_width=True)
