@@ -601,8 +601,8 @@ elif pagina == "🔮 Fazer Previsão":
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
-            genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
-            purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
+            #genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
+            #purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
             gender = st.radio("Gênero do Jogador", ["Femnino", "Masculino"], horizontal=True)        
            
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
@@ -621,11 +621,11 @@ elif pagina == "🔮 Fazer Previsão":
                     # Variáveis categóricas JÁ CODIFICADAS (one-hot)
                     'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
                     'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
-                    'GameGenre_RPG': [1 if genre == "RPG" else 0],
-                    'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
-                    'GameGenre_Sports': [1 if genre == "Sports" else 0],
-                    'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
-                    'InGamePurchases_1': [1 if purchases == "Sim" else 0],
+                    #'GameGenre_RPG': [1 if genre == "RPG" else 0],
+                    #'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
+                    #'GameGenre_Sports': [1 if genre == "Sports" else 0],
+                    #'GameGenre_Strategy': [1 if genre == "Strategy" else 0],
+                    #'InGamePurchases_1': [1 if purchases == "Sim" else 0],
                     'Gender_Male': [1 if gender == "Masculino" else 0]#,
                     #'Location_Europe': [1 if location == "Europa" else 0],
                     #'Location_Other': [1 if location == "Outro" else 0],
