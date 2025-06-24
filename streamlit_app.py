@@ -29,7 +29,7 @@ def preprocess_data(df):
     df_processed['EngagementLevel'] = df_processed['EngagementLevel'].map({'Low': 0, 'High': 1})
     
     # Dummyficação
-    cat_vars = ['GameGenre', 'GameDifficulty', 'InGamePurchases']
+    cat_vars = ['Gender', 'GameDifficulty']
     df_processed = pd.get_dummies(df_processed, columns=cat_vars, drop_first=True)
     
     # Padronização
