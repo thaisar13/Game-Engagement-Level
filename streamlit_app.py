@@ -695,7 +695,7 @@ elif pagina == "🔮 Fazer Previsão":
         
         with col2:
             achievements = st.slider("Conquistas Desbloqueadas", 0, 100, 30)
-            difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
+            difficulty = st.selectbox("Dificuldade do Jogo", ["Fácil", "Médio", "Difícil"], index=1)
             #genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
             #purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
             gender = st.radio("Gênero do Jogador", ["Feminino", "Masculino"], horizontal=True)        
@@ -714,8 +714,8 @@ elif pagina == "🔮 Fazer Previsão":
                     'AchievementsUnlocked': [achievements],
                     
                     # Variáveis categóricas JÁ CODIFICADAS (one-hot)
-                    'GameDifficulty_Hard': [1 if difficulty == "Hard" else 0],
-                    'GameDifficulty_Medium': [1 if difficulty == "Medium" else 0],
+                    'GameDifficulty_Hard': [1 if difficulty == "Difícil" else 0],
+                    'GameDifficulty_Medium': [1 if difficulty == "Médio" else 0],
                     #'GameGenre_RPG': [1 if genre == "RPG" else 0],
                     #'GameGenre_Simulation': [1 if genre == "Simulation" else 0],
                     #'GameGenre_Sports': [1 if genre == "Sports" else 0],
