@@ -567,6 +567,37 @@ elif pagina == " 🤖 Modelo Preditivo":
         # Explicação visual em colunas
         col1, col2 = st.columns([1, 1])
         with col1:
+            st.markdown("""
+            ### 🧠 Como Funciona?
+            
+            ##### 🌱 **Passo Inicial - Base Simples**
+            - Começa com um modelo fraco (ex: árvore de decisão rasa - stump)
+            - Todos os exemplos têm peso igual inicialmente
+            
+            ##### 🔄 **Processo Iterativo - Aprendizado com Erros**
+            1. **Primeira Iteração**:
+               - O stump faz predições iniciais
+               - Erros são identificados e os exemplos mal classificados recebem mais peso
+            
+            2. **Iterações Seguintes**:
+               - Cada novo stump foca nos exemplos mais difíceis (com maior peso)
+               - Modelos subsequentes "herdam" os erros corrigidos anteriormente
+            
+            ##### ⚖️ **Mecanismo de Peso**
+            - **Peso dos Exemplos**: Aumenta para casos mal classificados
+            - **Peso dos Modelos**: Stumps mais precisos têm maior influência no voto final
+            
+            ##### ✨ **Resultado Final - Voto Ponderado**
+            - Combina todas as previsões dos stumps
+            - Cada contribuição é ponderada pela precisão do modelo
+            
+            ##### 🌟 **Vantagens Chave**
+            - Foco automático nos casos mais difíceis
+            - Simples e eficaz para problemas binários
+            - Menos propenso a overfitting que algoritmos complexos
+            
+            """)
+             #with col1:
             # Detalhes técnicos com expansor
             with st.expander("🧮 A Matemática por Trás", expanded=False):
                 st.markdown("""
@@ -606,38 +637,7 @@ elif pagina == " 🤖 Modelo Preditivo":
             #cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
             #</div>
             #""", unsafe_allow_html=True)
-            
-        #with col1:
-            st.markdown("""
-            ### 🧠 Como Funciona?
-            
-            ##### 🌱 **Passo Inicial - Base Simples**
-            - Começa com um modelo fraco (ex: árvore de decisão rasa - stump)
-            - Todos os exemplos têm peso igual inicialmente
-            
-            ##### 🔄 **Processo Iterativo - Aprendizado com Erros**
-            1. **Primeira Iteração**:
-               - O stump faz predições iniciais
-               - Erros são identificados e os exemplos mal classificados recebem mais peso
-            
-            2. **Iterações Seguintes**:
-               - Cada novo stump foca nos exemplos mais difíceis (com maior peso)
-               - Modelos subsequentes "herdam" os erros corrigidos anteriormente
-            
-            ##### ⚖️ **Mecanismo de Peso**
-            - **Peso dos Exemplos**: Aumenta para casos mal classificados
-            - **Peso dos Modelos**: Stumps mais precisos têm maior influência no voto final
-            
-            ##### ✨ **Resultado Final - Voto Ponderado**
-            - Combina todas as previsões dos stumps
-            - Cada contribuição é ponderada pela precisão do modelo
-            
-            ##### 🌟 **Vantagens Chave**
-            - Foco automático nos casos mais difíceis
-            - Simples e eficaz para problemas binários
-            - Menos propenso a overfitting que algoritmos complexos
-            
-            """)
+        
         with col2:
 
             st.markdown("""
