@@ -555,7 +555,6 @@ elif pagina == " 🤖 Modelo Preditivo":
         incorretamente, para assim criar outras árvores para corrigir esses erros, e desse jeito ir aprendendo com seus erros e melhorando a cada passo.
         </div>
         """, unsafe_allow_html=True)
-        st.divider()
         st.markdown("""
         <div style="display: flex; align-items: center; gap: 10px;">
             <span style="font-size: 1.2em;">📌</span>
@@ -564,6 +563,21 @@ elif pagina == " 🤖 Modelo Preditivo":
             Guia Visual do AdaBoost com Exemplos de Código</a></span>
         </div>
         """, unsafe_allow_html=True)
+        st.divider()
+        st.markdown("""
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.2em;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" fill="#000000"/>
+                </svg>
+            </span>
+            <span>Artigo de referência: 
+            <a href="https://medium.com/data-science/adaboost-classifier-explained-a-visual-guide-with-code-examples-fc0f25326d7b" target="_blank">
+            Guia Visual do AdaBoost com Exemplos de Código</a></span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.divider()
+        
         # Explicação visual em colunas
         col1, col2 = st.columns([1, 1])
         with col1:
