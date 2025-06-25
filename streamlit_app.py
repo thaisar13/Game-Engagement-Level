@@ -460,7 +460,7 @@ elif pagina == " 🤖 Modelo Preditivo":
     st.title("🤖 Modelo Preditivo: Ada Boost Classifier")
     st.markdown("---")
 
-    st.header("Metodologia")
+    st.header("📖 Metodologia")
     st.markdown("""
     - **Framework:** PyCaret
     - **Seleção de Modelos:** Comparação com base no rankeamneto com o F1-Score, seguido do melhor desempenho geral entre as métricas
