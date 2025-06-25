@@ -215,7 +215,7 @@ elif pagina == "🔍 Análise Exploratória":
     
     if dados_vis is not None:
 
-        st.header("🛠️ Seleção das Variáveis")
+        st.header("📋 Análise das Variáveis")
         # Gráfico Univariado
         st.sidebar.subheader("Gráfico Univariado")
         var_univariada = st.sidebar.selectbox(
@@ -270,16 +270,15 @@ elif pagina == "🔍 Análise Exploratória":
                                   "Low": '#FF6B6B'
                               })
             st.plotly_chart(fig2, use_container_width=True)
-        
-        # Explicação abaixo dos gráficos
-        st.markdown("""
-        **Como usar esta análise:**
-        - No gráfico à esquerda: Compare como cada nível de engajamento se distribui para uma variável específica
-        - No gráfico à direita: Explore relações entre pares de variáveis numéricas
-        - Passe o mouse sobre os pontos para ver detalhes
-        - Use os menus laterais para selecionar diferentes variáveis
-        """)
-        
+
+        with st.expander("Como usar esta análise?"):
+            
+            st.markdown("""
+            - No gráfico à esquerda: Compare como cada nível de engajamento se distribui para uma variável específica
+            - No gráfico à direita: Explore relações entre pares de variáveis numéricas
+            - Passe o mouse sobre os pontos para ver detalhes
+            - Use os menus laterais para selecionar diferentes variáveis
+            """)
         
         st.markdown("---")
         st.subheader("Matriz de Correlação")
@@ -347,44 +346,56 @@ elif pagina == "🔍 Análise Exploratória":
           - Oportunidade para algoritmos que capturam relações complexas
         """)
         st.markdown("---")
-        st.header("Interpretações Gerais 📊")
+        st.header("🧐 Interpretações Gerais")
         
         st.markdown("""
         ### 📊 Análise das Variáveis Categóricas
         
-        As variáveis categóricas analisadas ('GameDifficulty' e 'Gender') apresentam um certo desbalanceamento entre suas categorias, com exceção da variável 'EngagementLevel' que foi pré-processada. Curiosamente, quando observamos a distribuição dessas variáveis em relação às classes de alto e baixo engajamento, nota-se uma proporção equilibrada entre os grupos. Esta característica sugere que nenhuma categoria específica domina excessivamente qualquer classe de engajamento, o que pode tornar mais desafiador a identificação de padrões categóricos claros para a classificação. 📊
+        Diferentemente da variável 'EngagementLevel' as variáveis categóricas 'GameDifficulty' e 'Gender' apresentam 
+        um certo desbalanceamento entre 
+        suas categorias. Curiosamente, quando observamos a distribuição dessas variáveis em relação às classes de alto 
+        e baixo engajamento, nota-se uma proporção equilibrada entre os grupos. Esta característica sugere que 
+        nenhuma categoria específica domina excessivamente qualquer classe de engajamento, o que pode tornar mais 
+        desafiador a identificação de padrões categóricos claros para a classificação. 
         """)
         
         st.markdown("""
         ### 📈 Análise das Variáveis Contínuas
         
-        Dentre as variáveis quantitativas analisadas, 'SessionsPerWeek' se destaca por apresentar uma distribuição distinta das demais ('Age', 'PlayTimeHours', 'PlayerLevel' e 'AchievementsUnlocked'), que seguem aproximadamente um padrão uniforme. Quando examinamos o comportamento dessas variáveis entre as classes de engajamento, observamos frequências de resposta muito similares. Esta análise sugere que 'SessionsPerWeek' provavelmente será a variável mais discriminativa e importante para a classificação do nível de engajamento dos jogadores. 📊
+        Dentre as variáveis quantitativas analisadas, 'SessionsPerWeek' se destaca por apresentar uma distribuição 
+        distinta das demais ('Age', 'PlayTimeHours', 'PlayerLevel' e 'AchievementsUnlocked'), que seguem 
+        aproximadamente uma distribuição uniforme. Quando examinamos o comportamento dessas variáveis entre as 
+        classes de engajamento, observamos frequências de resposta muito similares. Esta análise sugere que 
+        'SessionsPerWeek' provavelmente será a variável mais discriminativa e importante para a classificação do 
+        nível de engajamento dos jogadores.
         """)
         
         st.markdown("""
         ### 📉 Análise Bivariada
         
-        A exploração das relações entre pares de variáveis revela predominantemente padrões difusos, com formações de "nuvens" de pontos sem geometria definida. Esta ausência de padrões lineares claros entre as variáveis indica que possíveis relações existentes provavelmente seguem padrões mais complexos e não-lineares, que não são facilmente identificáveis através de análise visual simples. 📊
+        A exploração das relações entre pares de variáveis revela predominantemente padrões difusos, com formações de 
+        "nuvens" de pontos sem geometria definida. Esta ausência de padrões lineares claros entre as variáveis indica 
+        que possíveis relações existentes provavelmente seguem padrões mais complexos e não-lineares, que não são 
+        facilmente identificáveis através de análise visual simples.
         """)
         
         st.markdown("""
         ### 🔢 Análise de Correlação Numérica
         
-        Os coeficientes de correlação calculados entre as variáveis numéricas apresentam valores geralmente próximos de zero, confirmando a ausência de relações lineares fortes entre os atributos. Este cenário representa um desafio particular para modelos que dependem fundamentalmente de relações lineares, mas ao mesmo tempo abre oportunidades para a aplicação de algoritmos mais sofisticados capazes de capturar interações e padrões não-lineares nos dados. 📊
+        Os coeficientes de correlação calculados entre as variáveis numéricas apresentam valores geralmente próximos 
+        de zero, confirmando a ausência de relações lineares fortes entre os atributos. Este cenário representa um 
+        desafio particular para modelos que dependem fundamentalmente de relações lineares, mas ao mesmo tempo abre 
+        oportunidades para a aplicação de algoritmos mais sofisticados capazes de capturar interações e padrões 
+        não-lineares nos dados.
         """)
         
-        st.markdown("""
-        ### 🎯 Síntese Conclusiva
-        
-        Em conjunto, estas análises revelam um conjunto de dados onde as relações lineares tradicionais são fracas, mas onde variáveis específicas como 'SessionsPerWeek' emergem como potenciais preditores importantes. A uniformidade nas distribuições e a ausência de dominância categórica sugerem que abordagens de modelagem não-lineares e ensemble provavelmente obterão os melhores resultados na classificação de engajamento. A consideração de interações entre variáveis e a criação de features derivadas podem ser estratégias valiosas para extrair todo o potencial preditivo destes dados. 📊
-        """)
 # Página 3: Pré-processamento
 elif pagina == "⚙️ Pré-processamento":
     st.title("⚙️ Pré-processamento dos Dados")
     st.markdown("---")
     
     if dados_prep is not None:
-        st.header("Transformações Aplicadas")
+        st.header("🛠️ Transformações Aplicadas")
       
         st.markdown("""
         ### 1. Seleção de Features
@@ -435,7 +446,7 @@ elif pagina == "⚙️ Pré-processamento":
  #           st.image("https://miro.medium.com/max/1400/1*4PqYyZbws0N4yR0sFw3yJQ.png", 
   #                  caption="Exemplo de fluxo de pré-processamento", width=400)
         
-        st.header("📋 Dados Pré-processados (Amostra)")
+        st.header("🎲 Dados Pré-processados (Amostra)")
         st.dataframe(dados_prep.head(), use_container_width=True)
         
         col1, col2 = st.columns(2)
