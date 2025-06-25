@@ -655,48 +655,48 @@ elif pagina == " 🤖 Modelo Preditivo":
             <div style="margin-left: 20px;">""")
 
             with st.expander("1. Ada Boost Classifier: (7 pontos)", expanded=False):
-            st.markdown("""
-               - 🥇 <b>Melhor desempenho</b> em:  
-               
-                 • F1-Score
-                 • Acurácia
-                 • Sencibilidade  
-                 
-               - 🥈 <b>Segunda melhor</b> em:
-               
-                 • Área sob a Curva ROC
-            """)
+                st.markdown("""
+                   - 🥇 <b>Melhor desempenho</b> em:  
+                   
+                     • F1-Score
+                     • Acurácia
+                     • Sencibilidade  
+                     
+                   - 🥈 <b>Segunda melhor</b> em:
+                   
+                     • Área sob a Curva ROC
+                """)
             with st.expander("2. Gradient Boosting Classifier (6 pontos)", expanded=False):
-            st.markdown("""
-               - 🥇 <b>Melhor desempenho</b> em: 
-               
-                 • Área sob a Curva ROC
-                 
-               - 🥈 <b>Segundo melhor</b> em:  
-               
-                 • F1-Score
-                 • Acurácia
-                 • Sencibilidade
-                 • Precisão
-            """)
+                st.markdown("""
+                   - 🥇 <b>Melhor desempenho</b> em: 
+                   
+                     • Área sob a Curva ROC
+                     
+                   - 🥈 <b>Segundo melhor</b> em:  
+                   
+                     • F1-Score
+                     • Acurácia
+                     • Sencibilidade
+                     • Precisão
+                """)
             with st.expander("3. Light Gradient Boosting Machine (2 pontos)", expanded=False):
+                st.markdown("""
+                   - 🥇 <b>Melhor desempenho</b> em:  
+                   
+                     • Precisão
+                """)
             st.markdown("""
-               - 🥇 <b>Melhor desempenho</b> em:  
-               
-                 • Precisão
-            """)
-        st.markdown("""
-            </div>
-            
-            <h4>Critério de Seleção Final</h4>
-            Outro fator que influenciou na escolha do AdaBoost Classifier foi a distribuição de importância das variáveis. No Gradient Boosting Classifier, 
-            a variável 'SessionsPerWeek' apresentava 97% de importância, reduzindo 'PlayTimeHour' a uma relevância quase nula - um padrão inadequado, pois: 
-            um jogador pouco engajado pode ter várias sessões semanais mas com poucas horas jogadas em cada, enquanto um jogador altamente engajado pode 
-            acumular muitas horas de jogo em poucas sessões prolongadas. O AdaBoost, ao distribuir melhor essa importância, captura essa nuance comportamental 
-            de forma mais equilibrada.
-
-            
-            """, unsafe_allow_html=True)
+                </div>
+                
+                <h4>Critério de Seleção Final</h4>
+                Outro fator que influenciou na escolha do AdaBoost Classifier foi a distribuição de importância das variáveis. No Gradient Boosting Classifier, 
+                a variável 'SessionsPerWeek' apresentava 97% de importância, reduzindo 'PlayTimeHour' a uma relevância quase nula - um padrão inadequado, pois: 
+                um jogador pouco engajado pode ter várias sessões semanais mas com poucas horas jogadas em cada, enquanto um jogador altamente engajado pode 
+                acumular muitas horas de jogo em poucas sessões prolongadas. O AdaBoost, ao distribuir melhor essa importância, captura essa nuance comportamental 
+                de forma mais equilibrada.
+    
+                
+                """, unsafe_allow_html=True)
             st.info(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro.**")
                 
         
