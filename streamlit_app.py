@@ -589,7 +589,7 @@ elif pagina == " 🤖 Modelo Preditivo":
                    d. Atribui peso ao modelo baseado em sua precisão
                 3. Combina todos os stumps via voto ponderado
                 """)
-        with col2:
+        #with col2:
             with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
                 st.code("""
                 AdaBoostClassifier(
@@ -607,7 +607,7 @@ elif pagina == " 🤖 Modelo Preditivo":
             #</div>
             #""", unsafe_allow_html=True)
             
-        with col1:
+        #with col1:
             st.markdown("""
             ### 🧠 Como Funciona?
             
