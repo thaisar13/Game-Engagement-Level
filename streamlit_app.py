@@ -647,41 +647,40 @@ elif pagina == " 🤖 Modelo Preditivo":
             O modelo foi selecionado através de uma análise comparativa das métricas de desempenho, considerando inicialmente os **3 melhores modelos com base no F1-Score**. 
             Foi atribuído um sistema de pontuação por posição:
             
-            - <b>1º lugar</b> em cada métrica: <b>+2 pontos</b>
-            - <b>2º lugar</b>: <b>+1 ponto</b>
+            - **1º lugar** em cada métrica: **+2 pontos**
+            - **2º lugar**em cada métrica: **+1 ponto**
                         
             Após essa avaliação, os três melhores modelos ficaram com:
-            
-            <div style="margin-left: 20px;">""")
+            """)
 
-            with st.expander("1. Ada Boost Classifier: (7 pontos)", expanded=False):
+            with st.expander("🥇 Ada Boost Classifier: (7 pontos)", expanded=False):
                 st.markdown("""
-                   - 🥇 <b>Melhor desempenho</b> em:  
+                   - 🥇 **Melhor desempenho** em:  
                    
                      • F1-Score
                      • Acurácia
                      • Sencibilidade  
                      
-                   - 🥈 <b>Segunda melhor</b> em:
+                   - 🥈 **Segunda melhor** em:
                    
                      • Área sob a Curva ROC
                 """)
-            with st.expander("2. Gradient Boosting Classifier (6 pontos)", expanded=False):
+            with st.expander("🥈 Gradient Boosting Classifier (6 pontos)", expanded=False):
                 st.markdown("""
-                   - 🥇 <b>Melhor desempenho</b> em: 
+                   - 🥇 **Melhor desempenho** em: 
                    
                      • Área sob a Curva ROC
                      
-                   - 🥈 <b>Segundo melhor</b> em:  
+                   - 🥈 **Segundo melhor** em:  
                    
                      • F1-Score
                      • Acurácia
                      • Sencibilidade
                      • Precisão
                 """)
-            with st.expander("3. Light Gradient Boosting Machine (2 pontos)", expanded=False):
+            with st.expander("🥉 Light Gradient Boosting Machine (2 pontos)", expanded=False):
                 st.markdown("""
-                   - 🥇 <b>Melhor desempenho</b> em:  
+                   - 🥇 **Melhor desempenho** em:  
                    
                      • Precisão
                 """)
