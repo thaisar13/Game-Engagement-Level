@@ -625,11 +625,11 @@ elif pagina == " 🤖 Modelo Preditivo":
             with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
                 st.code("""
                 AdaBoostClassifier(
-                    algorithm='SAMME.R',       # Versão real do algoritmo AdaBoost
-                    base_estimator=None,        # Por padrão usa DecisionTree com max_depth=1 (stump)
-                    learning_rate=1.0,          # Taxa de aprendizado (contribuição de cada modelo)
-                    n_estimators=50,           # Número de stumps (modelos fracos)
-                    random_state=42             # Reprodutibilidade
+                    algorithm='SAMME.R',    # Versão real do algoritmo AdaBoost
+                    base_estimator=None,    # Por padrão usa DecisionTree com max_depth=1 (stump)
+                    learning_rate=1.0,      # Taxa de aprendizado (contribuição de cada modelo)
+                    n_estimators=50,        # Número de stumps (modelos fracos)
+                    random_state=42         # Reprodutibilidade
                 )
                 """, language='python')
             #st.markdown("""
