@@ -656,16 +656,22 @@ elif pagina == " 🤖 Modelo Preditivo":
             
             <b>1. Ada Boost Classifier: (7 ponttos)</b>  
                - 🥇 <b>Melhor desempenho</b> em:  
+               
                  • F1-Score
                  • Acurácia
                  • Sencibilidade  
+                 
                - 🥈 <b>Segunda melhor</b> em:
+               
                  • Área sob a Curva ROC
             
             <b>2. Gradient Boosting Classifier (6 pontos)</b>  
-               - 🥇 <b>Melhor desempenho</b> em:  
+               - 🥇 <b>Melhor desempenho</b> em: 
+               
                  • Área sob a Curva ROC
+                 
                - 🥈 <b>Segundo melhor</b> em:  
+               
                  • F1-Score
                  • Acurácia
                  • Sencibilidade
@@ -673,6 +679,7 @@ elif pagina == " 🤖 Modelo Preditivo":
                  
             <b>3. Light Gradient Boosting Machine (2 pontos)</b>  
                - 🥇 <b>Melhor desempenho</b> em:  
+               
                  • Precisão
 
             </div>
