@@ -1,6 +1,6 @@
 # 🎮 Game Engagement Prediction App
 
-## 📦 Dependencias Necessarias
+## 📦 Dependências Necessarias
 
 ```python
 pip install -r requirements.txt
