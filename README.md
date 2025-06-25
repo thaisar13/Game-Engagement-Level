@@ -55,7 +55,7 @@ O **Ada Boost Classifier** foi selecionado como algoritmo principal por oferecer
      - Cada novo stump foca nos exemplos mais difíceis (com maior peso)
      - Modelos subsequentes "herdam" os erros corrigidos anteriormente
 
-4. **Mecanismo de Peso**
+3. **Mecanismo de Peso**
    
   - **Peso dos Exemplos**: Aumenta para casos mal classificados
   - **Peso dos Modelos**: Stumps mais precisos têm maior influência no voto final
@@ -71,7 +71,7 @@ O **Ada Boost Classifier** foi selecionado como algoritmo principal por oferecer
   - Simples e eficaz para problemas binários
   - Menos propenso a overfitting que algoritmos complexos
             
-## 🏆 Comparative Model Performance Analysis
+## 🏆 Análise Comparativa da Perfomance dos Modelos
 
 | Rank | Model                          | Acurácia    | AUC       | Sencibilidade    | Precisão | F1-Score   | Tempo de Treinamento|
 |------|--------------------------------|-------------|-----------|------------------|-----------|------------|---------------|
