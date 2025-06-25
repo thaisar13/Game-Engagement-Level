@@ -698,7 +698,7 @@ elif pagina == "🔮 Fazer Previsão":
             difficulty = st.selectbox("Dificuldade do Jogo", ["Easy", "Medium", "Hard"], index=1)
             #genre = st.selectbox("Gênero do Jogo", ["Acition", "RPG", "Simulation", "Sports", "Strategy"])
             #purchases = st.radio("Realizou Compras no Jogo", ["Sim", "Não"], horizontal=True)
-            gender = st.radio("Gênero do Jogador", ["Femnino", "Masculino"], horizontal=True)        
+            gender = st.radio("Gênero do Jogador", ["Feminino", "Masculino"], horizontal=True)        
            
         if st.button("🔍 Prever Nível de Engajamento", type="primary", use_container_width=True):
             try:                
@@ -759,12 +759,11 @@ elif pagina == "🔮 Fazer Previsão":
                     st.markdown("""
                     <style>
                     .emoji-gigante {
-                        font-size: 80px;
+                        font-size: 8000px;
                         text-align: center;
                     }
                     </style>
                     """, unsafe_allow_html=True)
-                    
                     if gender == 'Feminino' and age >= 40:
                         st.markdown('<p class="emoji-gigante">🎮👵</p>', unsafe_allow_html=True)
                     elif gender == 'Feminino' and age <= 25:
@@ -784,12 +783,11 @@ elif pagina == "🔮 Fazer Previsão":
                     st.markdown("""
                     <style>
                     .emoji-gigante {
-                        font-size: 80px;
+                        font-size: 800px;
                         text-align: center;
                     }
                     </style>
                     """, unsafe_allow_html=True)
-                    
                     if gender == 'Feminino' and age >= 40:
                         st.markdown('<p class="emoji-gigante">📖👵</p>', unsafe_allow_html=True)
                     elif gender == 'Feminino' and age <= 25:
