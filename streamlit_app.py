@@ -551,13 +551,62 @@ elif pagina == " 🤖 Modelo Preditivo":
         st.header("🎯 Quem é o Ada Boost Classifier?")
         st.markdown("""
         <div style="text-align: justify">
-        O <strong>Gradient Boosting Classifier</strong> é como um time de especialistas trabalhando em equipe, onde cada novo membro 
-        aprende com os erros dos anteriores. Veja como ele se destaca:
+        O <strong>Ada Boost Classifier</strong> ou Adaptative Bossting Classifier começa com uma única árvore simples e identifica as instâncias que classifica 
+        incorretamente, para assim criar outras árvores para corrigir esses erros, e desse jeito ir aprendendo com seus erros e melhorando a cada passo.
+        </div>
+        """, unsafe_allow_html=True)
+        st.divider()
+        st.markdown("""
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.2em;">📌</span>
+            <span>Artigo de referência: 
+            <a href="https://medium.com/data-science/adaboost-classifier-explained-a-visual-guide-with-code-examples-fc0f25326d7b" target="_blank">
+            Guia Visual do AdaBoost com Exemplos de Código</a></span>
         </div>
         """, unsafe_allow_html=True)
         # Explicação visual em colunas
         col1, col2 = st.columns([1, 1])
-        
+        with col1:
+            # Detalhes técnicos com expansor
+            with st.expander("🧮 A Matemática por Trás", expanded=False):
+                st.markdown("""
+                **Fórmula de Atualização de Pesos**:
+                ```
+                w_i ← w_i * exp(α_t * I(y_i ≠ h_t(x_i)))
+                ```
+                Onde:
+                - `α_t`: Peso do classificador (α_t = taxa de aprendizagem × log((1-erro)/erro))
+                - `h_t(x_i)`: Predição do stump no passo t
+                - `I()`: Função indicadora (1 se erro, 0 se correto)
+                    - Note que se a predição for correta o peso não é atualizado
+    
+                **Passo a Passo**:
+                1. Inicializa pesos uniformes para todos os exemplos
+                2. Para cada iteração:
+                   a. Treina stump nos dados com pesos atuais
+                   b. Calcula erro ponderado
+                   c. Atualiza pesos dos exemplos
+                   d. Atribui peso ao modelo baseado em sua precisão
+                3. Combina todos os stumps via voto ponderado
+                """)
+        with col2:
+            with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
+                st.code("""
+                AdaBoostClassifier(
+                    algorithm='SAMME.R',       # Versão real do algoritmo AdaBoost
+                    base_estimator=None,        # Por padrão usa DecisionTree com max_depth=1 (stump)
+                    learning_rate=1.0,          # Taxa de aprendizado (contribuição de cada modelo)
+                    n_estimators=50,           # Número de stumps (modelos fracos)
+                    random_state=42             # Reprodutibilidade
+                )
+                """, language='python')
+            #st.markdown("""
+            #<div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
+            #<strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
+            #cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
+            #</div>
+            #""", unsafe_allow_html=True)
+            
         with col1:
             st.markdown("""
             ### 🧠 Como Funciona?
@@ -638,44 +687,7 @@ elif pagina == " 🤖 Modelo Preditivo":
             """, unsafe_allow_html=True)
             st.info(" **Observação Final:💡As diferenças entre as métricas dos dois modelos são muito sutis, não havendo um desempenho significativamente superior de um em relação ao outro.**")
                 
-        # Detalhes técnicos com expansor
-        with st.expander("🧮 A Matemática por Trás", expanded=False):
-            st.markdown("""
-            **Fórmula de Atualização de Pesos**:
-            ```
-            w_i ← w_i * exp(α_t * I(y_i ≠ h_t(x_i)))
-            ```
-            Onde:
-            - `α_t`: Peso do classificador (baseado em sua precisão)
-            - `h_t(x_i)`: Predição do stump no passo t
-            - `I()`: Função indicadora (1 se erro, 0 se correto)
-            
-            **Passo a Passo**:
-            1. Inicializa pesos uniformes para todos os exemplos
-            2. Para cada iteração:
-               a. Treina stump nos dados com pesos atuais
-               b. Calcula erro ponderado
-               c. Atualiza pesos dos exemplos
-               d. Atribui peso ao modelo baseado em sua precisão
-            3. Combina todos os stumps via voto ponderado
-            """)
-            
-        with st.expander("🔧 Configuração Técnica Detalhada", expanded=False):
-            st.code("""
-            AdaBoostClassifier(
-                algorithm='SAMME.R',       # Versão real do algoritmo AdaBoost
-                base_estimator=None,        # Por padrão usa DecisionTree com max_depth=1 (stump)
-                learning_rate=1.0,          # Taxa de aprendizado (contribuição de cada modelo)
-                n_estimators=50,           # Número de stumps (modelos fracos)
-                random_state=42             # Reprodutibilidade
-            )
-            """, language='python')
-        #st.markdown("""
-        #<div style="background-color: #2e4057; padding: 15px; border-radius: 5px; color: white;">
-        #<strong>💡 Curiosidade Técnica:</strong> Nosso modelo final combina <strong style="color:#f4d35e">150 dessas árvores</strong>, 
-        #cada uma com profundidade máxima 4 (para evitar overfitting), usando taxa de aprendizado de 0.1.
-        #</div>
-        #""", unsafe_allow_html=True)
+        
 # Página 5: Previsão com o Modelo
 elif pagina == "🔮 Fazer Previsão":
     st.title("🔮 Simulador de Previsão de Engajamento")
