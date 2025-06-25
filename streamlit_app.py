@@ -755,14 +755,17 @@ elif pagina == "🔮 Fazer Previsão":
                     
                 # URLs das imagens PNG dos emojis (em alta resolução)
                 emoji_urls = {
-                    "game": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/video-game_1f3ae.png",
-                    "book": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/book_1f4d6.png",
-                    "older_woman": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/older-woman_1f475.png",
-                    "girl": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/girl_1f467.png",
-                    "woman": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/woman_1f469.png",
-                    "older_man": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/older-man_1f474.png",
-                    "boy": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/boy_1f466.png",
-                    "man": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/man_1f468.png"
+                    
+                    "game": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ae/512.png",
+                    "book": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4d6/512.png",
+                
+                    "older_woman": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f475/512.png",
+                    "girl": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f467/512.png",
+                    "woman": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f469/512.png",
+                  
+                    "older_man": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f474/512.png",
+                    "boy": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f466/512.png",
+                    "man": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f468/512.png"
                 }
                 
                 if prediction == 1:
