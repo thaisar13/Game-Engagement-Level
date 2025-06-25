@@ -751,17 +751,58 @@ elif pagina == "🔮 Fazer Previsão":
                 
                 # Exibir resultados
                 st.markdown("---")
-                st.subheader("📊 Resultado da Previsão")
+                st.subheader("🧞‍♂️ Resultado da Previsão")
                 
                 if prediction == 1:
                     st.success(f"## Alto Engajamento ({proba:.2%} de probabilidade)")
                     #st.balloons()
+                    st.markdown("""
+                    <style>
+                    .emoji-gigante {
+                        font-size: 80px;
+                        text-align: center;
+                    }
+                    </style>
+                    """, unsafe_allow_html=True)
+                    
+                    if gender == 'Feminino' and age >= 40:
+                        st.markdown('<p class="emoji-gigante">🎮👵</p>', unsafe_allow_html=True)
+                    elif gender == 'Feminino' and age <= 25:
+                        st.markdown('<p class="emoji-gigante">🎮👧</p>', unsafe_allow_html=True)
+                    elif gender == 'Feminino' and age > 25 and age < 40:
+                        st.markdown('<p class="emoji-gigante">🎮👩</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age >= 40:
+                        st.markdown('<p class="emoji-gigante">🎮👴</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age <= 25:
+                        st.markdown('<p class="emoji-gigante">🎮👦</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age > 25 and age < 40:
+                        st.markdown('<p class="emoji-gigante">🎮👨</p>', unsafe_allow_html=True)
+
                 else:
                     st.warning(f"## Baixo Engajamento ({(1-proba):.2%} de probabilidade)")
-                    st.write("Classes do modelo:", pipeline.classes_)
-                    st.write("Feature names:", pipeline.named_steps['actual_estimator'].feature_names_in_)
-                    st.write(pipeline.named_steps)
-                    st.write("Importância das Features:", pipeline.named_steps['actual_estimator'].feature_importances_)
+                    #st.balloons()
+                    st.markdown("""
+                    <style>
+                    .emoji-gigante {
+                        font-size: 80px;
+                        text-align: center;
+                    }
+                    </style>
+                    """, unsafe_allow_html=True)
+                    
+                    if gender == 'Feminino' and age >= 40:
+                        st.markdown('<p class="emoji-gigante">📖👵</p>', unsafe_allow_html=True)
+                    elif gender == 'Feminino' and age <= 25:
+                        st.markdown('<p class="emoji-gigante">📖👧</p>', unsafe_allow_html=True)
+                    elif gender == 'Feminino' and age > 25 and age < 40:
+                        st.markdown('<p class="emoji-gigante">📖👩</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age >= 40:
+                        st.markdown('<p class="emoji-gigante">📖👴</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age <= 25:
+                        st.markdown('<p class="emoji-gigante">📖👦</p>', unsafe_allow_html=True)
+                    elif gender == 'Masculino' and age > 25 and age < 40:
+                        st.markdown('<p class="emoji-gigante">📖👨</p>', unsafe_allow_html=True)
+
                     
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
