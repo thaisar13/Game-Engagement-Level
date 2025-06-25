@@ -652,9 +652,10 @@ elif pagina == " 🤖 Modelo Preditivo":
                         
             Após essa avaliação, os três melhores modelos ficaram com:
             
-            <div style="margin-left: 20px;">
-            
-            <b>1. Ada Boost Classifier: (7 ponttos)</b>  
+            <div style="margin-left: 20px;">""")
+
+            with st.expander("1. Ada Boost Classifier: (7 pontos)", expanded=False):
+            st.markdown("""
                - 🥇 <b>Melhor desempenho</b> em:  
                
                  • F1-Score
@@ -664,8 +665,9 @@ elif pagina == " 🤖 Modelo Preditivo":
                - 🥈 <b>Segunda melhor</b> em:
                
                  • Área sob a Curva ROC
-            
-            <b>2. Gradient Boosting Classifier (6 pontos)</b>  
+            """)
+            with st.expander("2. Gradient Boosting Classifier (6 pontos)", expanded=False):
+            st.markdown("""
                - 🥇 <b>Melhor desempenho</b> em: 
                
                  • Área sob a Curva ROC
@@ -676,12 +678,14 @@ elif pagina == " 🤖 Modelo Preditivo":
                  • Acurácia
                  • Sencibilidade
                  • Precisão
-                 
-            <b>3. Light Gradient Boosting Machine (2 pontos)</b>  
+            """)
+            with st.expander("3. Light Gradient Boosting Machine (2 pontos)", expanded=False):
+            st.markdown("""
                - 🥇 <b>Melhor desempenho</b> em:  
                
                  • Precisão
-
+            """)
+        st.markdown("""
             </div>
             
             <h4>Critério de Seleção Final</h4>
