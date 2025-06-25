@@ -73,7 +73,7 @@ dados_vis, dados_prep, scaler = load_data()
 st.sidebar.title("Menu")
 pagina = st.sidebar.radio(
     "Seções:",
-    ["🏠 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", "🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
+    ["🏠 Visão Geral", "🔍 Análise Exploratória", "⚙️ Pré-processamento", " 🤖 Modelo Preditivo", "🔮 Fazer Previsão"]
 )
 
 # Página 1: Visão Geral
@@ -456,7 +456,7 @@ elif pagina == "⚙️ Pré-processamento":
             st.metric("Variáveis", len(dados_prep.columns))
 
 # Página 4: Modelo Preditivo
-elif pagina == "🤖 Modelo Preditivo":
+elif pagina == " 🤖 Modelo Preditivo":
     st.title("🤖 Modelo Preditivo: Ada Boost Classifier")
     st.markdown("---")
 
