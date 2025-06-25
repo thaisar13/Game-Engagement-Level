@@ -11,7 +11,7 @@ import plotly.express as px
 
 # Configurações da página
 st.set_page_config(
-    page_title="Game Engagement Predictor",
+    page_title="Análise Preditiva de Engajamento dos Jogadores",
     layout="wide",
     page_icon="🎮",
     initial_sidebar_state="expanded"
@@ -752,56 +752,60 @@ elif pagina == "🔮 Fazer Previsão":
                 # Exibir resultados
                 st.markdown("---")
                 st.subheader("🧞‍♂️ Resultado da Previsão")
+                    
+                # URLs das imagens PNG dos emojis (em alta resolução)
+                emoji_urls = {
+                    "game": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/video-game_1f3ae.png",
+                    "book": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/book_1f4d6.png",
+                    "older_woman": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/older-woman_1f475.png",
+                    "girl": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/girl_1f467.png",
+                    "woman": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/woman_1f469.png",
+                    "older_man": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/older-man_1f474.png",
+                    "boy": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/boy_1f466.png",
+                    "man": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/512/apple/325/man_1f468.png"
+                }
                 
                 if prediction == 1:
                     st.success(f"## Alto Engajamento ({proba:.2%} de probabilidade)")
-                    #st.balloons()
-                    st.markdown("""
-                    <style>
-                    .emoji-gigante {
-                        font-size: 8000px;
-                        text-align: center;
-                    }
-                    </style>
-                    """, unsafe_allow_html=True)
-                    if gender == 'Feminino' and age >= 40:
-                        st.markdown('<p class="emoji-gigante">🎮👵</p>', unsafe_allow_html=True)
-                    elif gender == 'Feminino' and age <= 25:
-                        st.markdown('<p class="emoji-gigante">🎮👧</p>', unsafe_allow_html=True)
-                    elif gender == 'Feminino' and age > 25 and age < 40:
-                        st.markdown('<p class="emoji-gigante">🎮👩</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age >= 40:
-                        st.markdown('<p class="emoji-gigante">🎮👴</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age <= 25:
-                        st.markdown('<p class="emoji-gigante">🎮👦</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age > 25 and age < 40:
-                        st.markdown('<p class="emoji-gigante">🎮👨</p>', unsafe_allow_html=True)
-
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.image(emoji_urls["game"], width=200)
+                    with col2:
+                        if gender == 'Feminino':
+                            if age >= 40:
+                                st.image(emoji_urls["older_woman"], width=200)
+                            elif age <= 25:
+                                st.image(emoji_urls["girl"], width=200)
+                            else:
+                                st.image(emoji_urls["woman"], width=200)
+                        else:  # Masculino
+                            if age >= 40:
+                                st.image(emoji_urls["older_man"], width=200)
+                            elif age <= 25:
+                                st.image(emoji_urls["boy"], width=200)
+                            else:
+                                st.image(emoji_urls["man"], width=200)
                 else:
                     st.warning(f"## Baixo Engajamento ({(1-proba):.2%} de probabilidade)")
-                    #st.balloons()
-                    st.markdown("""
-                    <style>
-                    .emoji-gigante {
-                        font-size: 800px;
-                        text-align: center;
-                    }
-                    </style>
-                    """, unsafe_allow_html=True)
-                    if gender == 'Feminino' and age >= 40:
-                        st.markdown('<p class="emoji-gigante">📖👵</p>', unsafe_allow_html=True)
-                    elif gender == 'Feminino' and age <= 25:
-                        st.markdown('<p class="emoji-gigante">📖👧</p>', unsafe_allow_html=True)
-                    elif gender == 'Feminino' and age > 25 and age < 40:
-                        st.markdown('<p class="emoji-gigante">📖👩</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age >= 40:
-                        st.markdown('<p class="emoji-gigante">📖👴</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age <= 25:
-                        st.markdown('<p class="emoji-gigante">📖👦</p>', unsafe_allow_html=True)
-                    elif gender == 'Masculino' and age > 25 and age < 40:
-                        st.markdown('<p class="emoji-gigante">📖👨</p>', unsafe_allow_html=True)
-
-                    
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.image(emoji_urls["book"], width=200)
+                    with col2:
+                        if gender == 'Feminino':
+                            if age >= 40:
+                                st.image(emoji_urls["older_woman"], width=200)
+                            elif age <= 25:
+                                st.image(emoji_urls["girl"], width=200)
+                            else:
+                                st.image(emoji_urls["woman"], width=200)
+                        else:  # Masculino
+                            if age >= 40:
+                                st.image(emoji_urls["older_man"], width=200)
+                            elif age <= 25:
+                                st.image(emoji_urls["boy"], width=200)
+                            else:
+                                st.image(emoji_urls["man"], width=200)
+                        
             except Exception as e:
                 st.error(f"Erro na previsão: {str(e)}")
                 
