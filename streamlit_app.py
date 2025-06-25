@@ -489,7 +489,7 @@ elif pagina == " 🤖 Modelo Preditivo":
             O modelo demonstra um **bom desempenho geral** (Acurácia de 87%), com destaque para sua capacidade de:  
             
             - **Capturar casos Positivos**: Alta Sencibilidade (93%) indica que o modelo identifica efetivamente jogadores engajados (apenas 8% de falsos negativos)  
-            - **Distinguir Classes**: AUC (Área sib a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
+            - **Distinguir Classes**: AUC (Área sob a Curva ROC) de 92% revela excelente separação entre os jogadores de baixo engajamento dos de alto engajamento 
             - **Equilíbrio**: F1-Score (88%) mostra boa harmonia entre Precisão e Recall  
             - **Chance de Erro**: Precisão (83%) sugere que, quando o modelo prevê "alto engajamento", há 16% de chance de ser falso positivo. Algo espera dada a 
             sobreposição natural nos padrões de engajamento e das variáveis preditoras apresentarem um poder limitado de discriminação  
