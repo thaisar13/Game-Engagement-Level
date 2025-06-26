@@ -308,49 +308,6 @@ elif pagina == "🔍 Análise Exploratória":
         st.markdown("""
         ### 📊 Análise das Variáveis Categóricas
         
-        - Por exceção das variável 'EngagementLevel', as variáveis categóricas restantes ('GameDifficulty' e Gender')
-        apresentam algum desbalanceamento entre suas categorias.
-        - Todas as variáveis categóricas apresentam uma proporção equilibrada considerando as classe de alto e baixo engajamento.
-        - **Implicação**: 
-          - Nenhuma categoria domina excessivamente os entre as classes avaliadas o que pode dificultar identificação dos 
-          padrões de engajamento
-        """)
-        
-        st.markdown("""
-        ### 📈 Análise das Variáveis Contínuas
-        
-        - Por exceção das variável 'SessionsPerWeek', as variáveis quantitativas restantes ('Age', 'PlayTimeHours', 
-        'PlayerLevel' e 'AchievementsUnlocked') apresentam aproximadamente uma distribuição uniforme.
-        - Considerando as calsse de alto e baixo engajamento, todas as variáveis apresentam quase a mesma frequência de resposta. 
-        - **Implicação**: 
-          - A variável 'SessionsPerWeek' é provavelmente a variável mais importante para a classificação do engajamento do jogador.
-
-        """)
-        st.markdown("""
-        ### 📉 Análise Bivariada
-
-        - De modo geral as variáveis não apresentam uma relação definida, apresentando "nuvens" de pontos sem um padrão
-        específico.
-        - **Implicação**: 
-          - Relações lineares aparentemente ausentes
-          - Necessidade de investigar possíveis padrões não-lineares
-        """)
-        
-        st.markdown("""
-        ### 🔢 Análise de Correlação Numérica
-        
-        - Correlações geralmente próximas de zero
-        - Ausência de relações lineares fortes entre features
-        - **Implicação**:
-          - Desafio para modelos lineares tradicionais
-          - Oportunidade para algoritmos que capturam relações complexas
-        """)
-        st.markdown("---")
-        st.header("🧐 Interpretações Gerais")
-        
-        st.markdown("""
-        ### 📊 Análise das Variáveis Categóricas
-        
         Diferentemente da variável 'EngagementLevel' as variáveis categóricas 'GameDifficulty' e 'Gender' apresentam 
         um certo desbalanceamento entre 
         suas categorias. Curiosamente, quando observamos a distribuição dessas variáveis em relação às classes de alto 
